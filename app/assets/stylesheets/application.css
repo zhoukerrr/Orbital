@@ -1,0 +1,36 @@
+.bg_primary-color {
+  background-color: #ffffff;
+}
+.primary-color {
+  background-color: #ffffff;
+}
+.bg_secondary-color {
+  background-color: #293241;
+}
+.secondary-color {
+  color: #293241;
+}
+.custom-button.btn {
+  background-color: #293241;
+  color: #fff;
+  border: none;
+}
+.custom-button.btn:hover {
+  color: #fff !important;
+  border: none;
+}
+.hero {
+  width: 100vw;
+  height: 50vh;
+}
+.hero img {
+  object-fit: cover;
+  object-position: top;
+  height: 100%;
+  width: 100%;
+}
+.overlay {
+  height: 100%;
+  width: 100%;
+  opacity: 0.4;
+}
