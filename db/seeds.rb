@@ -8,6 +8,7 @@
 9.times do |i|
   Event.create(
     name: "Event #{i + 1}",
-    details: 'Testing.'
+    details: 'Testing.',
+    instructions: 'Testing Instructions.'
   )
 end

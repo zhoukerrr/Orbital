@@ -7,6 +7,7 @@ class NewEvent extends React.Component {
     this.state = {
       name: "",
       details: "",
+      instructions: ""
     };
 
     this.onChange = this.onChange.bind(this);
@@ -25,13 +26,14 @@ class NewEvent extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     const url = "/api/v1/events/create";
-    const { name, details } = this.state;
+    const { name, details, instructions } = this.state;
 
-    if (name.length == 0 || details.length == 0) return;
+    if (name.length == 0 || details.length == 0 || instructions.length == 0) return;
 
     const body = {
       name,
       details: details.replace(/\n/g, "<br> <br>"),
+      instructions: instructions.replace(/\n/g, "<br> <br>"),
     };
 
     const token = document.querySelector('meta[name="csrf-token"]').content;
@@ -85,11 +87,11 @@ class NewEvent extends React.Component {
                   Separate each detail with a comma.
                 </small>
               </div>
-              <label htmlFor="instruction">Instructions</label>
+              <label htmlFor="instructions">Instructions</label>
               <textarea
                 className="form-control"
-                id="instruction"
-                name="instruction"
+                id="instructions"
+                name="instructions"
                 rows="5"
                 required
                 onChange={this.onChange}

@@ -71,7 +71,7 @@ class Event extends React.Component {
         </li>
       ));
     }
-    const eventInstruction = this.addHtmlEntities(event.details);
+    const eventInstruction = this.addHtmlEntities(event.instructions);
 
     return (
       <div className="">
