@@ -1,4 +1,11 @@
 class Api::V1::EventsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :event, only: [:show, :edit, :update, :destroy]
+
+  def authorized?
+    @todo_item.user == current_user
+  end
+
   def index
     event = Event.all.order(created_at: :desc)
     render json: event
@@ -27,7 +34,7 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def event_params
-    params.permit(:name, :details, :instructions, :image)
+    params.permit(:name, :details, :instructions, :image, :user_id)
   end
 
   def event

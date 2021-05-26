@@ -4,10 +4,12 @@ import { Link } from "react-router-dom";
 class NewEvent extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       name: "",
       details: "",
-      instructions: ""
+      instructions: "",
+      user_id: this.props.user_id,
     };
 
     this.onChange = this.onChange.bind(this);
@@ -26,14 +28,21 @@ class NewEvent extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     const url = "/api/v1/events/create";
-    const { name, details, instructions } = this.state;
+    const { name, details, instructions, user_id } = this.state;
 
-    if (name.length == 0 || details.length == 0 || instructions.length == 0) return;
+    if (
+      name.length == 0 ||
+      details.length == 0 ||
+      instructions.length == 0 ||
+      user_id.length == 0
+    )
+      return;
 
     const body = {
       name,
       details: details.replace(/\n/g, "<br> <br>"),
       instructions: instructions.replace(/\n/g, "<br> <br>"),
+      user_id,
     };
 
     const token = document.querySelector('meta[name="csrf-token"]').content;
@@ -51,8 +60,10 @@ class NewEvent extends React.Component {
         }
         throw new Error("Network response was not ok.");
       })
-      .then((response) => this.props.history.push(`/event/${response.id}`))
+      //.then((response) => this.props.history.push(`/event/${response.id}`))
       .catch((error) => console.log(error.message));
+    window.location = "http://localhost:3000/events";
+    // force change url
   }
 
   render() {

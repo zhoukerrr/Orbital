@@ -24,45 +24,35 @@ class Events extends React.Component {
 
   render() {
     const { events } = this.state;
-    const allEvents = events.map((event, index) => (
-      <div class="list-group">
-        <a class="list-group-item list-group-item-action">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{event.name}</h5>
-            <small class="text-muted">by ABC Welfare</small>
-          </div>
-          <p class="mb-1">Summary here</p>
-          <div class="d-flex w-100 justify-content-between">
-            <small class="text-muted">
-              <button type="button" class="btn btn-outline-dark">
-                Environment
-              </button>
-              <button type="button" class="btn btn-outline-dark">
-                Seniors
-              </button>
-            </small>
-            <Link to={`/event/${event.id}`} className="btn custom-button">
-              View Event
-            </Link>
-          </div>
-        </a>
-      </div>
-      /*<div key={index} className="col-md-6 col-lg-4">
-      <div className="card mb-4">
-        <img
-          src={event.image}
-          className="card-img-top"
-          alt={`${event.name} image`}
-        />
-        <div className="card-body">
-          <h5 className="card-title">{event.name}</h5>
-          <Link to={`/event/${event.id}`} className="btn custom-button">
-            View Event
-          </Link>
+    const allEvents = events
+      .filter(
+        (event, index) =>
+          this.props.user_id == 1 || event.user_id == this.props.user_id
+      )
+      .map((event, index) => (
+        <div class="list-group">
+          <a class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{event.name}</h5>
+              <small class="text-muted">by user {event.user_id}</small>
+            </div>
+            <p class="mb-1">Summary here</p>
+            <div class="d-flex w-100 justify-content-between">
+              <small class="text-muted">
+                <button type="button" class="btn btn-outline-dark">
+                  Environment
+                </button>
+                <button type="button" class="btn btn-outline-dark">
+                  Seniors
+                </button>
+              </small>
+              <Link to={`/event/${event.id}`} className="btn custom-button">
+                View Event
+              </Link>
+            </div>
+          </a>
         </div>
-      </div>
-      </div>*/
-    ));
+      ));
     const noEvent = (
       <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
         <h4>

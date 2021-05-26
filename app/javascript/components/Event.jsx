@@ -91,7 +91,7 @@ class Event extends React.Component {
             <div className="col-sm-12 col-lg-3">
               <ul className="list-group">
                 <h5 className="mb-2">Details</h5>
-                {detailList}
+                {event.user_id}
               </ul>
             </div>
             <div className="col-sm-12 col-lg-7">
