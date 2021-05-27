@@ -3,7 +3,7 @@ class Api::V1::EventsController < ApplicationController
   before_action :event, only: [:show, :edit, :update, :destroy]
 
   def authorized?
-    @todo_item.user == current_user
+    @event.user_id == current_user.id
   end
 
   def index

@@ -17,13 +17,17 @@ export default (props) => (
       <Route
         path="/events"
         exact
-        render={() => <Events user_id={props.user_id} />}
+        render={(p) => <Events {...p} user_id={props.user_id} />}
       />
-      <Route path="/event/:id" exact component={Event} />
+      <Route
+        path="/event/:id"
+        exact
+        render={(p) => <Event {...p} user_id={props.user_id} />}
+      />
       <Route
         path="/event"
         exact
-        render={() => <NewEvent user_id={props.user_id} />}
+        render={(p) => <NewEvent {...p} user_id={props.user_id} />}
       />
     </Switch>
   </Router>

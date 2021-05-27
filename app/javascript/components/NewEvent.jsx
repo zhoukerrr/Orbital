@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 class NewEvent extends React.Component {
   constructor(props) {
@@ -60,10 +60,8 @@ class NewEvent extends React.Component {
         }
         throw new Error("Network response was not ok.");
       })
-      //.then((response) => this.props.history.push(`/event/${response.id}`))
+      .then((response) => this.props.history.push(`/event/${response.id}`))
       .catch((error) => console.log(error.message));
-    window.location = "http://localhost:3000/events";
-    // force change url
   }
 
   render() {
