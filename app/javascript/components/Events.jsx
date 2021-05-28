@@ -20,7 +20,7 @@ class Events extends React.Component {
         throw new Error("Network response was not ok.");
       })
       .then((response) => this.setState({ events: response }))
-      .then((response) => this.setState({ done: true }))
+      .then(() => this.setState({ done: true }))
       .catch(() => this.props.history.push("/"));
   }
 
@@ -28,17 +28,17 @@ class Events extends React.Component {
     const { events } = this.state;
     const allEvents = events
       .filter(
-        (event, index) =>
+        (event) =>
           this.props.user_id == 1 || event.user_id == this.props.user_id
       )
-      .map((event, index) => (
+      .map((event) => (
         <div class="list-group">
           <a class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1">{event.name}</h5>
               <small class="text-muted">by user {event.user_id}</small>
             </div>
-            <p class="mb-1">Summary here</p>
+            <p class="mb-1">{event.summary}</p>
             <div class="d-flex w-100 justify-content-between">
               <small class="text-muted">
                 <button type="button" class="btn btn-outline-dark">

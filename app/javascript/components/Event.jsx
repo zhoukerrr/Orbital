@@ -64,13 +64,6 @@ class Event extends React.Component {
       .catch((error) => console.log(error.message));
   }
 
-  Summary = () => (
-    <div className="col-sm-12 col-lg-7">
-      <h5 className="mb-2">Short-Summary</h5>
-      {this.state.event.summary}
-    </div>
-  );
-
   Venue = () => (
     <div className="col-sm-12 col-lg-3">
       <ul className="list-group">
@@ -150,9 +143,8 @@ class Event extends React.Component {
           </div>
           <div className="container py-5">
             <div className="row">
-              <this.Summary/>
-              <this.Venue/>
               <this.Details/>
+              <this.Venue/>
               <this.Skills/>
               <this.Link/>
               <this.Contact/>
