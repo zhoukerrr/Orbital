@@ -7,8 +7,12 @@ class NewEvent extends React.Component {
 
     this.state = {
       name: "",
-      details: "",
       summary: "",
+      venue: "",
+      details: "",
+      skills: "",
+      link: "",
+      contact: "",
       user_id: this.props.user_id,
     };
 
@@ -64,6 +68,107 @@ class NewEvent extends React.Component {
       .catch((error) => console.log(error.message));
   }
 
+  EventName = () => (
+    <div className="form-group">
+      <label htmlFor="eventName">Event name</label>
+      <input
+        type="text"
+        name="name"
+        id="eventName"
+        className="form-control"
+        required
+        onChange={this.onChange}
+      />
+    </div>
+  );
+
+  Summary = () => (
+    <React.Fragment>
+      <label htmlFor="summary">Short-Summary</label>
+      <textarea
+        className="form-control"
+        id="summary"
+        name="summary"
+        rows="5"
+        required
+        onChange={this.onChange}
+      />
+    </React.Fragment>
+  );
+
+  Venue = () => (
+    <div className="form-group">
+      <label htmlFor="eventDetails">Venue</label>
+      <input
+        type="text"
+        name="venue"
+        id="venue"
+        className="form-control"
+        required
+        onChange={this.onChange}
+      />
+    </div>
+  );
+
+  Details = () => (
+    <React.Fragment>
+      <label htmlFor="contact">Details</label>
+      <textarea
+        className="form-control"
+        id="details"
+        name="details"
+        rows="5"
+        required
+        onChange={this.onChange}
+      />
+    </React.Fragment>
+  );
+
+  Skills = () => (
+    <div className="form-group">
+      <label htmlFor="eventDetails">Skills Needed</label>
+      <input
+        type="text"
+        name="skills"
+        id="skills"
+        className="form-control"
+        required
+        onChange={this.onChange}
+      />
+      <small id="detailsHelp" className="form-text text-muted">
+        Separate each detail with a comma.
+      </small>
+    </div>
+  );
+
+  Link = () => (
+    <div className="form-group">
+      <label htmlFor="eventDetails">Sign Up Link</label>
+      <input
+        type="text"
+        name="link"
+        id="link"
+        className="form-control"
+        required
+        onChange={this.onChange}
+      />
+    </div>
+  );
+
+  Contact = () => (
+    <React.Fragment>
+      <label htmlFor="contact">Contact Information (name of contact, telephone number, mobile, number, email)</label>
+      <textarea
+        className="form-control"
+        id="contact"
+        name="contact"
+        rows="5"
+        required
+        onChange={this.onChange}
+      />
+    </React.Fragment>
+  );
+
   render() {
     return (
       <div className="container mt-5">
@@ -71,40 +176,13 @@ class NewEvent extends React.Component {
           <div className="col-sm-12 col-lg-6 offset-lg-3">
             <h1 className="font-weight-normal mb-5">Add a new event.</h1>
             <form onSubmit={this.onSubmit}>
-              <div className="form-group">
-                <label htmlFor="eventName">Event name</label>
-                <input
-                  type="text"
-                  name="name"
-                  id="eventName"
-                  className="form-control"
-                  required
-                  onChange={this.onChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="eventDetails">Details</label>
-                <input
-                  type="text"
-                  name="details"
-                  id="eventDetails"
-                  className="form-control"
-                  required
-                  onChange={this.onChange}
-                />
-                <small id="detailsHelp" className="form-text text-muted">
-                  Separate each detail with a comma.
-                </small>
-              </div>
-              <label htmlFor="summary">Short-Summary</label>
-              <textarea
-                className="form-control"
-                id="summary"
-                name="summary"
-                rows="5"
-                required
-                onChange={this.onChange}
-              />
+              <this.EventName/>
+              <this.Summary/>
+              <this.Venue/>
+              <this.Details/>
+              <this.Skills/>
+              <this.Link/>
+              <this.Contact/>
               <button type="submit" className="btn custom-button mt-3">
                 Create Event
               </button>

@@ -123,17 +123,10 @@ class Event extends React.Component {
       );
     } else if (event.user_id != undefined) {
       return (
-        /*
-        <div className="hero position-relative d-flex align-items-center justify-content-center">
-          <h1>
-            You are not authorised. Click <Link to="/events"> here </Link> to
-            see all available events.
-          </h1>
-        </div>*/
         <Redirect push to="/events" />
       );
     } else {
-      return (<div>Test</div>);
+      return null;
     }
   }
 }
