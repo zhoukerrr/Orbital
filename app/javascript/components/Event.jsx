@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 class Event extends React.Component {
   constructor(props) {
@@ -121,15 +121,19 @@ class Event extends React.Component {
           </div>
         </div>
       );
-    } else {
+    } else if (event.user_id != undefined) {
       return (
+        /*
         <div className="hero position-relative d-flex align-items-center justify-content-center">
           <h1>
             You are not authorised. Click <Link to="/events"> here </Link> to
             see all available events.
           </h1>
-        </div>
+        </div>*/
+        <Redirect push to="/events" />
       );
+    } else {
+      return null;
     }
   }
 }

@@ -6,6 +6,7 @@ class Events extends React.Component {
     super(props);
     this.state = {
       events: [],
+      done: false,
     };
   }
 
@@ -19,6 +20,7 @@ class Events extends React.Component {
         throw new Error("Network response was not ok.");
       })
       .then((response) => this.setState({ events: response }))
+      .then((response) => this.setState({ done: true }))
       .catch(() => this.props.history.push("/"));
   }
 
@@ -56,7 +58,7 @@ class Events extends React.Component {
     const noEvent = (
       <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
         <h4>
-          No such event yet. Why not <Link to="/new_event">create one</Link>
+          No such event yet. Why not <Link to="/event">create one</Link>
         </h4>
       </div>
     );
@@ -76,7 +78,9 @@ class Events extends React.Component {
                 Create New Event
               </Link>
             </div>
-            <div className="row">{events.length > 0 ? allEvents : noEvent}</div>
+            <div className="row">
+              {events.length > 0 ? allEvents : this.state.done ? noEvent : null}
+            </div>
             <Link to="/" className="btn btn-link">
               Home
             </Link>
