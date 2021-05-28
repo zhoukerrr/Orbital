@@ -32,20 +32,16 @@ class NewEvent extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     const url = "/api/v1/events/create";
-    const { name, details, summary, user_id } = this.state;
-
-    if (
-      name.length == 0 ||
-      details.length == 0 ||
-      summary.length == 0 ||
-      user_id.length == 0
-    )
-      return;
+    const { name, summary, venue, details, skills, link, contact, user_id } = this.state;
 
     const body = {
       name,
-      details: details.replace(/\n/g, "<br> <br>"),
-      summary: summary.replace(/\n/g, "<br> <br>"),
+      summary,
+      venue,
+      details: this.stripHtmlEntities(details),
+      skills,
+      link,
+      contact,
       user_id,
     };
 

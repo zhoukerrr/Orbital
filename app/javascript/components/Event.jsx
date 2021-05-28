@@ -27,7 +27,11 @@ class Event extends React.Component {
         throw new Error("Network response was not ok.");
       })
       .then((response) => this.setState({ event: response }))
+      .then(() => this.setState((prevState) => ({ event: {...prevState.event,
+        details: this.addHtmlEntities(prevState.event.details)
+      }})))
       .catch(() => this.props.history.push("/events"));
+
   }
 
   addHtmlEntities(str) {
@@ -60,6 +64,62 @@ class Event extends React.Component {
       .catch((error) => console.log(error.message));
   }
 
+  Summary = () => (
+    <div className="col-sm-12 col-lg-7">
+      <h5 className="mb-2">Short-Summary</h5>
+      {this.state.event.summary}
+    </div>
+  );
+
+  Venue = () => (
+    <div className="col-sm-12 col-lg-3">
+      <ul className="list-group">
+        <h5 className="mb-2">Venue</h5>
+        {this.state.event.venue}
+      </ul>
+    </div>
+  );
+
+  Details = () => (
+    <div className="col-sm-12 col-lg-3">
+      <ul className="list-group">
+        <h5 className="mb-2">Details</h5>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `${this.state.event.details}`,
+            }}
+          />
+      </ul>
+    </div>
+  );
+
+  Skills = () => (
+    <div className="col-sm-12 col-lg-3">
+      <ul className="list-group">
+        <h5 className="mb-2">Skills Needed</h5>
+        {this.state.event.skills}
+      </ul>
+    </div>
+  );
+
+  Link = () => (
+    <div className="col-sm-12 col-lg-3">
+      <ul className="list-group">
+        <h5 className="mb-2">Sign Up Link</h5>
+        {this.state.event.link}
+      </ul>
+    </div>
+  );
+
+  Contact = () => (
+    <div className="col-sm-12 col-lg-3">
+      <ul className="list-group">
+        <h5 className="mb-2">Contact Details</h5>
+        {this.state.event.contact}
+      </ul>
+    </div>
+  );
+
   render() {
     const { event } = this.state;
     let detailList = "No details available";
@@ -71,7 +131,6 @@ class Event extends React.Component {
         </li>
       ));
     }
-    const eventSummary = this.addHtmlEntities(event.summary);
     const id_match =
       this.props.user_id == 1 || this.props.user_id == event.user_id;
 
@@ -91,20 +150,12 @@ class Event extends React.Component {
           </div>
           <div className="container py-5">
             <div className="row">
-              <div className="col-sm-12 col-lg-3">
-                <ul className="list-group">
-                  <h5 className="mb-2">Details</h5>
-                  {event.user_id}
-                </ul>
-              </div>
-              <div className="col-sm-12 col-lg-7">
-                <h5 className="mb-2">Short-Summary</h5>
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: `${eventSummary}`,
-                  }}
-                />
-              </div>
+              <this.Summary/>
+              <this.Venue/>
+              <this.Details/>
+              <this.Skills/>
+              <this.Link/>
+              <this.Contact/>
               <div className="col-sm-12 col-lg-2">
                 <button
                   type="button"
