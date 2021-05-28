@@ -71,7 +71,7 @@ class Event extends React.Component {
         </li>
       ));
     }
-    const eventInstruction = this.addHtmlEntities(event.instructions);
+    const eventSummary = this.addHtmlEntities(event.summary);
     const id_match =
       this.props.user_id == 1 || this.props.user_id == event.user_id;
 
@@ -98,10 +98,10 @@ class Event extends React.Component {
                 </ul>
               </div>
               <div className="col-sm-12 col-lg-7">
-                <h5 className="mb-2">Instructions</h5>
+                <h5 className="mb-2">Short-Summary</h5>
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: `${eventInstruction}`,
+                    __html: `${eventSummary}`,
                   }}
                 />
               </div>

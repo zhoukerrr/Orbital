@@ -8,7 +8,7 @@ class NewEvent extends React.Component {
     this.state = {
       name: "",
       details: "",
-      instructions: "",
+      summary: "",
       user_id: this.props.user_id,
     };
 
@@ -28,12 +28,12 @@ class NewEvent extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     const url = "/api/v1/events/create";
-    const { name, details, instructions, user_id } = this.state;
+    const { name, details, summary, user_id } = this.state;
 
     if (
       name.length == 0 ||
       details.length == 0 ||
-      instructions.length == 0 ||
+      summary.length == 0 ||
       user_id.length == 0
     )
       return;
@@ -41,7 +41,7 @@ class NewEvent extends React.Component {
     const body = {
       name,
       details: details.replace(/\n/g, "<br> <br>"),
-      instructions: instructions.replace(/\n/g, "<br> <br>"),
+      summary: summary.replace(/\n/g, "<br> <br>"),
       user_id,
     };
 
@@ -96,11 +96,11 @@ class NewEvent extends React.Component {
                   Separate each detail with a comma.
                 </small>
               </div>
-              <label htmlFor="instructions">Instructions</label>
+              <label htmlFor="summary">Short-Summary</label>
               <textarea
                 className="form-control"
-                id="instructions"
-                name="instructions"
+                id="summary"
+                name="summary"
                 rows="5"
                 required
                 onChange={this.onChange}
