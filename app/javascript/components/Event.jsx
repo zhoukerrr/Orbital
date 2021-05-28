@@ -133,7 +133,7 @@ class Event extends React.Component {
         <Redirect push to="/events" />
       );
     } else {
-      return null;
+      return (<div>Test</div>);
     }
   }
 }

@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  withRouter,
+  Redirect,
 } from "react-router-dom";
 import Home from "../components/Home";
 import Events from "../components/Events";
@@ -29,6 +29,7 @@ export default (props) => (
         exact
         render={(p) => <NewEvent {...p} user_id={props.user_id} />}
       />
+      <Route render={() => <Redirect to={{pathname: "/"}} />} />
     </Switch>
   </Router>
 );
