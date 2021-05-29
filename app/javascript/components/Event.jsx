@@ -27,11 +27,15 @@ class Event extends React.Component {
         throw new Error("Network response was not ok.");
       })
       .then((response) => this.setState({ event: response }))
-      .then(() => this.setState((prevState) => ({ event: {...prevState.event,
-        details: this.addHtmlEntities(prevState.event.details)
-      }})))
+      .then(() =>
+        this.setState((prevState) => ({
+          event: {
+            ...prevState.event,
+            details: this.addHtmlEntities(prevState.event.details),
+          },
+        }))
+      )
       .catch(() => this.props.history.push("/events"));
-
   }
 
   addHtmlEntities(str) {
@@ -39,78 +43,77 @@ class Event extends React.Component {
   }
 
   deleteEvent() {
-    const {
-      match: {
-        params: { id },
-      },
-    } = this.props;
-    const url = `/api/v1/destroy/${id}`;
-    const token = document.querySelector('meta[name="csrf-token"]').content;
+    if (window.confirm("Are you sure you want to delete this entry?")) {
+      const {
+        match: {
+          params: { id },
+        },
+      } = this.props;
+      const url = `/api/v1/destroy/${id}`;
+      const token = document.querySelector('meta[name="csrf-token"]').content;
 
-    fetch(url, {
-      method: "DELETE",
-      headers: {
-        "X-CSRF-Token": token,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error("Network response was not ok.");
+      fetch(url, {
+        method: "DELETE",
+        headers: {
+          "X-CSRF-Token": token,
+          "Content-Type": "application/json",
+        },
       })
-      .then(() => this.props.history.push("/events"))
-      .catch((error) => console.log(error.message));
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error("Network response was not ok.");
+        })
+        .then(() => this.props.history.push("/events"))
+        .catch((error) => console.log(error.message));
+    }
   }
 
   Venue = () => (
-    <div className="col-sm-12 col-lg-3">
-      <ul className="list-group">
-        <h5 className="mb-2">Venue</h5>
-        {this.state.event.venue}
-      </ul>
-    </div>
+    <>
+      <h5 className="mb-2">Venue</h5>
+      {this.state.event.venue}
+      <br />
+    </>
   );
 
   Details = () => (
-    <div className="col-sm-12 col-lg-3">
-      <ul className="list-group">
-        <h5 className="mb-2">Details</h5>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: `${this.state.event.details}`,
-            }}
-          />
-      </ul>
-    </div>
+    <>
+      <h5 className="mb-2">Details</h5>
+      <div
+        dangerouslySetInnerHTML={{
+          __html: `${this.state.event.details}`,
+        }}
+      />
+      <br />
+    </>
   );
 
   Skills = () => (
-    <div className="col-sm-12 col-lg-3">
-      <ul className="list-group">
-        <h5 className="mb-2">Skills Needed</h5>
-        {this.state.event.skills}
-      </ul>
-    </div>
+    <>
+      <h5 className="mb-2">Skills Needed</h5>
+      {this.state.event.skills}
+      <br />
+    </>
   );
 
   Link = () => (
-    <div className="col-sm-12 col-lg-3">
-      <ul className="list-group">
-        <h5 className="mb-2">Sign Up Link</h5>
+    <>
+      <h5 className="mb-2">Sign Up Link</h5>
+      <a href={this.state.event.link} type="button" class="btn btn-link">
         {this.state.event.link}
-      </ul>
-    </div>
+      </a>
+      <br />
+    </>
   );
 
   Contact = () => (
-    <div className="col-sm-12 col-lg-3">
-      <ul className="list-group">
-        <h5 className="mb-2">Contact Details</h5>
-        {this.state.event.contact}
-      </ul>
-    </div>
+    <>
+      <h5 className="mb-2">Contact Details</h5>
+      {this.state.event.contact}
+      <br />
+    </>
   );
 
   render() {
@@ -143,12 +146,27 @@ class Event extends React.Component {
           </div>
           <div className="container py-5">
             <div className="row">
-              <this.Details/>
-              <this.Venue/>
-              <this.Skills/>
-              <this.Link/>
-              <this.Contact/>
+              <div className="col-sm-12 col-lg-3">
+                <ul className="list-group">
+                  <this.Venue />
+                  <br />
+                  <this.Contact />
+                </ul>
+              </div>
+              <div className="col-sm-12 col-lg-7">
+                <this.Details />
+                <br />
+                <this.Skills />
+                <br />
+                <this.Link />
+              </div>
+
               <div className="col-sm-12 col-lg-2">
+                <Link to="/events" className="btn btn-primary">
+                  Back to Events
+                </Link>
+                <br />
+                <br />
                 <button
                   type="button"
                   className="btn btn-danger"
@@ -158,16 +176,11 @@ class Event extends React.Component {
                 </button>
               </div>
             </div>
-            <Link to="/events" className="btn btn-link">
-              Back to Events
-            </Link>
           </div>
         </div>
       );
     } else if (event.user_id != undefined) {
-      return (
-        <Redirect push to="/events" />
-      );
+      return <Redirect push to="/events" />;
     } else {
       return null;
     }

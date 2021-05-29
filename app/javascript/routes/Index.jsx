@@ -29,7 +29,7 @@ export default (props) => (
         exact
         render={(p) => <NewEvent {...p} user_id={props.user_id} />}
       />
-      <Route render={() => <Redirect to={{pathname: "/"}} />} />
+      <Route render={() => <Redirect to={{ pathname: "/" }} />} />
     </Switch>
   </Router>
 );
