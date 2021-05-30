@@ -86,7 +86,7 @@ class Events extends React.Component {
             <div className="row" style={{
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center'
+            alignItems: 'stretch'
           }}>
               {events.length > 0 ? allEvents : this.state.done ? noEvent : null}
             </div>
