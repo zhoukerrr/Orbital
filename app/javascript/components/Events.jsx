@@ -34,26 +34,28 @@ class Events extends React.Component {
       .map((event) => (
         <div class="list-group">
           <a class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">{event.name}</h5>
-              <small class="text-muted">by user {event.user_id}</small>
-            </div>
-            <p class="mb-1">{event.summary}</p>
-            <div class="d-flex w-100 justify-content-between">
-              <small class="text-muted">
-                <button type="button" class="btn btn-outline-dark">
-                  Tag 1
-                </button>
-                <button type="button" class="btn btn-outline-dark">
-                  Tag 2
-                </button>
-                <button type="button" class="btn btn-outline-dark">
-                  Tag 3
-                </button>
-              </small>
-              <Link to={`/event/${event.id}`} className="btn custom-button">
-                View Event
-              </Link>
+            <div>
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{event.name}</h5>
+                <small class="text-muted">by user {event.user_id}</small>
+              </div>
+              <p class="mb-1">{event.summary}</p>
+              <div class="d-flex w-100 justify-content-between">
+                <small class="text-muted">
+                  <button type="button" class="btn btn-outline-dark">
+                    Tag 1
+                  </button>
+                  <button type="button" class="btn btn-outline-dark">
+                    Tag 2
+                  </button>
+                  <button type="button" class="btn btn-outline-dark">
+                    Tag 3
+                  </button>
+                </small>
+                <Link to={`/event/${event.id}`} className="btn custom-button">
+                  View Event
+                </Link>
+              </div>
             </div>
           </a>
         </div>
