@@ -83,7 +83,11 @@ class Events extends React.Component {
                 Create New Event
               </Link>
             </div>
-            <div className="row">
+            <div className="row" style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
+          }}>
               {events.length > 0 ? allEvents : this.state.done ? noEvent : null}
             </div>
             <Link to="/" className="btn btn-link">
