@@ -1,24 +1,32 @@
-# README
+# CCSGP Job Board
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Installation
 
-Things you may want to cover:
+### Pre-Requisites
 
-* Ruby version
+Check that you have the following installed, tutorials can be found [here](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-ruby-on-rails-project-with-a-react-frontend):
 
-* System dependencies
+- Git
+- Node.js
+- Ruby on Rails
+- PostgreSQL
 
-* Configuration
+### Cloning a Local Copy
 
-* Database creation
+- Open up terminal.
+- Run `git clone https://github.com/Zhou-Jiahao-1998/Orbital.git`.
+- Navigate to the "Orbital" directory.
+- Run `yarn install` and `bundle install`.
+- Run `rails s` to start local frontend server.
 
-* Database initialization
+### How to access database
 
-* How to run the test suite
+- Open up terminal.
+- Run `psql orbital_development`.
+- Run `\dt` to show tables.
+- To see the contents of a table, say "events", run `select * from events;`.
+- To quit the psql prompt, run `\q`.
 
-* Services (job queues, cache servers, search engines, etc.)
+## Contribution Guidelines
 
-* Deployment instructions
-
-* ...
+To contribute, create a fork of the repository and submit a Pull Request. You can also head to "Issues" page to contribute to any opened issues found there.
