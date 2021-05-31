@@ -1,5 +1,7 @@
 # CCSGP Job Board
 
+The [CCSGP Job Board](https://ccsgp.herokuapp.com/) is an event posting platform for NGOs or other relevant organisations to submit proposals. This repository serves as a collaborative platform. Refer to [Contribution Guidelines](https://github.com/Zhou-Jiahao-1998/Orbital#contribution-guidelines) for more.
+
 ## Installation
 
 ### Pre-Requisites
