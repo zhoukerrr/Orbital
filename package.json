@@ -8,7 +8,7 @@
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
-    "@rails/webpacker": "5.4.0",
+    "@rails/webpacker": "^5.4.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "bootstrap": "^5.0.1",
     "jquery": "^3.6.0",
@@ -20,7 +20,7 @@
     "react_ujs": "^2.6.1",
     "turbolinks": "^5.2.0",
     "webpack": "^5.38.1",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^4.7.0"
   },
   "version": "0.1.0",
   "devDependencies": {
