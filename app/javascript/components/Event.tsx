@@ -1,10 +1,42 @@
-import React from "react";
+import * as React from "react";
 import { Link, Redirect } from "react-router-dom";
 
-class Event extends React.Component {
-  constructor(props) {
+type Props = {
+  match: {
+    params: any;
+  };
+  history: any;
+  user_id: number;
+};
+
+type State = {
+  event: {
+    name: string;
+    details: string;
+    user_id: number;
+    venue: string;
+    skills: string;
+    link: string;
+    contact: string;
+    image: string;
+  };
+};
+
+class Event extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
-    this.state = { event: { details: "" } };
+    this.state = {
+      event: {
+        name: "",
+        details: "",
+        user_id: -1, // Not very sure if this affects anything
+        venue: "",
+        skills: "",
+        link: "",
+        contact: "",
+        image: "",
+      },
+    };
 
     this.addHtmlEntities = this.addHtmlEntities.bind(this);
     this.deleteEvent = this.deleteEvent.bind(this);
@@ -31,18 +63,21 @@ class Event extends React.Component {
         this.setState((prevState) => ({
           event: {
             ...prevState.event,
-            details: this.addHtmlEntities(prevState.event.details),
+            details:
+              prevState.event.details.length > 0
+                ? "No details available"
+                : this.addHtmlEntities(prevState.event.details),
           },
         }))
       )
       .catch(() => this.props.history.push("/events"));
   }
 
-  addHtmlEntities(str) {
+  addHtmlEntities(str: string): string {
     return String(str).replace(/&lt;/g, "<").replace(/&gt;/g, ">");
   }
 
-  deleteEvent() {
+  deleteEvent(): void {
     if (window.confirm("Are you sure you want to delete this entry?")) {
       const {
         match: {
@@ -50,7 +85,9 @@ class Event extends React.Component {
         },
       } = this.props;
       const url = `/api/v1/destroy/${id}`;
-      const token = document.querySelector('meta[name="csrf-token"]').content;
+      const token = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
 
       fetch(url, {
         method: "DELETE",
@@ -101,7 +138,7 @@ class Event extends React.Component {
   Link = () => (
     <>
       <h5 className="mb-2">Sign Up Link</h5>
-      <a href={this.state.event.link} type="button" class="btn btn-link">
+      <a href={this.state.event.link} type="button" className="btn btn-link">
         {this.state.event.link}
       </a>
       <br />
@@ -118,15 +155,7 @@ class Event extends React.Component {
 
   render() {
     const { event } = this.state;
-    let detailList = "No details available";
 
-    if (event.details.length > 0) {
-      detailList = event.details.split(",").map((detail, index) => (
-        <li key={index} className="list-group-item">
-          {detail}
-        </li>
-      ));
-    }
     const id_match =
       this.props.user_id == 1 || this.props.user_id == event.user_id;
 

@@ -1,8 +1,18 @@
-import React from "react";
+import * as React from "react";
 import { Link } from "react-router-dom";
 
-class Events extends React.Component {
-  constructor(props) {
+type Props = {
+  history: any;
+  user_id: number;
+};
+
+type State = {
+  events: any[];
+  done: boolean;
+};
+
+class Events extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       events: [],
@@ -32,23 +42,23 @@ class Events extends React.Component {
           this.props.user_id == 1 || event.user_id == this.props.user_id
       )
       .map((event) => (
-        <div class="list-group">
-          <a class="list-group-item list-group-item-action">
+        <div className="list-group">
+          <a className="list-group-item list-group-item-action">
             <div>
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{event.name}</h5>
-                <small class="text-muted">by user {event.user_id}</small>
+              <div className="d-flex w-100 justify-content-between">
+                <h5 className="mb-1">{event.name}</h5>
+                <small className="text-muted">by user {event.user_id}</small>
               </div>
-              <p class="mb-1">{event.summary}</p>
-              <div class="d-flex w-100 justify-content-between">
-                <small class="text-muted">
-                  <button type="button" class="btn btn-outline-dark">
+              <p className="mb-1">{event.summary}</p>
+              <div className="d-flex w-100 justify-content-between">
+                <small className="text-muted">
+                  <button type="button" className="btn btn-outline-dark">
                     Tag 1
                   </button>
-                  <button type="button" class="btn btn-outline-dark">
+                  <button type="button" className="btn btn-outline-dark">
                     Tag 2
                   </button>
-                  <button type="button" class="btn btn-outline-dark">
+                  <button type="button" className="btn btn-outline-dark">
                     Tag 3
                   </button>
                 </small>
@@ -83,11 +93,14 @@ class Events extends React.Component {
                 Create New Event
               </Link>
             </div>
-            <div className="row" style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'stretch'
-          }}>
+            <div
+              className="row"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "stretch",
+              }}
+            >
               {events.length > 0 ? allEvents : this.state.done ? noEvent : null}
             </div>
             <Link to="/" className="btn btn-link">
