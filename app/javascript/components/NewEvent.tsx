@@ -32,7 +32,8 @@ class NewEvent extends React.Component<Props, State> {
       user_id: this.props.user_id,
     };
 
-    this.onChange = this.onChange.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
+    this.onTextChange = this.onTextChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.stripHtmlEntities = this.stripHtmlEntities.bind(this);
   }
@@ -41,9 +42,19 @@ class NewEvent extends React.Component<Props, State> {
     return String(str).replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
-  onChange(event: React.ChangeEvent) {
-    const key: string = event.target.nodeName;
-    const value: any = event.target.nodeValue;
+  onTextChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
+    const key: string = event.target.id;
+    const value: any = event.target.value;
+    if (Object.keys(this.state).includes(key)) {
+      this.setState({
+        [key]: value,
+      } as Pick<State, keyof State>);
+    }
+  }
+
+  onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const key: string = event.target.id;
+    const value: any = event.currentTarget.value;
     if (Object.keys(this.state).includes(key)) {
       this.setState({
         [key]: value,
@@ -95,10 +106,10 @@ class NewEvent extends React.Component<Props, State> {
       <input
         type="text"
         name="name"
-        id="eventName"
+        id="name"
         className="form-control"
         required
-        onChange={this.onChange}
+        onChange={this.onInputChange}
       />
     </div>
   );
@@ -112,7 +123,7 @@ class NewEvent extends React.Component<Props, State> {
         name="summary"
         rows={5}
         required
-        onChange={this.onChange}
+        onChange={this.onTextChange}
       />
     </React.Fragment>
   );
@@ -126,7 +137,7 @@ class NewEvent extends React.Component<Props, State> {
         id="venue"
         className="form-control"
         required
-        onChange={this.onChange}
+        onChange={this.onInputChange}
       />
     </div>
   );
@@ -140,7 +151,7 @@ class NewEvent extends React.Component<Props, State> {
         name="details"
         rows={5}
         required
-        onChange={this.onChange}
+        onChange={this.onTextChange}
       />
     </React.Fragment>
   );
@@ -154,7 +165,7 @@ class NewEvent extends React.Component<Props, State> {
         id="skills"
         className="form-control"
         required
-        onChange={this.onChange}
+        onChange={this.onInputChange}
       />
       <small id="detailsHelp" className="form-text text-muted">
         Separate each detail with a comma.
@@ -171,7 +182,7 @@ class NewEvent extends React.Component<Props, State> {
         id="link"
         className="form-control"
         required
-        onChange={this.onChange}
+        onChange={this.onInputChange}
       />
     </div>
   );
@@ -188,7 +199,7 @@ class NewEvent extends React.Component<Props, State> {
         name="contact"
         rows={5}
         required
-        onChange={this.onChange}
+        onChange={this.onTextChange}
       />
     </React.Fragment>
   );
