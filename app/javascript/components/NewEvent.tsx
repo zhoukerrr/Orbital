@@ -54,7 +54,7 @@ class NewEvent extends React.Component<Props, State> {
 
   onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     const key: string = event.target.id;
-    const value: any = event.currentTarget.value;
+    const value: any = event.target.value;
     if (Object.keys(this.state).includes(key)) {
       this.setState({
         [key]: value,
