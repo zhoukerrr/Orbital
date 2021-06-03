@@ -8,7 +8,8 @@ class Api::V1::EventsController < ApplicationController
 
   def index
     event = Event.all.order(created_at: :desc)
-    render json: event
+    usernames = User.select(:id, :name).order(:id)
+    render json: {:event=>event, :usernames=>usernames}
   end
 
   def create

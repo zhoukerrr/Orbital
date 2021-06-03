@@ -9,6 +9,7 @@ type Props = {
 
 type State = {
   events: any[];
+  usernames: any[];
   done: boolean;
 };
 
@@ -17,6 +18,7 @@ class Events extends React.Component<Props, State> {
     super(props);
     this.state = {
       events: [],
+      usernames: [],
       done: false,
     };
   }
@@ -30,9 +32,20 @@ class Events extends React.Component<Props, State> {
         }
         throw new Error("Network response was not ok.");
       })
-      .then((response) => this.setState({ events: response }))
+      .then((response) => {
+        this.setState({
+          events: response.event,
+          usernames: response.usernames,
+        });
+        console.log(response);
+      })
       .then(() => this.setState({ done: true }))
       .catch(() => this.props.history.push("/"));
+  }
+
+  getNamefromID(id: number): string {
+    const { usernames } = this.state;
+    return usernames.find((set) => set.id == id).name;
   }
 
   render() {
@@ -47,7 +60,9 @@ class Events extends React.Component<Props, State> {
             <div>
               <div className="d-flex w-100 justify-content-between">
                 <h5 className="mb-1">{event.name}</h5>
-                <small className="text-muted">by {event.user_id}</small>
+                <small className="text-muted">
+                  by {this.getNamefromID(event.user_id)}
+                </small>
               </div>
               <p className="mb-1">{event.summary}</p>
               <div className="d-flex w-100 justify-content-between">
