@@ -5,4 +5,12 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :event
+
+  def is_admin?
+    admin
+  end
+
+  def user_name
+    name
+  end
 end

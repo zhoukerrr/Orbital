@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 type Props = {
   history: any;
   user_id: number;
+  admin: boolean;
 };
 
 type State = {
@@ -38,8 +39,7 @@ class Events extends React.Component<Props, State> {
     const { events } = this.state;
     const allEvents = events
       .filter(
-        (event) =>
-          this.props.user_id == 1 || event.user_id == this.props.user_id
+        (event) => this.props.admin || event.user_id == this.props.user_id
       )
       .map((event) => (
         <div className="list-group">
@@ -47,7 +47,7 @@ class Events extends React.Component<Props, State> {
             <div>
               <div className="d-flex w-100 justify-content-between">
                 <h5 className="mb-1">{event.name}</h5>
-                <small className="text-muted">by user {event.user_id}</small>
+                <small className="text-muted">by {event.user_id}</small>
               </div>
               <p className="mb-1">{event.summary}</p>
               <div className="d-flex w-100 justify-content-between">

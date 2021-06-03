@@ -4,6 +4,7 @@ import { Link, withRouter } from "react-router-dom";
 type Props = {
   history: any;
   user_id: number;
+  name: string;
 };
 
 type State = {

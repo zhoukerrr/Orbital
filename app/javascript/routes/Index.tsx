@@ -19,21 +19,21 @@ export default (props: any) => (
         path="/events"
         exact
         render={(p: RouteComponentProps) => (
-          <Events {...p} user_id={props.user_id} />
+          <Events {...p} user_id={props.user_id} admin={props.admin} />
         )}
       />
       <Route
         path="/event/:id"
         exact
         render={(p: RouteComponentProps) => (
-          <Event {...p} user_id={props.user_id} />
+          <Event {...p} user_id={props.user_id} admin={props.admin} />
         )}
       />
       <Route
         path="/event"
         exact
         render={(p: RouteComponentProps) => (
-          <NewEvent {...p} user_id={props.user_id} />
+          <NewEvent {...p} user_id={props.user_id} name={props.name} />
         )}
       />
       <Route render={() => <Redirect to={{ pathname: "/" }} />} />

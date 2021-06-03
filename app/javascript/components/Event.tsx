@@ -7,6 +7,7 @@ type Props = {
   };
   history: any;
   user_id: number;
+  admin: boolean;
 };
 
 type State = {
@@ -156,8 +157,7 @@ class Event extends React.Component<Props, State> {
   render() {
     const { event } = this.state;
 
-    const id_match =
-      this.props.user_id == 1 || this.props.user_id == event.user_id;
+    const id_match = this.props.admin || this.props.user_id == event.user_id;
 
     if (id_match) {
       return (
