@@ -19,7 +19,6 @@ type State = {
     skills: string;
     link: string;
     contact: string;
-    image: string;
   };
 };
 
@@ -30,12 +29,11 @@ class Event extends React.Component<Props, State> {
       event: {
         name: "",
         details: "",
-        user_id: -1, // Not very sure if this affects anything
+        user_id: undefined, // Not very sure if this affects anything
         venue: "",
         skills: "",
         link: "",
         contact: "",
-        image: "",
       },
     };
 
@@ -65,7 +63,7 @@ class Event extends React.Component<Props, State> {
           event: {
             ...prevState.event,
             details:
-              prevState.event.details.length > 0
+              prevState.event.details.length == 0
                 ? "No details available"
                 : this.addHtmlEntities(prevState.event.details),
           },
@@ -163,11 +161,6 @@ class Event extends React.Component<Props, State> {
       return (
         <div className="">
           <div className="hero position-relative d-flex align-items-center justify-content-center">
-            <img
-              src={event.image}
-              alt={`${event.name} image`}
-              className="img-fluid position-absolute"
-            />
             <div className="overlay bg-dark position-absolute" />
             <h1 className="display-4 position-relative text-white">
               {event.name}

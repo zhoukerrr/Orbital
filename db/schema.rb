@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_02_084245) do
+ActiveRecord::Schema.define(version: 2021_06_03_082317) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,7 +18,6 @@ ActiveRecord::Schema.define(version: 2021_06_02_084245) do
   create_table "events", force: :cascade do |t|
     t.string "name", null: false
     t.text "details", null: false
-    t.string "image", default: "https://raw.githubusercontent.com/do-community/react_rails_recipe/master/app/assets/images/Sammy_Meal.jpg"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "summary", null: false
@@ -27,6 +26,7 @@ ActiveRecord::Schema.define(version: 2021_06_02_084245) do
     t.text "skills", null: false
     t.string "link", null: false
     t.text "contact", null: false
+    t.string "status", default: "submitted"
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
