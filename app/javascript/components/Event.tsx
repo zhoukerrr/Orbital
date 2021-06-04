@@ -137,7 +137,11 @@ class Event extends React.Component<Props, State> {
   Link = () => (
     <>
       <h5 className="mb-2">Sign Up Link</h5>
-      <a href={this.state.event.link} type="button" className="btn btn-link">
+      <a
+        href={"//" + this.state.event.link}
+        type="button"
+        className="btn btn-link"
+      >
         {this.state.event.link}
       </a>
       <br />
