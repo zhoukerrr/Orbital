@@ -1,6 +1,6 @@
 <h1>Admin: <%= @user.admin? %></h1>
 <h1>Name: <%= @user.name %></h1>
-<h1>Image link: <%= @user.image %></h1>
+<h1>Role: <%= @user.role %></h1>
 
 <% if current_user.id == @user.id %>
     <%= link_to 'Edit My Profile', edit_user_path(current_user), class: 'btn btn-primary'%>
