@@ -13,4 +13,9 @@ class User < ApplicationRecord
   def user_name
     name
   end
+
+  def user_role
+    role
+  end
+
 end

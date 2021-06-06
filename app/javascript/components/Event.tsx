@@ -19,6 +19,7 @@ type State = {
     skills: string;
     link: string;
     contact: string;
+    status: string;
   };
 };
 
@@ -34,6 +35,7 @@ class Event extends React.Component<Props, State> {
         skills: "",
         link: "",
         contact: "",
+        status: "",
       },
     };
 
@@ -105,6 +107,8 @@ class Event extends React.Component<Props, State> {
         .catch((error) => console.log(error.message));
     }
   }
+  //NEED HELP HERE
+  onApprove(): void {}
 
   Venue = () => (
     <>
@@ -156,6 +160,13 @@ class Event extends React.Component<Props, State> {
     </>
   );
 
+  Status = () => (
+    <>
+      <h5 className="mb-2">Status</h5>
+      {this.state.event.status}
+    </>
+  );
+
   render() {
     const { event } = this.state;
 
@@ -177,6 +188,8 @@ class Event extends React.Component<Props, State> {
                   <this.Venue />
                   <br />
                   <this.Contact />
+                  <br />
+                  <this.Status />
                 </ul>
               </div>
               <div className="col-sm-12 col-lg-7">
@@ -192,13 +205,20 @@ class Event extends React.Component<Props, State> {
                   Back to Events
                 </Link>
                 <br />
-                <br />
                 <button
                   type="button"
                   className="btn btn-danger"
                   onClick={this.deleteEvent}
                 >
                   Delete Event
+                </button>
+                <br />
+                <button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={this.onApprove}
+                >
+                  Approve
                 </button>
               </div>
             </div>
