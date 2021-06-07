@@ -7,7 +7,7 @@ type Props = {
   };
   history: any;
   user_id: number;
-  admin: boolean;
+  role: string;
 };
 
 type State = {
@@ -225,7 +225,7 @@ class Event extends React.Component<Props, State> {
     </>
   );
 
-  Decision = () => (
+  Delete = () => (
     <>
       <button
         type="button"
@@ -236,6 +236,11 @@ class Event extends React.Component<Props, State> {
       </button>
       <br />
       <br />
+    </>
+  );
+
+  Decision = () => (
+    <>
       <button
         type="button"
         className="btn btn-success"
@@ -258,9 +263,11 @@ class Event extends React.Component<Props, State> {
   render() {
     const { event } = this.state;
 
-    const id_match = this.props.admin || this.props.user_id == event.user_id;
+    const can_delete =
+      this.props.role == "admin" || this.props.user_id == event.user_id;
 
-    if (id_match) {
+    const can_decide = this.props.role == "admin";
+    if (can_decide || can_delete || this.state.event.status == "Approved") {
       return (
         <div className="">
           <div className="hero position-relative d-flex align-items-center justify-content-center">
@@ -277,7 +284,7 @@ class Event extends React.Component<Props, State> {
                   <br />
                   <this.Contact />
                   <br />
-                  <this.Status />
+                  {can_delete ? <this.Status /> : null}
                 </ul>
               </div>
               <div className="col-sm-12 col-lg-7">
@@ -294,7 +301,8 @@ class Event extends React.Component<Props, State> {
                 </Link>
                 <br />
                 <br />
-                {this.props.admin ? <this.Decision /> : null}
+                {can_delete ? <this.Delete /> : null}
+                {can_decide ? <this.Decision /> : null}
               </div>
             </div>
           </div>

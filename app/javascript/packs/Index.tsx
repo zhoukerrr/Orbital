@@ -8,11 +8,10 @@ import * as _ from "lodash";
 document.addEventListener("DOMContentLoaded", () => {
   const data = document.getElementById("helper");
   const user_id: number = parseInt(data.getAttribute("userid"));
-  const admin: boolean = data.getAttribute("admin") == "true";
-  const name: string = data.getAttribute("name");
+  const role: string = data.getAttribute("role");
 
   render(
-    <App user_id={user_id} admin={admin} name={name} />,
+    <App user_id={user_id} role={role} />,
     document.body.appendChild(document.createElement("div"))
   );
 });

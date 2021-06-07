@@ -1,10 +1,11 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
+import { isThisTypeNode } from "typescript";
 
 type Props = {
   history: any;
   user_id: number;
-  admin: boolean;
+  role: string;
 };
 
 type State = {
@@ -48,11 +49,22 @@ class Events extends React.Component<Props, State> {
     return usernames.find((set) => set.id == id).name;
   }
 
+  CreateButton = () => (
+    <div className="text-right mb-3">
+      <Link to="/event" className="btn custom-button">
+        Create New Event
+      </Link>
+    </div>
+  );
+
   render() {
     const { events } = this.state;
     const allEvents = events
       .filter(
-        (event) => this.props.admin || event.user_id == this.props.user_id
+        (event) =>
+          this.props.role == "admin" ||
+          event.user_id == this.props.user_id ||
+          event.status == "Approved"
       )
       .map((event) => (
         <div className="list-group">
@@ -93,6 +105,9 @@ class Events extends React.Component<Props, State> {
       </div>
     );
 
+    const canCreate =
+      this.props.role == "admin" || this.props.role == "organiser";
+
     return (
       <>
         <section className="jumbotron jumbotron-fluid text-center">
@@ -103,11 +118,7 @@ class Events extends React.Component<Props, State> {
         </section>
         <div className="py-5">
           <main className="container">
-            <div className="text-right mb-3">
-              <Link to="/event" className="btn custom-button">
-                Create New Event
-              </Link>
-            </div>
+            {canCreate ? <this.CreateButton /> : null}
             <div
               className="row"
               style={{

@@ -6,10 +6,6 @@ class User < ApplicationRecord
 
   has_many :event
 
-  def is_admin?
-    admin
-  end
-
   def user_name
     name
   end

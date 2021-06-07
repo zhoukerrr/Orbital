@@ -21,7 +21,7 @@
     
     <% if user_signed_in? %>
       <%= javascript_pack_tag 'Index' %>
-      <%= content_tag :div, id: "helper", userid: current_user.id, admin: current_user.is_admin?, name: current_user.user_name do %><%end%>
+      <%= content_tag :div, id: "helper", userid: current_user.id, role: current_user.user_role do %><%end%>
     <% end %>
       <%= yield %>
     </div>

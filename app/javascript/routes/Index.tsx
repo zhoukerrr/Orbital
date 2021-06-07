@@ -19,24 +19,26 @@ export default (props: any) => (
         path="/events"
         exact
         render={(p: RouteComponentProps) => (
-          <Events {...p} user_id={props.user_id} admin={props.admin} />
+          <Events {...p} user_id={props.user_id} role={props.role} />
         )}
       />
       <Route
         path="/event/:id"
         exact
         render={(p: RouteComponentProps) => (
-          <Event {...p} user_id={props.user_id} admin={props.admin} />
+          <Event {...p} user_id={props.user_id} role={props.role} />
         )}
       />
       <Route
         path="/event"
         exact
         render={(p: RouteComponentProps) => (
-          <NewEvent {...p} user_id={props.user_id} name={props.name} />
+          <NewEvent {...p} user_id={props.user_id} role={props.role} />
         )}
       />
-      <Route render={() => <Redirect to={{ pathname: "/" }} />} />
     </Switch>
   </Router>
 );
+
+//Default route is removed
+//<Route render={() => <Redirect to={{ pathname: "/" }} />} />

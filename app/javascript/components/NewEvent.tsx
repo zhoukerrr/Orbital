@@ -1,10 +1,10 @@
 import * as React from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 type Props = {
   history: any;
   user_id: number;
-  name: string;
+  role: string;
 };
 
 type State = {
@@ -206,30 +206,37 @@ class NewEvent extends React.Component<Props, State> {
   );
 
   render() {
-    return (
-      <div className="container mt-5">
-        <div className="row">
-          <div className="col-sm-12 col-lg-6 offset-lg-3">
-            <h1 className="font-weight-normal mb-5">Add a new event.</h1>
-            <form onSubmit={this.onSubmit}>
-              <this.EventName />
-              <this.Summary />
-              <this.Venue />
-              <this.Details />
-              <this.Skills />
-              <this.Link />
-              <this.Contact />
-              <button type="submit" className="btn custom-button mt-3">
-                Create Event
-              </button>
-              <Link to="/events" className="btn btn-link mt-3">
-                Back to events
-              </Link>
-            </form>
+    const canCreate =
+      this.props.role == "admin" || this.props.role == "organiser";
+
+    if (canCreate) {
+      return (
+        <div className="container mt-5">
+          <div className="row">
+            <div className="col-sm-12 col-lg-6 offset-lg-3">
+              <h1 className="font-weight-normal mb-5">Add a new event.</h1>
+              <form onSubmit={this.onSubmit}>
+                <this.EventName />
+                <this.Summary />
+                <this.Venue />
+                <this.Details />
+                <this.Skills />
+                <this.Link />
+                <this.Contact />
+                <button type="submit" className="btn custom-button mt-3">
+                  Create Event
+                </button>
+                <Link to="/events" className="btn btn-link mt-3">
+                  Back to events
+                </Link>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return <Redirect push to="/events" />;
+    }
   }
 }
 
