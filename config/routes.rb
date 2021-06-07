@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       post 'events/create'
       get '/show/:id', to: 'events#show'
       delete '/destroy/:id', to: 'events#destroy'
+      patch '/approve/:id', to: 'events#approve'
+      patch '/reject/:id', to: 'events#reject'
     end
   end
   root 'homepage#index'

@@ -107,8 +107,66 @@ class Event extends React.Component<Props, State> {
         .catch((error) => console.log(error.message));
     }
   }
-  //NEED HELP HERE
-  onApprove(): void {}
+
+  approveEvent = () => {
+    if (window.confirm("Are you sure you want to APPROVE this entry?")) {
+      const {
+        match: {
+          params: { id },
+        },
+      } = this.props;
+      const url = `/api/v1/approve/${id}`;
+      const token = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
+
+      fetch(url, {
+        method: "PATCH",
+        headers: {
+          "X-CSRF-Token": token,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error("Network response was not ok.");
+        })
+        .then(() => this.props.history.push("/events"))
+        .catch((error) => console.log(error.message));
+    }
+  };
+
+  rejectEvent = () => {
+    if (window.confirm("Are you sure you want to REJECT this entry?")) {
+      const {
+        match: {
+          params: { id },
+        },
+      } = this.props;
+      const url = `/api/v1/reject/${id}`;
+      const token = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
+
+      fetch(url, {
+        method: "PATCH",
+        headers: {
+          "X-CSRF-Token": token,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error("Network response was not ok.");
+        })
+        .then(() => this.props.history.push("/events"))
+        .catch((error) => console.log(error.message));
+    }
+  };
 
   Venue = () => (
     <>
@@ -167,6 +225,36 @@ class Event extends React.Component<Props, State> {
     </>
   );
 
+  Decision = () => (
+    <>
+      <button
+        type="button"
+        className="btn btn-danger"
+        onClick={this.deleteEvent}
+      >
+        Delete Event
+      </button>
+      <br />
+      <br />
+      <button
+        type="button"
+        className="btn btn-success"
+        onClick={this.approveEvent}
+      >
+        Approve
+      </button>
+      <br />
+      <br />
+      <button
+        type="button"
+        className="btn btn-warning"
+        onClick={this.rejectEvent}
+      >
+        Reject
+      </button>
+    </>
+  );
+
   render() {
     const { event } = this.state;
 
@@ -205,21 +293,8 @@ class Event extends React.Component<Props, State> {
                   Back to Events
                 </Link>
                 <br />
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  onClick={this.deleteEvent}
-                >
-                  Delete Event
-                </button>
                 <br />
-                <button
-                  type="button"
-                  className="btn btn-success"
-                  onClick={this.onApprove}
-                >
-                  Approve
-                </button>
+                {this.props.admin ? <this.Decision /> : null}
               </div>
             </div>
           </div>

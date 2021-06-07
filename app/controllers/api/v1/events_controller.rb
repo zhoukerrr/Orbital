@@ -21,6 +21,18 @@ class Api::V1::EventsController < ApplicationController
     end
   end
 
+  def approve
+    event = Event.find(params[:id])
+    event.update_attribute(:status, "Approved")
+    render json: event
+  end
+
+  def reject
+    event = Event.find(params[:id])
+    event.update_attribute(:status, "Rejected")
+    render json: event
+  end
+
   def show
     if event
       render json: event
@@ -35,7 +47,7 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def event_params
-    params.permit(:name, :summary, :venue, :details, :skills, :link, :contact, :user_id)
+    params.permit(:name, :summary, :venue, :details, :skills, :link, :contact, :user_id, :status)
   end
 
   def event
