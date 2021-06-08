@@ -24,7 +24,7 @@ class Events extends React.Component<Props, State> {
     };
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     const url = "/api/v1/events/public";
     fetch(url)
       .then((response) => {
@@ -42,7 +42,7 @@ class Events extends React.Component<Props, State> {
       })
       .then(() => this.setState({ done: true }))
       .catch(() => this.props.history.push("/"));
-  }
+  };
 
   getNamefromID(id: number): string {
     const { usernames } = this.state;
@@ -130,7 +130,11 @@ class Events extends React.Component<Props, State> {
                 alignItems: "stretch",
               }}
             >
-              {events.length > 0 ? allEvents : this.state.done ? noEvent : null}
+              {allEvents.length > 0
+                ? allEvents
+                : this.state.done
+                ? noEvent
+                : null}
             </div>
             <Link to="/" className="btn btn-link">
               Home

@@ -18,6 +18,24 @@ class Api::V1::EventsController < ApplicationController
     render json: {:event=>event, :usernames=>usernames}
   end
 
+  def selfSubmitted
+    event = Event.where(user_id: current_user.id).where(status: "submitted").order(created_at: :desc)
+    usernames = User.select(:id, :name).order(:id)
+    render json: {:event=>event, :usernames=>usernames}
+  end
+
+  def selfApproved
+    event = Event.where(user_id: current_user.id).where(status: "Approved").order(created_at: :desc)
+    usernames = User.select(:id, :name).order(:id)
+    render json: {:event=>event, :usernames=>usernames}
+  end
+
+  def selfRejected
+    event = Event.where(user_id: current_user.id).where(status: "Rejected").order(created_at: :desc)
+    usernames = User.select(:id, :name).order(:id)
+    render json: {:event=>event, :usernames=>usernames}
+  end
+
   def create
     event = Event.create!(event_params)
     if event
