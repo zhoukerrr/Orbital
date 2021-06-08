@@ -118,6 +118,9 @@ class Events extends React.Component<Props, State> {
         </section>
         <div className="py-5">
           <main className="container">
+            {allEvents.length > 0 ? (
+              <PageGroup numberOfEvents={allEvents.length} currentPage={1} />
+            ) : null}
             {canCreate ? <this.CreateButton /> : null}
             <div
               className="row"
