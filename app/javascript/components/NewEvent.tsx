@@ -226,7 +226,7 @@ class NewEvent extends React.Component<Props, State> {
                 <button type="submit" className="btn custom-button mt-3">
                   Create Event
                 </button>
-                <Link to="/events" className="btn btn-link mt-3">
+                <Link to="/events/1" className="btn btn-link mt-3">
                   Back to events
                 </Link>
               </form>

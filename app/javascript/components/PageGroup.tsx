@@ -1,8 +1,11 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 
 type Props = {
   numberOfEvents: number;
   currentPage: number;
+  numberOfEventsPerPage: number;
+  history: any;
 };
 
 type State = {
@@ -15,7 +18,6 @@ type State = {
 };
 
 export default class PageGroup extends React.Component<Props, State> {
-  private noOfEventsPerPage: number = 3;
   // Make this an odd number for now until I get the logic straight
   private noOfButtonsRendered: number = 5;
 
@@ -34,7 +36,7 @@ export default class PageGroup extends React.Component<Props, State> {
 
   componentDidMount = () => {
     const noOfPages = Math.ceil(
-      this.props.numberOfEvents / this.noOfEventsPerPage
+      this.props.numberOfEvents / this.props.numberOfEventsPerPage
     );
     const firstButton: number = Math.max(
       this.props.currentPage - Math.floor(this.noOfButtonsRendered / 2),
@@ -45,7 +47,34 @@ export default class PageGroup extends React.Component<Props, State> {
       noOfPages
     );
 
-    const pages: number[] = this.state.pages;
+    const pages: number[] = [];
+    for (let i = firstButton; i <= lastButton; i++) {
+      pages.push(i);
+    }
+    this.setState({
+      pages: pages,
+      firstButton: firstButton,
+      lastButton: lastButton,
+      needLeftEllipsis: firstButton > 1,
+      needRightEllipsis: lastButton < noOfPages,
+      noOfPages: noOfPages,
+    });
+  };
+
+  UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
+    const noOfPages = Math.ceil(
+      nextProps.numberOfEvents / nextProps.numberOfEventsPerPage
+    );
+    const firstButton: number = Math.max(
+      nextProps.currentPage - Math.floor(this.noOfButtonsRendered / 2),
+      1
+    );
+    const lastButton: number = Math.min(
+      nextProps.currentPage + Math.floor(this.noOfButtonsRendered / 2),
+      noOfPages
+    );
+
+    const pages: number[] = [];
     for (let i = firstButton; i <= lastButton; i++) {
       pages.push(i);
     }
@@ -63,6 +92,7 @@ export default class PageGroup extends React.Component<Props, State> {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void = (evt) => {
     const page: number = parseInt(evt.currentTarget.value);
+    this.props.history.push(`/events/${page}`);
   };
 
   render() {
