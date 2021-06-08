@@ -12,6 +12,12 @@ class Api::V1::EventsController < ApplicationController
     render json: {:event=>event, :usernames=>usernames}
   end
 
+  def public
+    event = Event.where(status: "Approved").order(created_at: :desc)
+    usernames = User.select(:id, :name).order(:id)
+    render json: {:event=>event, :usernames=>usernames}
+  end
+
   def create
     event = Event.create!(event_params)
     if event

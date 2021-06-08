@@ -25,7 +25,7 @@ class Events extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    const url = "/api/v1/events/index";
+    const url = "/api/v1/events/public";
     fetch(url)
       .then((response) => {
         if (response.ok) {
@@ -60,12 +60,12 @@ class Events extends React.Component<Props, State> {
   render() {
     const { events } = this.state;
     const allEvents = events
-      .filter(
+      /*.filter(
         (event) =>
           this.props.role == "admin" ||
           event.user_id == this.props.user_id ||
           event.status == "Approved"
-      )
+      )*/
       .map((event) => (
         <div className="list-group">
           <a className="list-group-item list-group-item-action">
