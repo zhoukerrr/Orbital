@@ -10,13 +10,14 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = current_user
+    @user = User.find(params[:id])
   end
 
   def update
     respond_to do |format|
-      if current_user.update(user_params)
-        format.html { redirect_to current_user, notice: 'Profile updated.' }
+      @user = User.find(params[:id])
+      if @user.update(user_params)
+        format.html { redirect_to @user, notice: 'Profile updated.' }
       else
         format.html { render :edit }
       end
