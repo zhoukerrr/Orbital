@@ -1,6 +1,5 @@
 import { createBrowserHistory } from "history";
 import * as React from "react";
-import { Link } from "react-router-dom";
 
 type Props = {
   numberOfEvents: number;
@@ -45,33 +44,6 @@ export default class PageGroup extends React.Component<Props, State> {
     );
     const lastButton: number = Math.min(
       this.props.currentPage + Math.floor(this.noOfButtonsRendered / 2),
-      noOfPages
-    );
-
-    const pages: number[] = [];
-    for (let i = firstButton; i <= lastButton; i++) {
-      pages.push(i);
-    }
-    this.setState({
-      pages: pages,
-      firstButton: firstButton,
-      lastButton: lastButton,
-      needLeftEllipsis: firstButton > 1,
-      needRightEllipsis: lastButton < noOfPages,
-      noOfPages: noOfPages,
-    });
-  };
-
-  UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
-    const noOfPages = Math.ceil(
-      nextProps.numberOfEvents / nextProps.numberOfEventsPerPage
-    );
-    const firstButton: number = Math.max(
-      nextProps.currentPage - Math.floor(this.noOfButtonsRendered / 2),
-      1
-    );
-    const lastButton: number = Math.min(
-      nextProps.currentPage + Math.floor(this.noOfButtonsRendered / 2),
       noOfPages
     );
 
