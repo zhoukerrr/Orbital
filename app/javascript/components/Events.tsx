@@ -62,32 +62,6 @@ class Events extends React.Component<Props, State> {
       .catch(() => this.props.history.push("/"));
   };
 
-  UNSAFE_componentWillReceiveProps = (nextProp: Props) => {
-    const {
-      match: {
-        params: { page },
-      },
-    } = nextProp;
-    this.setState({ page: parseInt(page) });
-    const url = "/api/v1/events/public";
-    fetch(url)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error("Network response was not ok.");
-      })
-      .then((response) => {
-        this.setState({
-          events: response.event,
-          usernames: response.usernames,
-        });
-        console.log(response);
-      })
-      .then(() => this.setState({ done: true }))
-      .catch(() => nextProp.history.push("/"));
-  };
-
   getNamefromID(id: number): string {
     const { usernames } = this.state;
     return usernames.find((set) => set.id == id).name;
