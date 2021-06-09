@@ -139,13 +139,13 @@ export default class PageGroup extends React.Component<Props, State> {
           {"<"}
         </button>
         {needLeftEllipsis ? (
-          <button type="button" className="btn btn-outline-secondary">
+          <button type="button" className="btn btn-outline-secondary" disabled>
             {"..."}
           </button>
         ) : null}
         {pagesButtons}
         {needRightEllipsis ? (
-          <button type="button" className="btn btn-outline-secondary">
+          <button type="button" className="btn btn-outline-secondary" disabled>
             {"..."}
           </button>
         ) : null}
