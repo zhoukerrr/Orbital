@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
+import EventTypeButtonGroup from "./EventTypeButtonGroup";
 import PageGroup from "./PageButtonGroup";
 
 type Props = {
@@ -14,6 +15,7 @@ type State = {
   done: boolean;
   page: number;
   noOfPages: number;
+  eventType: "Approved" | "Rejected" | "Submitted";
 };
 
 class Events extends React.Component<Props, State> {
@@ -27,11 +29,12 @@ class Events extends React.Component<Props, State> {
       done: false,
       page: 1,
       noOfPages: 1,
+      eventType: "Approved",
     };
   }
 
   componentDidMount = () => {
-    const url = "/api/v1/events/public";
+    const url = "/api/v1/events/selfApproved";
     fetch(url)
       .then((response) => {
         if (response.ok) {
@@ -71,7 +74,7 @@ class Events extends React.Component<Props, State> {
   );
 
   pageButtonGroupOnClickHandler = (value: number) => {
-    const url = "/api/v1/events/public"; // TODO: Add params to fetch only what is necessary
+    const url = "/api/v1/events/self" + this.state.eventType; // TODO: Add params to fetch only what is necessary
     fetch(url)
       .then((response) => {
         if (response.ok) {
@@ -92,12 +95,40 @@ class Events extends React.Component<Props, State> {
           usernames: response.usernames,
           noOfPages: Math.ceil(response.event.length / this.noOfEventsPerPage),
           page: value,
-          done: true,
         });
         console.log(response);
       })
       .catch(() => this.props.history.push("/"));
     this.state.events.length;
+  };
+
+  eventTypeButtonOnClickHandler = (str: string) => {
+    const value = str as "Approved" | "Rejected" | "Submitted";
+    const url = "/api/v1/events/self" + value;
+    fetch(url)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then((response) => {
+        const begin = 0;
+        const end = Math.min(
+          begin + this.noOfEventsPerPage,
+          response.event.length
+        );
+
+        this.setState({
+          events: response.event.slice(begin, end),
+          usernames: response.usernames,
+          noOfPages: Math.ceil(response.event.length / this.noOfEventsPerPage),
+          eventType: value,
+        });
+        console.log(response);
+      })
+      .then(() => this.setState({ done: true }))
+      .catch(() => this.props.history.push("/"));
   };
 
   render = () => {
@@ -155,6 +186,10 @@ class Events extends React.Component<Props, State> {
         </section>
         <div className="py-5">
           <main className="container">
+            <EventTypeButtonGroup
+              currentType={this.state.eventType}
+              onClickHandler={this.eventTypeButtonOnClickHandler}
+            />
             {allEvents.length > 0 ? (
               <PageGroup
                 noOfPages={this.state.noOfPages}

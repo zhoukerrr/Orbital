@@ -10,11 +10,19 @@ import Home from "../components/Home";
 import Events from "../components/Events";
 import Event from "../components/Event";
 import NewEvent from "../components/NewEvent";
+import MyEvents from "../components/MyEvents";
 
 export default (props: any) => (
   <Router>
     <Switch>
       <Route path="/" exact component={Home} />
+      <Route
+        path="/my_events"
+        exact
+        render={(p: RouteComponentProps) => (
+          <MyEvents {...p} user_id={props.user_id} role={props.role} />
+        )}
+      />
       <Route
         path="/events"
         exact

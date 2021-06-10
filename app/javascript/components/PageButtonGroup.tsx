@@ -30,7 +30,7 @@ export default class PageButtonGroup extends React.Component<Props, State> {
     <button
       type="button"
       className={
-        value == this.props.currentPage
+        value.toString() === display && value === this.props.currentPage
           ? "btn btn-secondary"
           : "btn btn-outline-secondary"
       }
