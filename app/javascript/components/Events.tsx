@@ -1,7 +1,7 @@
 import { clamp } from "lodash";
 import * as React from "react";
 import { Link } from "react-router-dom";
-import PageGroup from "./PageGroup";
+import PageGroup from "./PageButtonGroup";
 
 type Props = {
   history: any;
