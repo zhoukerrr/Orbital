@@ -8,7 +8,7 @@ export default () => (
         <h1 className="display-4">Test</h1>
         <p className="lead">A table for testing.</p>
         <hr className="my-4" />
-        <Link to="/events/1" className="btn btn-lg custom-button" role="button">
+        <Link to="/events" className="btn btn-lg custom-button" role="button">
           Let's get started!
         </Link>
       </div>

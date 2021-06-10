@@ -16,7 +16,7 @@ export default (props: any) => (
     <Switch>
       <Route path="/" exact component={Home} />
       <Route
-        path="/events/:page"
+        path="/events"
         exact
         render={(p: RouteComponentProps) => (
           <Events {...p} user_id={props.user_id} role={props.role} />

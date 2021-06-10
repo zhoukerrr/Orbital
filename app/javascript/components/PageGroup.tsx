@@ -2,20 +2,12 @@ import { createBrowserHistory } from "history";
 import * as React from "react";
 
 type Props = {
-  numberOfEvents: number;
+  noOfPages: number;
   currentPage: number;
-  numberOfEventsPerPage: number;
-  history: any;
+  onClickHandler: (page: number) => void;
 };
 
-type State = {
-  firstButton: number;
-  lastButton: number;
-  needLeftEllipsis: boolean;
-  needRightEllipsis: boolean;
-  pages: number[];
-  noOfPages: number;
-};
+type State = {};
 
 export default class PageGroup extends React.Component<Props, State> {
   // Make this an odd number for now until I get the logic straight
@@ -23,51 +15,13 @@ export default class PageGroup extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-
-    this.state = {
-      pages: [],
-      firstButton: 0,
-      lastButton: 0,
-      needLeftEllipsis: false,
-      needRightEllipsis: false,
-      noOfPages: 0,
-    };
   }
-
-  componentDidMount = () => {
-    const noOfPages = Math.ceil(
-      this.props.numberOfEvents / this.props.numberOfEventsPerPage
-    );
-    const firstButton: number = Math.max(
-      this.props.currentPage - Math.floor(this.noOfButtonsRendered / 2),
-      1
-    );
-    const lastButton: number = Math.min(
-      this.props.currentPage + Math.floor(this.noOfButtonsRendered / 2),
-      noOfPages
-    );
-
-    const pages: number[] = [];
-    for (let i = firstButton; i <= lastButton; i++) {
-      pages.push(i);
-    }
-    this.setState({
-      pages: pages,
-      firstButton: firstButton,
-      lastButton: lastButton,
-      needLeftEllipsis: firstButton > 1,
-      needRightEllipsis: lastButton < noOfPages,
-      noOfPages: noOfPages,
-    });
-  };
 
   onClickHandler: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void = (evt) => {
     const page: number = parseInt(evt.currentTarget.value);
-    createBrowserHistory({
-      forceRefresh: true,
-    }).push(`/events/${page}`);
+    this.props.onClickHandler(page);
   };
 
   pageButton = (value: number) => (
@@ -86,14 +40,26 @@ export default class PageGroup extends React.Component<Props, State> {
   );
 
   render() {
-    const { needLeftEllipsis, needRightEllipsis, pages, noOfPages } =
-      this.state;
+    const firstButton = Math.max(
+      this.props.currentPage - Math.floor(this.noOfButtonsRendered / 2),
+      1
+    );
+    const lastButton = Math.min(
+      this.props.currentPage + Math.floor(this.noOfButtonsRendered / 2),
+      this.props.noOfPages
+    );
+    const pages = [];
+    for (let i = firstButton; i <= lastButton; i++) {
+      pages.push(i);
+    }
     const pagesButtons: JSX.Element[] = pages.map((pageNumber: number) =>
       this.pageButton(pageNumber)
     );
+    const needLeftEllipsis = firstButton > 1;
+    const needRightEllipsis = lastButton < this.props.noOfPages;
 
     return (
-      <div className="btn-group" role="group" aria-label="Basic example">
+      <div className="btn-group" role="group">
         <button
           type="button"
           className="btn btn-outline-secondary"
@@ -124,7 +90,7 @@ export default class PageGroup extends React.Component<Props, State> {
         <button
           type="button"
           className="btn btn-outline-secondary"
-          value={Math.min(this.props.currentPage + 1, noOfPages)}
+          value={Math.min(this.props.currentPage + 1, this.props.noOfPages)}
           onClick={this.onClickHandler}
         >
           {">"}
@@ -132,7 +98,7 @@ export default class PageGroup extends React.Component<Props, State> {
         <button
           type="button"
           className="btn btn-outline-secondary"
-          value={noOfPages}
+          value={this.props.noOfPages}
           onClick={this.onClickHandler}
         >
           {">>"}

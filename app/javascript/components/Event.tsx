@@ -71,7 +71,7 @@ class Event extends React.Component<Props, State> {
           },
         }))
       )
-      .catch(() => this.props.history.push("/events/1"));
+      .catch(() => this.props.history.push("/events"));
   }
 
   addHtmlEntities(str: string): string {
@@ -103,7 +103,7 @@ class Event extends React.Component<Props, State> {
           }
           throw new Error("Network response was not ok.");
         })
-        .then(() => this.props.history.push("/events/1"))
+        .then(() => this.props.history.push("/events"))
         .catch((error) => console.log(error.message));
     }
   }
@@ -133,7 +133,7 @@ class Event extends React.Component<Props, State> {
           }
           throw new Error("Network response was not ok.");
         })
-        .then(() => this.props.history.push("/events/1"))
+        .then(() => this.props.history.push("/events"))
         .catch((error) => console.log(error.message));
     }
   };
@@ -163,7 +163,7 @@ class Event extends React.Component<Props, State> {
           }
           throw new Error("Network response was not ok.");
         })
-        .then(() => this.props.history.push("/events/1"))
+        .then(() => this.props.history.push("/events"))
         .catch((error) => console.log(error.message));
     }
   };
@@ -296,7 +296,7 @@ class Event extends React.Component<Props, State> {
               </div>
 
               <div className="col-sm-12 col-lg-2">
-                <Link to="/events/1" className="btn btn-primary">
+                <Link to="/events" className="btn btn-primary">
                   Back to Events
                 </Link>
                 <br />

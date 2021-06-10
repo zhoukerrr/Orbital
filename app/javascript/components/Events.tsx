@@ -1,12 +1,9 @@
-import { clamp, range, round } from "lodash";
+import { clamp } from "lodash";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import PageGroup from "./PageGroup";
 
 type Props = {
-  match: {
-    params: any;
-  };
   history: any;
   user_id: number;
   role: string;
@@ -17,6 +14,7 @@ type State = {
   usernames: any[];
   done: boolean;
   page: number;
+  noOfPages: number;
 };
 
 class Events extends React.Component<Props, State> {
@@ -29,15 +27,11 @@ class Events extends React.Component<Props, State> {
       usernames: [],
       done: false,
       page: 1,
+      noOfPages: 1,
     };
   }
 
   componentDidMount = () => {
-    const {
-      match: {
-        params: { page },
-      },
-    } = this.props;
     const url = "/api/v1/events/public";
     fetch(url)
       .then((response) => {
@@ -47,14 +41,16 @@ class Events extends React.Component<Props, State> {
         throw new Error("Network response was not ok.");
       })
       .then((response) => {
+        const begin = 0;
+        const end = Math.min(
+          begin + this.noOfEventsPerPage,
+          response.event.length
+        );
+
         this.setState({
-          events: response.event,
+          events: response.event.slice(begin, end),
           usernames: response.usernames,
-          page: clamp(
-            parseInt(page),
-            1,
-            Math.ceil(response.event.length / this.noOfEventsPerPage)
-          ),
+          noOfPages: Math.ceil(response.event.length / this.noOfEventsPerPage),
         });
         console.log(response);
       })
@@ -75,15 +71,40 @@ class Events extends React.Component<Props, State> {
     </div>
   );
 
+  pageButtonGroupOnClickHandler = (value: number) => {
+    const url = "/api/v1/events/public"; // TODO: Add params to fetch only what is necessary
+    fetch(url)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then((response) => {
+        const begin = Math.min(
+          (value - 1) * this.noOfEventsPerPage,
+          Math.floor(response.event.length / this.noOfEventsPerPage) *
+            this.noOfEventsPerPage
+        );
+        const end = Math.min(begin + 5, response.event.length);
+
+        this.setState({
+          events: response.event.slice(begin, end),
+          usernames: response.usernames,
+          noOfPages: Math.ceil(response.event.length / this.noOfEventsPerPage),
+          page: value,
+          done: true,
+        });
+        console.log(response);
+      })
+      .catch(() => this.props.history.push("/"));
+    this.state.events.length;
+  };
+
   render = () => {
     const { events } = this.state;
     const size: number = events.length;
-    const begin = Math.min(
-      (this.state.page - 1) * this.noOfEventsPerPage,
-      Math.floor(size / this.noOfEventsPerPage) * this.noOfEventsPerPage
-    );
-    const end = Math.min(begin + 5, size);
-    const allEvents = events.slice(begin, end).map((event) => (
+    const allEvents = events.map((event) => (
       <div className="list-group">
         <a className="list-group-item list-group-item-action">
           <div>
@@ -137,10 +158,9 @@ class Events extends React.Component<Props, State> {
           <main className="container">
             {allEvents.length > 0 ? (
               <PageGroup
-                history={this.props.history}
-                numberOfEvents={events.length}
+                noOfPages={this.state.noOfPages}
                 currentPage={this.state.page}
-                numberOfEventsPerPage={this.noOfEventsPerPage}
+                onClickHandler={this.pageButtonGroupOnClickHandler}
               />
             ) : null}
             {canCreate ? <this.CreateButton /> : null}
