@@ -13,7 +13,7 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def public
-    event = Event.where(status: "Approved").order(created_at: :desc)
+    event = Event.where(status: "Approved").order(updated_at: :desc)
     usernames = User.select(:id, :name).order(:id)
     render json: {:event=>event, :usernames=>usernames}
   end
