@@ -1,4 +1,3 @@
-import { createBrowserHistory } from "history";
 import * as React from "react";
 
 type Props = {
@@ -9,7 +8,7 @@ type Props = {
 
 type State = {};
 
-export default class PageGroup extends React.Component<Props, State> {
+export default class PageButtonGroup extends React.Component<Props, State> {
   // Make this an odd number for now until I get the logic straight
   private noOfButtonsRendered: number = 5;
 
@@ -24,7 +23,10 @@ export default class PageGroup extends React.Component<Props, State> {
     this.props.onClickHandler(page);
   };
 
-  pageButton = (value: number) => (
+  pageButton: (value: number, display: string) => JSX.Element = (
+    value,
+    display
+  ) => (
     <button
       type="button"
       className={
@@ -32,10 +34,13 @@ export default class PageGroup extends React.Component<Props, State> {
           ? "btn btn-secondary"
           : "btn btn-outline-secondary"
       }
+      style={{
+        boxShadow: "none",
+      }}
       value={value}
       onClick={this.onClickHandler}
     >
-      {value}
+      {display}
     </button>
   );
 
@@ -53,29 +58,15 @@ export default class PageGroup extends React.Component<Props, State> {
       pages.push(i);
     }
     const pagesButtons: JSX.Element[] = pages.map((pageNumber: number) =>
-      this.pageButton(pageNumber)
+      this.pageButton(pageNumber, pageNumber.toString())
     );
     const needLeftEllipsis = firstButton > 1;
     const needRightEllipsis = lastButton < this.props.noOfPages;
 
     return (
       <div className="btn-group" role="group">
-        <button
-          type="button"
-          className="btn btn-outline-secondary"
-          value={1}
-          onClick={this.onClickHandler}
-        >
-          {"<<"}
-        </button>
-        <button
-          type="button"
-          className="btn btn-outline-secondary"
-          value={Math.max(this.props.currentPage - 1, 1)}
-          onClick={this.onClickHandler}
-        >
-          {"<"}
-        </button>
+        {this.pageButton(1, "<<")}
+        {this.pageButton(Math.max(this.props.currentPage - 1, 1), "<")}
         {needLeftEllipsis ? (
           <button type="button" className="btn btn-outline-secondary" disabled>
             {"..."}
@@ -87,22 +78,11 @@ export default class PageGroup extends React.Component<Props, State> {
             {"..."}
           </button>
         ) : null}
-        <button
-          type="button"
-          className="btn btn-outline-secondary"
-          value={Math.min(this.props.currentPage + 1, this.props.noOfPages)}
-          onClick={this.onClickHandler}
-        >
-          {">"}
-        </button>
-        <button
-          type="button"
-          className="btn btn-outline-secondary"
-          value={this.props.noOfPages}
-          onClick={this.onClickHandler}
-        >
-          {">>"}
-        </button>
+        {this.pageButton(
+          Math.min(this.props.currentPage + 1, this.props.noOfPages),
+          ">"
+        )}
+        {this.pageButton(this.props.noOfPages, ">>")}
       </div>
     );
   }
