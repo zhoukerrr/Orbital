@@ -123,6 +123,7 @@ class Events extends React.Component<Props, State> {
           events: response.event.slice(begin, end),
           usernames: response.usernames,
           noOfPages: Math.ceil(response.event.length / this.noOfEventsPerPage),
+          page: 1,
           eventType: value,
         });
         console.log(response);
