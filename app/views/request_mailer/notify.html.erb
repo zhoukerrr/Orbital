@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hi admin!</h1>
+    <h4>Here is a new event for approval:</h4>
+    <p>Submitted by: <%= @user.name %></p>
+    <p>User email: <%= @user.email %></p>
+    <p>Event Name: <%= @event.name %></p>
+    <p>Summary:</p>
+    <p><%= @event.summary %></p>
+    <p>Venue: <%= @event.venue %></p>
+    <p>Skills Needed: <%= @event.skills %></p>
+    <p>Details:</p>
+    <p><%= @event.details %></p>
+    <p>Sign Up Link: <%= @event.link %></p>
+    <p>Contact:</p>
+    <p><%= @event.contact %></p>
+    <p>Approve button</p>
+  </body>
+</html>
