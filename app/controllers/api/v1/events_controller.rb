@@ -79,7 +79,7 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def event_params
-    params.permit(:name, :summary, :venue, :details, :skills, :link, :contact, :user_id, :status)
+    params.permit(:name, :tag, :summary, :venue, :details, :skills, :link, :contact, :user_id, :status)
   end
 
   def event

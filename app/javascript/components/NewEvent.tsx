@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link, Redirect } from "react-router-dom";
+import { isThisTypeNode } from "typescript";
 
 type Props = {
   history: any;
@@ -9,6 +10,7 @@ type Props = {
 
 type State = {
   name: string;
+  tag: string;
   summary: string;
   venue: string;
   details: string;
@@ -24,6 +26,7 @@ class NewEvent extends React.Component<Props, State> {
 
     this.state = {
       name: "",
+      tag: "",
       summary: "",
       venue: "",
       details: "",
@@ -35,6 +38,7 @@ class NewEvent extends React.Component<Props, State> {
 
     this.onInputChange = this.onInputChange.bind(this);
     this.onTextChange = this.onTextChange.bind(this);
+    this.onSelectionChange = this.onSelectionChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.stripHtmlEntities = this.stripHtmlEntities.bind(this);
   }
@@ -63,14 +67,34 @@ class NewEvent extends React.Component<Props, State> {
     }
   }
 
+  onSelectionChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    const key: string = event.target.id;
+    const value: any = event.target.value;
+    if (Object.keys(this.state).includes(key)) {
+      this.setState({
+        [key]: value,
+      } as Pick<State, keyof State>);
+    }
+  }
+
   onSubmit(event: any) {
     event.preventDefault();
     const url = "/api/v1/events/create";
-    const { name, summary, venue, details, skills, link, contact, user_id } =
-      this.state;
+    const {
+      name,
+      tag,
+      summary,
+      venue,
+      details,
+      skills,
+      link,
+      contact,
+      user_id,
+    } = this.state;
 
     const body = {
       name,
+      tag,
       summary,
       venue,
       details: this.stripHtmlEntities(details),
@@ -205,6 +229,25 @@ class NewEvent extends React.Component<Props, State> {
     </React.Fragment>
   );
 
+  Tag = () => (
+    <React.Fragment>
+      <select
+        className="form-control"
+        id="tag"
+        defaultValue=""
+        onChange={this.onSelectionChange}
+        required
+      >
+        <option value="">--select tag--</option>
+        <option>Donation</option>
+        <option>Environment</option>
+        <option>Software Development</option>
+        <option>Teaching</option>
+        <option>Others</option>
+      </select>
+    </React.Fragment>
+  );
+
   render() {
     const canCreate =
       this.props.role == "admin" || this.props.role == "organiser";
@@ -217,6 +260,7 @@ class NewEvent extends React.Component<Props, State> {
               <h1 className="font-weight-normal mb-5">Add a new event.</h1>
               <form onSubmit={this.onSubmit}>
                 <this.EventName />
+                <this.Tag />
                 <this.Summary />
                 <this.Venue />
                 <this.Details />
