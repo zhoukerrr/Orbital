@@ -8,8 +8,14 @@
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav">
       <% if user_signed_in? %>
-        <li class="nav-item">
-            <%= link_to('Events', '/events', class: "nav-link")%>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+            Events
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><%= link_to('Public Events', '/events', class: "nav-link")%></li>
+            <li><%= link_to('My Events', '/my_events', class: "nav-link")%></li>
+          </ul>
         </li>
         <li class="nav-item">
             <%= link_to('Profile', user_path(current_user), class: "nav-link")%>
