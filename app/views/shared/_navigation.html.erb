@@ -8,7 +8,8 @@
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav">
       <% if user_signed_in? %>
-        <li class="nav-item dropdown">
+        <% if (current_user.user_role == "admin" || current_user.user_role == "organiser") %>
+          <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
             Events
           </a>
@@ -16,7 +17,12 @@
             <li><%= link_to('Public Events', '/events', class: "nav-link")%></li>
             <li><%= link_to('My Events', '/my_events', class: "nav-link")%></li>
           </ul>
-        </li>
+          </li>
+          <% elsif current_user.user_role == "student" %>
+            <li class="nav-item">
+              <%= link_to('Events', '/events', class: "nav-link")%>
+            </li> 
+        <% end %>
         <li class="nav-item">
             <%= link_to('Profile', user_path(current_user), class: "nav-link")%>
         </li> 
