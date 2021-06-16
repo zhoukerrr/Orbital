@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Link, Redirect } from "react-router-dom";
-import { isThisTypeNode } from "typescript";
 
 type Props = {
   history: any;
@@ -115,12 +114,7 @@ class NewEvent extends React.Component<Props, State> {
       },
       body: JSON.stringify(body),
     })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error("Network response was not ok.");
-      })
+      .then((response) => response.json())
       .then((response) => this.props.history.push(`/event/${response.id}`))
       .catch((error) => console.log(error.message));
   }
