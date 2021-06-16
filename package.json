@@ -16,6 +16,7 @@
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "bootstrap": "^5.0.1",
     "dns-packet": "^5.2.4",
+    "glob-parent": "^6.0.0",
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
     "normalize-url": "^6.0.1",
