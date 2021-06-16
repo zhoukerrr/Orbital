@@ -41,8 +41,8 @@ class Api::V1::EventsController < ApplicationController
     if event
       @user = User.find(event.user_id)
       @admin = User.where(role: "admin")
-      RequestMailer.notify(event, @user, @admin).deliver
       render json: event
+      RequestMailer.notify(event, @user, @admin).deliver
     else
       render json: event.errors
     end
@@ -50,15 +50,19 @@ class Api::V1::EventsController < ApplicationController
 
   def approve
     event = Event.find(params[:id])
+    @user = User.find(event.user_id)
     event.update_attribute(:status, "Approved")
     render json: event
+    RequestMailer.sendApprove(event, @user).deliver
   end
   helper_method :approve
 
   def reject
     event = Event.find(params[:id])
+    @user = User.find(event.user_id)
     event.update_attribute(:status, "Rejected")
     render json: event
+    RequestMailer.sendReject(event, @user).deliver
   end
 
   def show
