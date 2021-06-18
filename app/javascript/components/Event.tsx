@@ -260,7 +260,7 @@ class Event extends React.Component<Props, State> {
           Approve
         </button>
       </>
-    ) : (
+    ) : this.state.event.status == "submitted" ? (
       <>
         <button
           type="button"
@@ -279,7 +279,7 @@ class Event extends React.Component<Props, State> {
           Reject
         </button>
       </>
-    );
+    ) : null;
 
   render() {
     const { event } = this.state;
