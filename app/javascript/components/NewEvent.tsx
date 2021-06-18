@@ -186,9 +186,6 @@ class NewEvent extends React.Component<Props, State> {
         required
         onChange={this.onInputChange}
       />
-      <small id="detailsHelp" className="form-text text-muted">
-        Separate each detail with a comma.
-      </small>
     </div>
   );
 
@@ -235,8 +232,10 @@ class NewEvent extends React.Component<Props, State> {
         <option value="">--select tag--</option>
         <option>Donation</option>
         <option>Environment</option>
-        <option>Software Development</option>
+        <option>Senior</option>
         <option>Teaching</option>
+        <option>Technology</option>
+        <option>Youth</option>
         <option>Others</option>
       </select>
     </React.Fragment>
