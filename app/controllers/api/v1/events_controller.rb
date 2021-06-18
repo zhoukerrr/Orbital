@@ -18,6 +18,12 @@ class Api::V1::EventsController < ApplicationController
     render json: {:event=>event, :usernames=>usernames}
   end
 
+  def allSubmitted
+    event = Event.where(status: "submitted").order(updated_at: :desc)
+    usernames = User.select(:id, :name).order(:id)
+    render json: {:event=>event, :usernames=>usernames}
+  end
+
   def selfSubmitted
     event = Event.where(user_id: current_user.id).where(status: "submitted").order(created_at: :desc)
     usernames = User.select(:id, :name).order(:id)

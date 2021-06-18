@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'events/index'
       get 'events/public'
+      get 'events/allSubmitted'
       get 'events/selfSubmitted'
       get 'events/selfApproved'
       get 'events/selfRejected'

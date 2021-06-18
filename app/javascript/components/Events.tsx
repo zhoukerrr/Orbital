@@ -120,13 +120,7 @@ class Events extends React.Component<Props, State> {
             <div className="d-flex w-100 justify-content-between">
               <small className="text-muted">
                 <button type="button" className="btn btn-outline-dark">
-                  Tag 1
-                </button>
-                <button type="button" className="btn btn-outline-dark">
-                  Tag 2
-                </button>
-                <button type="button" className="btn btn-outline-dark">
-                  Tag 3
+                  {event.tag}
                 </button>
               </small>
               <Link to={`/event/${event.id}`} className="btn custom-button">

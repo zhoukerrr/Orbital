@@ -11,11 +11,19 @@ import Events from "../components/Events";
 import Event from "../components/Event";
 import NewEvent from "../components/NewEvent";
 import MyEvents from "../components/MyEvents";
+import AllSubmitted from "../components/AllSubmitted";
 
 export default (props: any) => (
   <Router>
     <Switch>
       <Route path="/" exact component={Home} />
+      <Route
+        path="/all_submitted"
+        exact
+        render={(p: RouteComponentProps) => (
+          <AllSubmitted {...p} user_id={props.user_id} role={props.role} />
+        )}
+      />
       <Route
         path="/my_events"
         exact

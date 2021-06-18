@@ -15,7 +15,7 @@ type State = {
   done: boolean;
   page: number;
   noOfPages: number;
-  eventType: "Approved" | "Rejected" | "Submitted";
+  eventType: "Submitted";
 };
 
 class Events extends React.Component<Props, State> {
@@ -29,12 +29,12 @@ class Events extends React.Component<Props, State> {
       done: false,
       page: 1,
       noOfPages: 1,
-      eventType: "Approved",
+      eventType: "Submitted",
     };
   }
 
   componentDidMount = () => {
-    const url = "/api/v1/events/selfApproved";
+    const url = "/api/v1/events/allSubmitted";
     fetch(url)
       .then((response) => {
         if (response.ok) {
@@ -102,36 +102,6 @@ class Events extends React.Component<Props, State> {
     this.state.events.length;
   };
 
-  eventTypeButtonOnClickHandler = (str: string) => {
-    const value = str as "Approved" | "Rejected" | "Submitted";
-    const url = "/api/v1/events/self" + value;
-    fetch(url)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error("Network response was not ok.");
-      })
-      .then((response) => {
-        const begin = 0;
-        const end = Math.min(
-          begin + this.noOfEventsPerPage,
-          response.event.length
-        );
-
-        this.setState({
-          events: response.event.slice(begin, end),
-          usernames: response.usernames,
-          noOfPages: Math.ceil(response.event.length / this.noOfEventsPerPage),
-          page: 1,
-          eventType: value,
-        });
-        console.log(response);
-      })
-      .then(() => this.setState({ done: true }))
-      .catch(() => this.props.history.push("/"));
-  };
-
   render = () => {
     const { events } = this.state;
 
@@ -171,21 +141,17 @@ class Events extends React.Component<Props, State> {
       </div>
     );
 
-    if (this.props.role == "admin" || this.props.role == "organiser") {
+    if (this.props.role == "admin") {
       return (
         <>
           <section className="jumbotron jumbotron-fluid text-center">
             <div className="container py-5">
-              <h1 className="display-4">My Events</h1>
+              <h1 className="display-4">List of Submitted events</h1>
               <p className="lead text-muted">Learning web development again</p>
             </div>
           </section>
           <div className="py-5">
             <main className="container">
-              <EventTypeButtonGroup
-                currentType={this.state.eventType}
-                onClickHandler={this.eventTypeButtonOnClickHandler}
-              />
               {allEvents.length > 0 ? (
                 <PageGroup
                   noOfPages={this.state.noOfPages}

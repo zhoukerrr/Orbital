@@ -239,26 +239,47 @@ class Event extends React.Component<Props, State> {
     </>
   );
 
-  Decision = () => (
-    <>
-      <button
-        type="button"
-        className="btn btn-success"
-        onClick={this.approveEvent}
-      >
-        Approve
-      </button>
-      <br />
-      <br />
-      <button
-        type="button"
-        className="btn btn-warning"
-        onClick={this.rejectEvent}
-      >
-        Reject
-      </button>
-    </>
-  );
+  Decision = () =>
+    this.state.event.status == "Approved" ? (
+      <>
+        <button
+          type="button"
+          className="btn btn-warning"
+          onClick={this.rejectEvent}
+        >
+          Reject
+        </button>
+      </>
+    ) : this.state.event.status == "Rejected" ? (
+      <>
+        <button
+          type="button"
+          className="btn btn-success"
+          onClick={this.approveEvent}
+        >
+          Approve
+        </button>
+      </>
+    ) : (
+      <>
+        <button
+          type="button"
+          className="btn btn-success"
+          onClick={this.approveEvent}
+        >
+          Approve
+        </button>
+        <br />
+        <br />
+        <button
+          type="button"
+          className="btn btn-warning"
+          onClick={this.rejectEvent}
+        >
+          Reject
+        </button>
+      </>
+    );
 
   render() {
     const { event } = this.state;
