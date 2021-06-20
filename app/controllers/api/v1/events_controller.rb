@@ -58,6 +58,18 @@ class Api::V1::EventsController < ApplicationController
     event = Event.find(params[:id])
     @user = User.find(event.user_id)
     event.update_attribute(:status, "Approved")
+
+    require 'telegram/bot'
+    token = '1886490695:AAGAXvPGLLH-dRzILvtbgTy-ufkZJlSgogw'
+    Telegram::Bot::Client.run(token) do |bot|
+      bot.api.send_message(chat_id: -513341363, text: "Hello, a new event has been approved...\n
+*Name*: #{event.name}
+*Details*: #{event.details}
+*Venue*: #{event.venue}
+*Link*: #{event.link}
+*Contact*: #{event.contact}", parse_mode:'Markdown')
+    end
+
     render json: event
     RequestMailer.sendApprove(event, @user).deliver
   end
