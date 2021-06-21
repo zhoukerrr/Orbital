@@ -46,15 +46,16 @@ class Api::V1::EventsController < ApplicationController
 *Contact*: #{event.contact}", parse_mode:'Markdown')
     end
 
+    event.update(event_params)
     render json: event
     RequestMailer.sendApprove(event, @user).deliver
   end
-  helper_method :approve
 
   def reject
     event = Event.find(params[:id])
     @user = User.find(event.user_id)
     event.update_attribute(:status, "rejected")
+    event.update(event_params)
     render json: event
     RequestMailer.sendReject(event, @user).deliver
   end
@@ -73,7 +74,7 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def event_params
-    params.permit(:name, :tag, :summary, :venue, :details, :skills, :link, :contact, :user_id, :status)
+    params.permit(:name, :tag, :summary, :venue, :details, :skills, :link, :contact, :user_id, :status, :remarks)
   end
 
   def event

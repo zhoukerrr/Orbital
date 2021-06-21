@@ -20,6 +20,7 @@ type State = {
     link: string;
     contact: string;
     status: string;
+    remarks: string;
   };
 };
 
@@ -36,6 +37,7 @@ class Event extends React.Component<Props, State> {
         link: "",
         contact: "",
         status: "",
+        remarks: "",
       },
     };
 
@@ -77,6 +79,19 @@ class Event extends React.Component<Props, State> {
   addHtmlEntities(str: string): string {
     return String(str).replace(/&lt;/g, "<").replace(/&gt;/g, ">");
   }
+
+  onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const key: string = event.target.id;
+    const value: any = event.target.value;
+    //alert(value);
+
+    this.setState((prevState) => ({
+      event: {
+        ...prevState.event,
+        remarks: value,
+      },
+    }));
+  };
 
   deleteEvent(): void {
     if (window.confirm("Are you sure you want to delete this entry?")) {
@@ -126,6 +141,7 @@ class Event extends React.Component<Props, State> {
           "X-CSRF-Token": token,
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({ remarks: this.state.event.remarks }),
       })
         .then((response) => {
           if (response.ok) {
@@ -225,6 +241,13 @@ class Event extends React.Component<Props, State> {
     </>
   );
 
+  Remarks = () => (
+    <>
+      <h5 className="mb-2">Remarks</h5>
+      {this.state.event.remarks}
+    </>
+  );
+
   Delete = () => (
     <>
       <button
@@ -306,6 +329,22 @@ class Event extends React.Component<Props, State> {
                   <this.Contact />
                   <br />
                   {can_delete ? <this.Status /> : null}
+                  <br />
+                  {can_delete ? <this.Remarks /> : null}
+                  {can_decide ? (
+                    <div className="form-group">
+                      <label htmlFor="eventRemarks">
+                        Put Your Remarks Here
+                      </label>
+                      <input
+                        type="text"
+                        name="remarks"
+                        id="remarks"
+                        className="form-control"
+                        onChange={this.onInputChange}
+                      />
+                    </div>
+                  ) : null}
                 </ul>
               </div>
               <div className="col-sm-12 col-lg-7">
