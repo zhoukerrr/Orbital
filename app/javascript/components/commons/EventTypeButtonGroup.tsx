@@ -1,12 +1,21 @@
 import * as React from "react";
+import { EventType } from "../types";
 
 type Props = {
-  currentType: "approved" | "rejected" | "submitted";
-  onClickHandler: (type: string) => void;
+  currentType: EventType;
+  /**
+   * The component uses this to handle click events, by applying it on the value
+   * of the button clicked. Possible values include `submitted`, `approved` and `rejected`.
+   */
+  onClickHandler: (type: EventType) => void;
 };
 
 type State = {};
 
+/**
+ * A button group consisting of 3 buttons - `Submitted`, `Approved` and `Rejected`,
+ * each with its corresponding value in lowercase.
+ */
 export default class EventTypeButtonGroup extends React.Component<
   Props,
   State
@@ -15,13 +24,19 @@ export default class EventTypeButtonGroup extends React.Component<
     super(props);
   }
 
-  onClickHandler: (
+  private onClickHandler: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void = (evt) => {
-    this.props.onClickHandler(evt.currentTarget.value);
+    this.props.onClickHandler(evt.currentTarget.value as EventType);
   };
 
-  typeButton: (value: string) => JSX.Element = (value) => (
+  /**
+   * A single button component in the button group.
+   *
+   * @param value text shown on the button in lowercase
+   * @returns resulting button component
+   */
+  private typeButton: (value: string) => JSX.Element = (value) => (
     <button
       type="button"
       className={

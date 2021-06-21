@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link, Redirect } from "react-router-dom";
-import EventTypeButtonGroup from "./EventTypeButtonGroup";
-import PageGroup from "./PageButtonGroup";
+import EventTypeButtonGroup from "./commons/EventTypeButtonGroup";
+import PageGroup from "./commons/PageButtonGroup";
 
 type Props = {
   history: any;

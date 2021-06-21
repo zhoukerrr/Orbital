@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import PageGroup from "./PageButtonGroup";
+import PageGroup from "./commons/PageButtonGroup";
 
 type Props = {
   history: any;
