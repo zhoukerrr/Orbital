@@ -15,7 +15,7 @@ type State = {
   done: boolean;
   page: number;
   noOfPages: number;
-  eventType: "Approved" | "Rejected" | "Submitted";
+  eventType: "approved" | "rejected" | "submitted";
 };
 
 class Events extends React.Component<Props, State> {
@@ -29,12 +29,12 @@ class Events extends React.Component<Props, State> {
       done: false,
       page: 1,
       noOfPages: 1,
-      eventType: "Approved",
+      eventType: "approved",
     };
   }
 
   componentDidMount = () => {
-    const url = "/api/v1/events/selfApproved";
+    const url = "/api/v1/events/self?status=approved";
     fetch(url)
       .then((response) => {
         if (response.ok) {
@@ -74,7 +74,7 @@ class Events extends React.Component<Props, State> {
   );
 
   pageButtonGroupOnClickHandler = (value: number) => {
-    const url = "/api/v1/events/self" + this.state.eventType; // TODO: Add params to fetch only what is necessary
+    const url = "/api/v1/events/self?status=" + this.state.eventType; // TODO: Add params to fetch only what is necessary
     fetch(url)
       .then((response) => {
         if (response.ok) {
@@ -103,8 +103,8 @@ class Events extends React.Component<Props, State> {
   };
 
   eventTypeButtonOnClickHandler = (str: string) => {
-    const value = str as "Approved" | "Rejected" | "Submitted";
-    const url = "/api/v1/events/self" + value;
+    const value = str as "approved" | "rejected" | "submitted";
+    const url = "/api/v1/events/self?status=" + value;
     fetch(url)
       .then((response) => {
         if (response.ok) {

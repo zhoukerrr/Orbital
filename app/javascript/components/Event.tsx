@@ -240,7 +240,7 @@ class Event extends React.Component<Props, State> {
   );
 
   Decision = () =>
-    this.state.event.status == "Approved" ? (
+    this.state.event.status == "approved" ? (
       <>
         <button
           type="button"
@@ -250,7 +250,7 @@ class Event extends React.Component<Props, State> {
           Reject
         </button>
       </>
-    ) : this.state.event.status == "Rejected" ? (
+    ) : this.state.event.status == "rejected" ? (
       <>
         <button
           type="button"
@@ -288,7 +288,7 @@ class Event extends React.Component<Props, State> {
       this.props.role == "admin" || this.props.user_id == event.user_id;
 
     const can_decide = this.props.role == "admin";
-    if (can_decide || can_delete || this.state.event.status == "Approved") {
+    if (can_decide || can_delete || this.state.event.status == "approved") {
       return (
         <div className="">
           <div className="hero position-relative d-flex align-items-center justify-content-center">

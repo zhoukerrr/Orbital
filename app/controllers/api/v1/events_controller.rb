@@ -7,37 +7,13 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def index
-    event = Event.all.order(created_at: :desc)
+    event = Event.where(status: params[:status]).order(created_at: :desc)
     usernames = User.select(:id, :name).order(:id)
     render json: {:event=>event, :usernames=>usernames}
   end
 
-  def public
-    event = Event.where(status: "Approved").order(updated_at: :desc)
-    usernames = User.select(:id, :name).order(:id)
-    render json: {:event=>event, :usernames=>usernames}
-  end
-
-  def allSubmitted
-    event = Event.where(status: "submitted").order(updated_at: :desc)
-    usernames = User.select(:id, :name).order(:id)
-    render json: {:event=>event, :usernames=>usernames}
-  end
-
-  def selfSubmitted
-    event = Event.where(user_id: current_user.id).where(status: "submitted").order(created_at: :desc)
-    usernames = User.select(:id, :name).order(:id)
-    render json: {:event=>event, :usernames=>usernames}
-  end
-
-  def selfApproved
-    event = Event.where(user_id: current_user.id).where(status: "Approved").order(created_at: :desc)
-    usernames = User.select(:id, :name).order(:id)
-    render json: {:event=>event, :usernames=>usernames}
-  end
-
-  def selfRejected
-    event = Event.where(user_id: current_user.id).where(status: "Rejected").order(created_at: :desc)
+  def self
+    event = Event.where(user_id: current_user.id).where(status: params[:status]).order(created_at: :desc)
     usernames = User.select(:id, :name).order(:id)
     render json: {:event=>event, :usernames=>usernames}
   end
@@ -57,7 +33,7 @@ class Api::V1::EventsController < ApplicationController
   def approve
     event = Event.find(params[:id])
     @user = User.find(event.user_id)
-    event.update_attribute(:status, "Approved")
+    event.update_attribute(:status, "approved")
 
     require 'telegram/bot'
     token = '1886490695:AAGAXvPGLLH-dRzILvtbgTy-ufkZJlSgogw'
@@ -78,7 +54,7 @@ class Api::V1::EventsController < ApplicationController
   def reject
     event = Event.find(params[:id])
     @user = User.find(event.user_id)
-    event.update_attribute(:status, "Rejected")
+    event.update_attribute(:status, "rejected")
     render json: event
     RequestMailer.sendReject(event, @user).deliver
   end

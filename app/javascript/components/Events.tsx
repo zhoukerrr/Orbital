@@ -31,7 +31,7 @@ class Events extends React.Component<Props, State> {
   }
 
   componentDidMount = () => {
-    const url = "/api/v1/events/public";
+    const url = "/api/v1/events?status=approved";
     fetch(url)
       .then((response) => {
         if (response.ok) {
@@ -71,7 +71,7 @@ class Events extends React.Component<Props, State> {
   );
 
   pageButtonGroupOnClickHandler = (value: number) => {
-    const url = "/api/v1/events/public"; // TODO: Add params to fetch only what is necessary
+    const url = "/api/v1/events?status=approved"; // TODO: Add params to fetch only what is necessary
     fetch(url)
       .then((response) => {
         if (response.ok) {

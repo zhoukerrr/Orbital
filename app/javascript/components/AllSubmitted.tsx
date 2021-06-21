@@ -15,7 +15,6 @@ type State = {
   done: boolean;
   page: number;
   noOfPages: number;
-  eventType: "Submitted";
 };
 
 class Events extends React.Component<Props, State> {
@@ -29,12 +28,11 @@ class Events extends React.Component<Props, State> {
       done: false,
       page: 1,
       noOfPages: 1,
-      eventType: "Submitted",
     };
   }
 
   componentDidMount = () => {
-    const url = "/api/v1/events/allSubmitted";
+    const url = "/api/v1/events?status=submitted";
     fetch(url)
       .then((response) => {
         if (response.ok) {
@@ -74,7 +72,7 @@ class Events extends React.Component<Props, State> {
   );
 
   pageButtonGroupOnClickHandler = (value: number) => {
-    const url = "/api/v1/events/self" + this.state.eventType; // TODO: Add params to fetch only what is necessary
+    const url = "/api/v1/events?status=submitted"; // TODO: Add params to fetch only what is necessary
     fetch(url)
       .then((response) => {
         if (response.ok) {

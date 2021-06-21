@@ -1,7 +1,7 @@
 import * as React from "react";
 
 type Props = {
-  currentType: "Approved" | "Rejected" | "Submitted";
+  currentType: "approved" | "rejected" | "submitted";
   onClickHandler: (type: string) => void;
 };
 
@@ -25,14 +25,14 @@ export default class EventTypeButtonGroup extends React.Component<
     <button
       type="button"
       className={
-        value === this.props.currentType
+        value === this.props.currentType.toLowerCase()
           ? "btn btn-secondary"
           : "btn btn-outline-secondary"
       }
       style={{
         boxShadow: "none",
       }}
-      value={value}
+      value={value.toLowerCase()}
       onClick={this.onClickHandler}
     >
       {value}

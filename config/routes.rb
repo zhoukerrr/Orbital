@@ -4,12 +4,8 @@ Rails.application.routes.draw do
   
   namespace :api do
     namespace :v1 do
-      get 'events/index'
-      get 'events/public'
-      get 'events/allSubmitted'
-      get 'events/selfSubmitted'
-      get 'events/selfApproved'
-      get 'events/selfRejected'
+      get 'events', to: 'events#index'
+      get 'events/self'
       post 'events/create'
       get '/show/:id', to: 'events#show'
       delete '/destroy/:id', to: 'events#destroy'
