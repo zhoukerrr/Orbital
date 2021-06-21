@@ -25,7 +25,7 @@ export default class EventTypeButtonGroup extends React.Component<
     <button
       type="button"
       className={
-        value === this.props.currentType.toLowerCase()
+        value.toLowerCase() === this.props.currentType
           ? "btn btn-secondary"
           : "btn btn-outline-secondary"
       }
