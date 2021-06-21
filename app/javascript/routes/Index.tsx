@@ -21,7 +21,7 @@ export default (props: any) => (
         path="/all_submitted"
         exact
         render={(p: RouteComponentProps) => (
-          <AllSubmitted {...p} user_id={props.user_id} role={props.role} />
+          <AllSubmitted {...p} role={props.role} />
         )}
       />
       <Route
