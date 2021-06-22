@@ -16,6 +16,9 @@ type State = {
     details: string;
     user_id: number;
     venue: string;
+    // TODO: the type is not entirely Date, may have to do some convertion here
+    start_date: string;
+    end_date: string;
     skills: string;
     link: string;
     contact: string;
@@ -33,6 +36,8 @@ class Event extends React.Component<Props, State> {
         details: "",
         user_id: undefined,
         venue: "",
+        start_date: "",
+        end_date: "",
         skills: "",
         link: "",
         contact: "",
@@ -272,6 +277,34 @@ class Event extends React.Component<Props, State> {
     </>
   );
 
+  StartDate = () => (
+    <>
+      <h5 className="mb-2">Start Date</h5>
+      <a
+        href={"//" + this.state.event.start_date}
+        type="button"
+        className="btn btn-link"
+      >
+        {this.state.event.start_date}
+      </a>
+      <br />
+    </>
+  );
+
+  EndDate = () => (
+    <>
+      <h5 className="mb-2">End Date</h5>
+      <a
+        href={"//" + this.state.event.end_date}
+        type="button"
+        className="btn btn-link"
+      >
+        {this.state.event.end_date}
+      </a>
+      <br />
+    </>
+  );
+
   Delete = () => (
     <>
       <button
@@ -364,6 +397,9 @@ class Event extends React.Component<Props, State> {
                 <this.Skills />
                 <br />
                 <this.Link />
+                <br />
+                <this.StartDate/>
+                <this.EndDate/>
               </div>
 
               <div className="col-sm-12 col-lg-2">

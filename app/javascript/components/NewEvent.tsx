@@ -1,5 +1,7 @@
 import * as React from "react";
 import { Link, Redirect } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 type Props = {
   history: any;
@@ -12,6 +14,8 @@ type State = {
   tag: string;
   summary: string;
   venue: string;
+  startDate: Date;
+  endDate: Date;
   details: string;
   skills: string;
   link: string;
@@ -23,11 +27,26 @@ class NewEvent extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
+    const newDate: Date = new Date();
+
     this.state = {
       name: "",
       tag: "",
       summary: "",
       venue: "",
+      startDate: new Date(
+        newDate.getFullYear(),
+        newDate.getMonth(),
+        newDate.getDate()
+      ),
+      endDate: new Date(
+        newDate.getFullYear(),
+        newDate.getMonth(),
+        newDate.getDate(),
+        23,
+        59,
+        59
+      ),
       details: "",
       skills: "",
       link: "",
@@ -84,6 +103,8 @@ class NewEvent extends React.Component<Props, State> {
       tag,
       summary,
       venue,
+      startDate,
+      endDate,
       details,
       skills,
       link,
@@ -96,6 +117,8 @@ class NewEvent extends React.Component<Props, State> {
       tag,
       summary,
       venue,
+      start_date: startDate,
+      end_date: endDate,
       details: this.stripHtmlEntities(details),
       skills,
       link,
@@ -134,7 +157,7 @@ class NewEvent extends React.Component<Props, State> {
   );
 
   Summary = () => (
-    <React.Fragment>
+    <>
       <label htmlFor="summary">Short-Summary</label>
       <textarea
         className="form-control"
@@ -144,7 +167,7 @@ class NewEvent extends React.Component<Props, State> {
         required
         onChange={this.onTextChange}
       />
-    </React.Fragment>
+    </>
   );
 
   Venue = () => (
@@ -162,7 +185,7 @@ class NewEvent extends React.Component<Props, State> {
   );
 
   Details = () => (
-    <React.Fragment>
+    <>
       <label htmlFor="contact">Details</label>
       <textarea
         className="form-control"
@@ -172,7 +195,7 @@ class NewEvent extends React.Component<Props, State> {
         required
         onChange={this.onTextChange}
       />
-    </React.Fragment>
+    </>
   );
 
   Skills = () => (
@@ -204,7 +227,7 @@ class NewEvent extends React.Component<Props, State> {
   );
 
   Contact = () => (
-    <React.Fragment>
+    <>
       <label htmlFor="contact">
         Contact Information (name of contact, telephone number, mobile, number,
         email)
@@ -217,11 +240,11 @@ class NewEvent extends React.Component<Props, State> {
         required
         onChange={this.onTextChange}
       />
-    </React.Fragment>
+    </>
   );
 
   Tag = () => (
-    <React.Fragment>
+    <>
       <select
         className="form-control"
         id="tag"
@@ -238,8 +261,42 @@ class NewEvent extends React.Component<Props, State> {
         <option>Youth</option>
         <option>Others</option>
       </select>
-    </React.Fragment>
+    </>
   );
+
+  StartDate = () => {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <label htmlFor="start-date">Start Date</label>
+        <DatePicker
+          selected={this.state.startDate}
+          onChange={(newDate) => this.setState({ startDate: newDate as Date })}
+        />
+      </div>
+    );
+  };
+
+  EndDate = () => {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <label htmlFor="end-date">End Date</label>
+        <DatePicker
+          selected={this.state.endDate}
+          onChange={(newDate) => this.setState({ endDate: newDate as Date })}
+        />
+      </div>
+    );
+  };
 
   render() {
     const canCreate =
@@ -256,6 +313,8 @@ class NewEvent extends React.Component<Props, State> {
                 <this.Tag />
                 <this.Summary />
                 <this.Venue />
+                <this.StartDate />
+                <this.EndDate />
                 <this.Details />
                 <this.Skills />
                 <this.Link />
