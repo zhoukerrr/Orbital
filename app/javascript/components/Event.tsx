@@ -134,22 +134,34 @@ class Event extends React.Component<Props, State> {
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
 
-      fetch(url, {
-        method: "PATCH",
-        headers: {
-          "X-CSRF-Token": token,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ remarks: this.state.event.remarks }),
-      })
+      fetch(`/api/v1/show/${id}`)
         .then((response) => {
           if (response.ok) {
             return response.json();
           }
           throw new Error("Network response was not ok.");
         })
-        .then(() => this.props.history.push("/events"))
-        .catch((error) => console.log(error.message));
+        .then((response) =>
+          response.status == "submitted"
+            ? fetch(url, {
+                method: "PATCH",
+                headers: {
+                  "X-CSRF-Token": token,
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ remarks: this.state.event.remarks }),
+              })
+                .then((response) => {
+                  if (response.ok) {
+                    return response.json();
+                  }
+                  throw new Error("Network response was not ok.");
+                })
+
+                .catch((error) => console.log(error.message))
+            : alert("This entry was already proccessed by another admin.")
+        )
+        .then(() => this.props.history.push("/all_submitted"));
     }
   };
 
@@ -165,22 +177,34 @@ class Event extends React.Component<Props, State> {
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
 
-      fetch(url, {
-        method: "PATCH",
-        headers: {
-          "X-CSRF-Token": token,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ remarks: this.state.event.remarks }),
-      })
+      fetch(`/api/v1/show/${id}`)
         .then((response) => {
           if (response.ok) {
             return response.json();
           }
           throw new Error("Network response was not ok.");
         })
-        .then(() => this.props.history.push("/events"))
-        .catch((error) => console.log(error.message));
+        .then((response) =>
+          response.status == "submitted"
+            ? fetch(url, {
+                method: "PATCH",
+                headers: {
+                  "X-CSRF-Token": token,
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ remarks: this.state.event.remarks }),
+              })
+                .then((response) => {
+                  if (response.ok) {
+                    return response.json();
+                  }
+                  throw new Error("Network response was not ok.");
+                })
+
+                .catch((error) => console.log(error.message))
+            : alert("This entry was already proccessed by another admin.")
+        )
+        .then(() => this.props.history.push("/all_submitted"));
     }
   };
 
