@@ -6,6 +6,10 @@
   <body>
     <h4>Hi <%= @user.name%>,</h4>
     <p>Your request for <%= @event.name %> is approved!</p>
+    <% if (@event.remarks != nil && @event.remarks != "") %>
+      <p>Here are the remarks from admin: </p>
+      <p><%= @event.remarks %></p>
+    <% end %>
     <p>Students can now see your event and sign up link!</p>
   </body>
 </html>

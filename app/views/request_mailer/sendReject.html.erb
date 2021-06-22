@@ -6,6 +6,9 @@
   <body>
     <h4>Hi <%= @user.name%>,</h4>
     <p>Your request for <%= @event.name %> is rejected.</p>
-    <p>One of the admin will contact you shortly. Thank you!</p>
+    <% if (@event.remarks != nil && @event.remarks != "") %>
+      <p>Here are the remarks from admin: </p>
+      <p><%= @event.remarks %></p>
+    <% end %>
   </body>
 </html>

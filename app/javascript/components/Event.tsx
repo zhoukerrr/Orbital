@@ -83,7 +83,6 @@ class Event extends React.Component<Props, State> {
   onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const key: string = event.target.id;
     const value: any = event.target.value;
-    //alert(value);
 
     this.setState((prevState) => ({
       event: {
@@ -172,6 +171,7 @@ class Event extends React.Component<Props, State> {
           "X-CSRF-Token": token,
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({ remarks: this.state.event.remarks }),
       })
         .then((response) => {
           if (response.ok) {
@@ -244,7 +244,7 @@ class Event extends React.Component<Props, State> {
   Remarks = () => (
     <>
       <h5 className="mb-2">Remarks</h5>
-      {this.state.event.remarks}
+      {this.state.event.remarks == null ? "NIL" : this.state.event.remarks}
     </>
   );
 
@@ -252,7 +252,7 @@ class Event extends React.Component<Props, State> {
     <>
       <button
         type="button"
-        className="btn btn-danger"
+        className="btn btn-warning"
         onClick={this.deleteEvent}
       >
         Delete Event
@@ -285,22 +285,22 @@ class Event extends React.Component<Props, State> {
       </>
     ) : this.state.event.status == "submitted" ? (
       <>
-        <button
-          type="button"
-          className="btn btn-success"
-          onClick={this.approveEvent}
-        >
-          Approve
-        </button>
-        <br />
-        <br />
-        <button
-          type="button"
-          className="btn btn-warning"
-          onClick={this.rejectEvent}
-        >
-          Reject
-        </button>
+        <div className="btn-group" role="group">
+          <button
+            type="button"
+            className="btn btn-success"
+            onClick={this.approveEvent}
+          >
+            Approve
+          </button>
+          <button
+            type="button"
+            className="btn btn-warning"
+            onClick={this.rejectEvent}
+          >
+            Reject
+          </button>
+        </div>
       </>
     ) : null;
 
@@ -330,21 +330,8 @@ class Event extends React.Component<Props, State> {
                   <br />
                   {can_delete ? <this.Status /> : null}
                   <br />
+                  <br />
                   {can_delete ? <this.Remarks /> : null}
-                  {can_decide ? (
-                    <div className="form-group">
-                      <label htmlFor="eventRemarks">
-                        Put Your Remarks Here
-                      </label>
-                      <input
-                        type="text"
-                        name="remarks"
-                        id="remarks"
-                        className="form-control"
-                        onChange={this.onInputChange}
-                      />
-                    </div>
-                  ) : null}
                 </ul>
               </div>
               <div className="col-sm-12 col-lg-7">
@@ -357,11 +344,40 @@ class Event extends React.Component<Props, State> {
 
               <div className="col-sm-12 col-lg-2">
                 <Link to="/events" className="btn btn-primary">
-                  Back to Events
+                  {this.props.role == "admin" || this.props.role == "organiser"
+                    ? "Back to Public Events"
+                    : "Back to Events"}
                 </Link>
                 <br />
                 <br />
+                {this.props.user_id == event.user_id ? (
+                  <Link to="/my_events" className="btn btn-primary">
+                    Back to My Events
+                  </Link>
+                ) : null}
+                <br />
+                <br />
+                {this.props.role == "admin" &&
+                this.state.event.status == "submitted" ? (
+                  <Link to="/all_submitted" className="btn btn-primary">
+                    Back to Submitted Events
+                  </Link>
+                ) : null}
+                <br />
+                <br />
                 {can_delete ? <this.Delete /> : null}
+                {can_decide ? (
+                  <div className="form-group">
+                    <label htmlFor="eventRemarks">Enter Your Remarks</label>
+                    <input
+                      type="text"
+                      name="remarks"
+                      id="remarks"
+                      className="form-control"
+                      onChange={this.onInputChange}
+                    />
+                  </div>
+                ) : null}
                 {can_decide ? <this.Decision /> : null}
               </div>
             </div>

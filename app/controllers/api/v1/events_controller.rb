@@ -38,11 +38,11 @@ class Api::V1::EventsController < ApplicationController
     require 'telegram/bot'
     token = '1886490695:AAGAXvPGLLH-dRzILvtbgTy-ufkZJlSgogw'
     Telegram::Bot::Client.run(token) do |bot|
-      bot.api.send_message(chat_id: -513341363, text: "Hello, a new event has been approved...\n
+      bot.api.send_message(chat_id: -513341363, text: "Hello! #{@user.name} has a new event for you!\n
 *Name*: #{event.name}
 *Details*: #{event.details}
 *Venue*: #{event.venue}
-*Link*: #{event.link}
+*Sign up Link*: #{event.link}
 *Contact*: #{event.contact}", parse_mode:'Markdown')
     end
 
