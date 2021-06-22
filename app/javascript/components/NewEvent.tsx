@@ -259,6 +259,7 @@ class NewEvent extends React.Component<Props, State> {
         <option>Teaching</option>
         <option>Technology</option>
         <option>Youth</option>
+        <option>Overseas</option>
         <option>Others</option>
       </select>
     </>
