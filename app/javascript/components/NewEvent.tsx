@@ -2,6 +2,8 @@ import * as React from "react";
 import { Link, Redirect } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/dist/react-datepicker-cssmodules.min.css";
+import "react-datepicker/src/stylesheets/datepicker.scss";
 
 type Props = {
   history: any;
