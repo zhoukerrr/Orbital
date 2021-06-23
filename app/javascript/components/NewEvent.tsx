@@ -24,10 +24,12 @@ type State = {
 };
 
 class NewEvent extends React.Component<Props, State> {
+  private newDate: Date;
+
   constructor(props: any) {
     super(props);
 
-    const newDate: Date = new Date();
+    this.newDate = new Date();
 
     this.state = {
       name: "",
@@ -35,14 +37,14 @@ class NewEvent extends React.Component<Props, State> {
       summary: "",
       venue: "",
       startDate: new Date(
-        newDate.getFullYear(),
-        newDate.getMonth(),
-        newDate.getDate()
+        this.newDate.getFullYear(),
+        this.newDate.getMonth(),
+        this.newDate.getDate()
       ),
       endDate: new Date(
-        newDate.getFullYear(),
-        newDate.getMonth(),
-        newDate.getDate(),
+        this.newDate.getFullYear(),
+        this.newDate.getMonth(),
+        this.newDate.getDate(),
         23,
         59,
         59
@@ -276,7 +278,16 @@ class NewEvent extends React.Component<Props, State> {
         <label htmlFor="start-date">Start Date</label>
         <DatePicker
           selected={this.state.startDate}
-          onChange={(newDate) => this.setState({ startDate: newDate as Date })}
+          onChange={(newDate) =>
+            this.setState((prevState) => ({
+              endDate:
+                prevState.endDate > (newDate as Date)
+                  ? prevState.endDate
+                  : (newDate as Date),
+              startDate: newDate as Date,
+            }))
+          }
+          minDate={this.newDate}
         />
       </div>
     );
@@ -294,6 +305,7 @@ class NewEvent extends React.Component<Props, State> {
         <DatePicker
           selected={this.state.endDate}
           onChange={(newDate) => this.setState({ endDate: newDate as Date })}
+          minDate={this.state.startDate}
         />
       </div>
     );

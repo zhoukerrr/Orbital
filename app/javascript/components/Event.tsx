@@ -17,8 +17,8 @@ type State = {
     user_id: number;
     venue: string;
     // TODO: the type is not entirely Date, may have to do some convertion here
-    start_date: string;
-    end_date: string;
+    start_date: any;
+    end_date: any;
     skills: string;
     link: string;
     contact: string;
@@ -280,13 +280,7 @@ class Event extends React.Component<Props, State> {
   StartDate = () => (
     <>
       <h5 className="mb-2">Start Date</h5>
-      <a
-        href={"//" + this.state.event.start_date}
-        type="button"
-        className="btn btn-link"
-      >
-        {this.state.event.start_date}
-      </a>
+      {this.state.event.start_date.slice(0, 10)}
       <br />
     </>
   );
@@ -294,13 +288,7 @@ class Event extends React.Component<Props, State> {
   EndDate = () => (
     <>
       <h5 className="mb-2">End Date</h5>
-      <a
-        href={"//" + this.state.event.end_date}
-        type="button"
-        className="btn btn-link"
-      >
-        {this.state.event.end_date}
-      </a>
+      {this.state.event.end_date.slice(0, 10)}
       <br />
     </>
   );
@@ -398,8 +386,9 @@ class Event extends React.Component<Props, State> {
                 <br />
                 <this.Link />
                 <br />
-                <this.StartDate/>
-                <this.EndDate/>
+                <this.StartDate />
+                <br />
+                <this.EndDate />
               </div>
 
               <div className="col-sm-12 col-lg-2">
