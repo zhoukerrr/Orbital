@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_22_174010) do
+ActiveRecord::Schema.define(version: 2021_06_23_062805) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,8 +29,8 @@ ActiveRecord::Schema.define(version: 2021_06_22_174010) do
     t.string "status", default: "submitted"
     t.text "remarks"
     t.text "tag", null: false
-    t.datetime "start_date", null: false
     t.datetime "end_date", null: false
+    t.datetime "start_date", null: false
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
