@@ -377,6 +377,10 @@ class Event extends React.Component<Props, State> {
                   <br />
                   <br />
                   {can_delete ? <this.Remarks /> : null}
+                  <br />
+                  <this.StartDate />
+                  <br />
+                  <this.EndDate />
                 </ul>
               </div>
               <div className="col-sm-12 col-lg-7">
@@ -385,10 +389,6 @@ class Event extends React.Component<Props, State> {
                 <this.Skills />
                 <br />
                 <this.Link />
-                <br />
-                <this.StartDate />
-                <br />
-                <this.EndDate />
               </div>
 
               <div className="col-sm-12 col-lg-2">
