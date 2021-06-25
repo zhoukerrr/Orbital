@@ -150,16 +150,15 @@ class Events extends React.Component<Props, State> {
         <div className="py-5">
           <main className="container">
             <div className="d-flex justify-content-between">
-              {allEvents.length > 0 ? (
-                <PageGroup
-                  noOfPages={this.state.noOfPages}
-                  currentPage={this.state.page}
-                  onClickHandler={this.pageButtonGroupOnClickHandler}
-                />
-              ) : null}
+              <PageGroup
+                noOfPages={this.state.noOfPages}
+                currentPage={this.state.page}
+                onClickHandler={this.pageButtonGroupOnClickHandler}
+              />
               {canCreate ? <this.CreateButton /> : null}
             </div>
             <br />
+            {/* events catalog */}
             <div
               className="row"
               style={{
