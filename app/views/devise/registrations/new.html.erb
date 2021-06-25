@@ -33,27 +33,27 @@
 
   <%= f.label :email %><em> (Please use your NUS email if you are a student/alumni)</em><br />
   <div class="input-group">
-    <input id="first" class="form-control">
+    <input id="first" class="form-control" required>
     <span class="input-group-text">@</span>
-    <input id="second" class="form-control" value="u.nus.edu" readonly>
+    <input id="second" class="form-control" value="u.nus.edu" readonly required>
   </div>
 
   <div class="field form-group" hidden>
     <%= f.label :email %><em> (Please use your NUS email if you are a student/alumni)</em><br />
     <%= f.email_field :email, autocomplete: "email", class:"form-control", id:"email" %>
   </div>
-
+<br />
   <div class="field form-group">
     <%= f.label :password %>
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>
     <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password", class:"form-control" %>
+    <%= f.password_field :password, autocomplete: "new-password", class:"form-control", required: true %>
   </div>
 
   <div class="field form-group">
     <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"form-control" %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"form-control", required: true %>
   </div>
 
   <div class="form-check">
