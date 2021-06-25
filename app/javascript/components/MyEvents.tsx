@@ -66,11 +66,9 @@ class Events extends React.Component<Props, State> {
   }
 
   CreateButton = () => (
-    <div className="text-right mb-3">
-      <Link to="/event" className="btn custom-button">
-        Create New Event
-      </Link>
-    </div>
+    <Link to="/event" className="btn custom-button">
+      Create New Event
+    </Link>
   );
 
   pageButtonGroupOnClickHandler = (value: number) => {
