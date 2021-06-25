@@ -25,6 +25,8 @@ type State = {
     status: string;
     remarks: string;
   };
+  start_date: string;
+  end_date: string;
 };
 
 class Event extends React.Component<Props, State> {
@@ -44,6 +46,8 @@ class Event extends React.Component<Props, State> {
         status: "",
         remarks: "",
       },
+      start_date: "",
+      end_date: "",
     };
 
     this.addHtmlEntities = this.addHtmlEntities.bind(this);
@@ -66,7 +70,13 @@ class Event extends React.Component<Props, State> {
         }
         throw new Error("Network response was not ok.");
       })
-      .then((response) => this.setState({ event: response }))
+      .then((response) =>
+        this.setState({
+          event: response.event,
+          start_date: response.start_date,
+          end_date: response.end_date,
+        })
+      )
       .then(() =>
         this.setState((prevState) => ({
           event: {
@@ -280,7 +290,7 @@ class Event extends React.Component<Props, State> {
   StartDate = () => (
     <>
       <h5 className="mb-2">Start Date</h5>
-      {this.state.event.start_date.slice(0, 10)}
+      {this.state.start_date}
       <br />
     </>
   );
@@ -288,7 +298,7 @@ class Event extends React.Component<Props, State> {
   EndDate = () => (
     <>
       <h5 className="mb-2">End Date</h5>
-      {this.state.event.end_date.slice(0, 10)}
+      {this.state.end_date}
       <br />
     </>
   );
@@ -369,6 +379,10 @@ class Event extends React.Component<Props, State> {
             <div className="row">
               <div className="col-sm-12 col-lg-3">
                 <ul className="list-group">
+                  <this.StartDate />
+                  <br />
+                  <this.EndDate />
+                  <br />
                   <this.Venue />
                   <br />
                   <this.Contact />
@@ -377,10 +391,6 @@ class Event extends React.Component<Props, State> {
                   <br />
                   <br />
                   {can_delete ? <this.Remarks /> : null}
-                  <br />
-                  <this.StartDate />
-                  <br />
-                  <this.EndDate />
                 </ul>
               </div>
               <div className="col-sm-12 col-lg-7">
@@ -392,11 +402,14 @@ class Event extends React.Component<Props, State> {
               </div>
 
               <div className="col-sm-12 col-lg-2">
-                <Link to="/events" className="btn btn-primary">
-                  {this.props.role == "admin" || this.props.role == "organiser"
-                    ? "Back to Public Events"
-                    : "Back to Events"}
-                </Link>
+                {this.state.event.status == "approved" ? (
+                  <Link to="/events" className="btn btn-primary">
+                    {this.props.role == "admin" ||
+                    this.props.role == "organiser"
+                      ? "Back to Public Events"
+                      : "Back to Events"}
+                  </Link>
+                ) : null}
                 <br />
                 <br />
                 {this.props.user_id == event.user_id ? (

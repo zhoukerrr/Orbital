@@ -40,8 +40,9 @@ class Api::V1::EventsController < ApplicationController
     Telegram::Bot::Client.run(token) do |bot|
       bot.api.send_message(chat_id: -513341363, text: "Hello! #{@user.name} has a new event for you!\n
 *Name*: #{event.name}
-*Details*: #{event.details}
 *Venue*: #{event.venue}
+*Date*: #{event.start_date.strftime("%d %B %Y")} to #{event.end_date.strftime("%d %B %Y")}
+*Details*: #{event.details}
 *Sign up Link*: #{event.link}
 *Contact*: #{event.contact}", parse_mode:'Markdown')
     end
@@ -62,7 +63,8 @@ class Api::V1::EventsController < ApplicationController
 
   def show
     if event
-      render json: event
+      render json: {:event=>event, :start_date=>event.start_date.strftime("%d %B %Y"), :end_date=>event.end_date.strftime("%d %B %Y")}
+      # render json: event
     else
       render json: event.errors
     end

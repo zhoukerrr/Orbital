@@ -9,6 +9,7 @@
     <p>Submitted by: <%= @user.name %></p>
     <p>User email: <%= @user.email %></p>
     <p>Event Name: <%= @event.name %></p>
+    <p>Date: <%= @event.start_date.strftime("%d %B %Y") %> to <%= @event.end_date.strftime("%d %B %Y") %></p>
     <p>Summary:</p>
     <p><%= @event.summary %></p>
     <p>Venue: <%= @event.venue %></p>
