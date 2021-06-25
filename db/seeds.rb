@@ -5,11 +5,19 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-9.times do |i|
+50.times do |i|
   Event.create(
-    name: "Event #{i + 1}",
-    details: 'Testing.',
-    instructions: 'Testing Instructions.'
+    name: "Seed Event #{i + 20}",
+    tag: "Donation",
+    summary: "seed generated summary",
+    venue: "seed generated venue",
+    start_date: "2021-06-25T16:00:00.000Z",
+    end_date: "2021-06-26T15:59:59.000Z",
+    details: "seed generated details",
+    skills: "seed generated skills",
+    link: "seed.generated.link",
+    contact: "seed generated contact",
+    user_id: 1
   )
 end
 

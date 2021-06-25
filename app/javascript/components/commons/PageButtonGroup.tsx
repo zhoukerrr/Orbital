@@ -49,9 +49,12 @@ export default class PageButtonGroup extends React.Component<Props, State> {
       this.props.currentPage - Math.floor(this.noOfButtonsRendered / 2),
       1
     );
-    const lastButton = Math.min(
-      this.props.currentPage + Math.floor(this.noOfButtonsRendered / 2),
-      this.props.noOfPages
+    const lastButton = Math.max(
+      Math.min(
+        this.props.currentPage + Math.floor(this.noOfButtonsRendered / 2),
+        this.props.noOfPages
+      ),
+      Math.min(6, this.props.noOfPages)
     );
     const pages = [];
     for (let i = firstButton; i <= lastButton; i++) {
