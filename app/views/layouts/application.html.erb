@@ -22,9 +22,8 @@
     <% if user_signed_in? %>
       <%= javascript_pack_tag 'Index' %>
       <%= content_tag :div, id: "helper", userid: current_user.id, role: current_user.user_role do %><%end%>
-    <% else %>
-      <%= yield %>
     <% end %>
+    <%= yield %>
     </div>
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
