@@ -1,3 +1,4 @@
+import { repeat } from "lodash";
 import * as React from "react";
 import { Link, Redirect } from "react-router-dom";
 
@@ -157,7 +158,7 @@ class Event extends React.Component<Props, State> {
           throw new Error("Network response was not ok.");
         })
         .then((response) =>
-          response.status == "submitted"
+          response.event.status == "submitted"
             ? fetch(url, {
                 method: "PATCH",
                 headers: {
@@ -174,7 +175,10 @@ class Event extends React.Component<Props, State> {
                 })
 
                 .catch((error) => console.log(error.message))
-            : alert("This entry was already proccessed by another admin.")
+            : alert(
+                "This entry was already APPROVED by another admin. Remarks: " +
+                  response.event.remarks
+              )
         )
         .then(() => this.props.history.push("/all_submitted"));
     }
@@ -200,7 +204,7 @@ class Event extends React.Component<Props, State> {
           throw new Error("Network response was not ok.");
         })
         .then((response) =>
-          response.status == "submitted"
+          response.event.status == "submitted"
             ? fetch(url, {
                 method: "PATCH",
                 headers: {
@@ -217,7 +221,10 @@ class Event extends React.Component<Props, State> {
                 })
 
                 .catch((error) => console.log(error.message))
-            : alert("This entry was already proccessed by another admin.")
+            : alert(
+                "This entry was already REJECTED by another admin. Remarks: " +
+                  response.event.remarks
+              )
         )
         .then(() => this.props.history.push("/all_submitted"));
     }
@@ -322,7 +329,7 @@ class Event extends React.Component<Props, State> {
       <>
         <button
           type="button"
-          className="btn btn-warning"
+          className="btn btn-danger"
           onClick={this.rejectEvent}
         >
           Reject
@@ -350,7 +357,7 @@ class Event extends React.Component<Props, State> {
           </button>
           <button
             type="button"
-            className="btn btn-warning"
+            className="btn btn-danger"
             onClick={this.rejectEvent}
           >
             Reject
@@ -422,7 +429,7 @@ class Event extends React.Component<Props, State> {
                 {this.props.role == "admin" &&
                 this.state.event.status == "submitted" ? (
                   <Link to="/all_submitted" className="btn btn-primary">
-                    Back to Submitted Events
+                    Back to Submitted
                   </Link>
                 ) : null}
                 <br />
@@ -430,7 +437,7 @@ class Event extends React.Component<Props, State> {
                 {can_delete ? <this.Delete /> : null}
                 {can_decide ? (
                   <div className="form-group">
-                    <label htmlFor="eventRemarks">Enter Your Remarks</label>
+                    <label htmlFor="eventRemarks">Your Remarks</label>
                     <input
                       type="text"
                       name="remarks"
@@ -440,6 +447,7 @@ class Event extends React.Component<Props, State> {
                     />
                   </div>
                 ) : null}
+                <br />
                 {can_decide ? <this.Decision /> : null}
               </div>
             </div>
