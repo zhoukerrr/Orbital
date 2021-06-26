@@ -1,6 +1,6 @@
 class Api::V1::EventsController < ApplicationController
   before_action :authenticate_user!
-  before_action :event, only: [:show, :edit, :update, :destroy]
+  #before_action :event, only: [:show, :edit, :update, :destroy]
 
   def authorized?
     @event.user_id == current_user.id

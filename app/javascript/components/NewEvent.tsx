@@ -325,6 +325,7 @@ class NewEvent extends React.Component<Props, State> {
               <h1 className="font-weight-normal mb-5">Add a new event.</h1>
               <form onSubmit={this.onSubmit}>
                 <this.EventName />
+                <br />
                 <this.Tag />
                 <this.Summary />
                 <this.Venue />
