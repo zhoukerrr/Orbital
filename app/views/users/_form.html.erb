@@ -15,9 +15,9 @@
         <%= form.label :name %>
         <%= form.text_field :name, class: 'form-control', required: true %>
     </div>
-
+    <br/>
     <div class="actions">
         <%= form.submit "Update Profile", class: 'btn btn-primary'%>
-        <%= link_to 'Cancel', users_path, class: 'btn btn-secondary'%>
+        <%= link_to 'Cancel', user_path, class: 'btn btn-secondary'%>
     </div>
 <% end %>

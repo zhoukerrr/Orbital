@@ -1,8 +1,6 @@
 <script>
   function student() {
-    if (confirm("Are you sure you want to make this a STUDENT account?")) {
         document.getElementById("role").value = "student";
-      }
   }
 
   function organisation() {
@@ -33,7 +31,8 @@
     <div class="field form-group" hidden>
         <%= form.label :role %><br />
         <%= form.text_field :role, autocomplete: "role", class:"form-control", required: true, id:"role" %>
-        </div>
+    </div>
+    <br/>
     <div class="actions" onclick="student()">
         <%= form.submit "Turn into Student", class: 'btn btn-primary'%>
     </div>
