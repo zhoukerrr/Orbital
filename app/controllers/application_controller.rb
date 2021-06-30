@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
     end
 
     def after_sign_in_path_for(resource)
-        session[:return_to] ||= request.referer
+        if request.referer == request.base_url + "/users/sign_in"
+            session[:return_to] ||= request.base_url
+        else 
+            session[:return_to] ||= request.referer
+        end
     end
 end
