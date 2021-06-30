@@ -258,8 +258,8 @@ class NewEvent extends React.Component<Props, State> {
         required
       >
         <option value="">--select tag--</option>
-        <option>Donation</option>
         <option>Environment</option>
+        <option>Fund-Raising</option>
         <option>Senior</option>
         <option>Teaching</option>
         <option>Technology</option>
