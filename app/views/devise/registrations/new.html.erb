@@ -55,13 +55,14 @@
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"form-control", required: true %>
   </div>
-
+  <br/>
   <div class="form-check">
     <input class="form-check-input" type="checkbox" value="" id="invalidCheck" onclick="change()">
     <label class="form-check-label" for="invalidCheck">
       Sign up as Organisation
     </label>
   </div>
+  <br/>
 
   <div class="field form-group" hidden>
     <%= f.label :role %><br />

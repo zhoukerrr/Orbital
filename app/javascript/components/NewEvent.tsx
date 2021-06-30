@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker-cssmodules.min.css";
 import "react-datepicker/src/stylesheets/datepicker.scss";
+import { isThisTypeNode, ThisExpression } from "typescript";
 
 type Props = {
   history: any;
@@ -313,6 +314,26 @@ class NewEvent extends React.Component<Props, State> {
     );
   };
 
+  TermsAndConditions = () => {
+    return (
+      <div className="form-check">
+        <input
+          className="form-check-input"
+          type="checkbox"
+          value=""
+          id="invalidCheck"
+          required
+        ></input>
+        <label className="form-check-label">
+          I agree to{" "}
+          <a href={window.location.origin + "/homepage/about"} target="_blank">
+            Terms and Conditions
+          </a>
+        </label>
+      </div>
+    );
+  };
+
   render() {
     const canCreate =
       this.props.role == "admin" || this.props.role == "organiser";
@@ -335,6 +356,7 @@ class NewEvent extends React.Component<Props, State> {
                 <this.Skills />
                 <this.Link />
                 <this.Contact />
+                <this.TermsAndConditions />
                 <button type="submit" className="btn custom-button mt-3">
                   Create Event
                 </button>
