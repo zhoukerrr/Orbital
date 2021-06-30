@@ -59,7 +59,8 @@ class Events extends React.Component<Props, State> {
 
   getNamefromID(id: number): string {
     const { usernames } = this.state;
-    return usernames.find((set) => set.id === id).name;
+    const user: any = usernames.find((set) => set.id === id);
+    return user ? user.name : "Anonymous";
   }
 
   CreateButton = () => (
