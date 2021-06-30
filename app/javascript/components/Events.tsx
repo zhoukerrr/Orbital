@@ -59,7 +59,7 @@ class Events extends React.Component<Props, State> {
 
   getNamefromID(id: number): string {
     const { usernames } = this.state;
-    return usernames.find((set) => set.id == id).name;
+    return usernames.find((set) => set.id === id).name;
   }
 
   CreateButton = () => (
@@ -111,7 +111,7 @@ class Events extends React.Component<Props, State> {
             <div className="d-flex w-100 justify-content-between">
               <h5 className="mb-1">{event.name}</h5>
               <small className="text-muted">
-                by Anonymous{/*{this.getNamefromID(event.user_id)} */}
+                by {this.getNamefromID(event.user_id)}
               </small>
             </div>
             <p className="mb-1">{event.summary}</p>
