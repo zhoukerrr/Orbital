@@ -6,6 +6,7 @@
   <body>
     <h1>Hi admin!</h1>
     <h4>Here is a new event for approval:</h4>
+    <p>Find the event at: <%= @link + "/event/" + @event.id.to_s %></p>
     <p>Submitted by: <%= @user.name %></p>
     <p>User email: <%= @user.email %></p>
     <p>Event Name: <%= @event.name %></p>

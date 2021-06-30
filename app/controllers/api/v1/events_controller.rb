@@ -24,7 +24,7 @@ class Api::V1::EventsController < ApplicationController
       @user = User.find(event.user_id)
       @admin = User.where(role: "admin")
       render json: event
-      RequestMailer.notify(event, @user, @admin).deliver
+      RequestMailer.notify(event, @user, @admin, request.base_url).deliver
     else
       render json: event.errors
     end
@@ -42,14 +42,13 @@ class Api::V1::EventsController < ApplicationController
 *Name*: #{event.name}
 *Venue*: #{event.venue}
 *Date*: #{event.start_date.strftime("%d %B %Y")} to #{event.end_date.strftime("%d %B %Y")}
-*Details*: #{event.details}
 *Sign up Link*: #{event.link}
-*Contact*: #{event.contact}", parse_mode:'Markdown')
+*For more details, please visit*: #{request.base_url + "/event/" + event.id.to_s}", parse_mode:'Markdown')
     end
 
     event.update(event_params)
     render json: event
-    RequestMailer.sendApprove(event, @user).deliver
+    RequestMailer.sendApprove(event, @user, request.base_url).deliver
   end
 
   def reject
@@ -58,7 +57,7 @@ class Api::V1::EventsController < ApplicationController
     event.update_attribute(:status, "rejected")
     event.update(event_params)
     render json: event
-    RequestMailer.sendReject(event, @user).deliver
+    RequestMailer.sendReject(event, @user, request.base_url).deliver
   end
 
   def show
