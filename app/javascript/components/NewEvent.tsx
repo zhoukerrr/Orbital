@@ -167,29 +167,28 @@ class NewEvent extends React.Component<Props, State> {
   Summary = () => (
     <>
       <label htmlFor="summary">Short-Summary</label>
-      <textarea
+      <input
         className="form-control"
         id="summary"
         name="summary"
-        rows={5}
         required
-        onChange={this.onTextChange}
+        onChange={this.onInputChange}
       />
     </>
   );
 
   Venue = () => (
-    <div className="form-group">
-      <label htmlFor="eventDetails">Venue</label>
-      <input
-        type="text"
-        name="venue"
-        id="venue"
+    <>
+      <label htmlFor="venue">Venue</label>
+      <textarea
         className="form-control"
+        id="venue"
+        name="venue"
+        rows={4}
         required
-        onChange={this.onInputChange}
+        onChange={this.onTextChange}
       />
-    </div>
+    </>
   );
 
   Details = () => (
@@ -237,14 +236,13 @@ class NewEvent extends React.Component<Props, State> {
   Contact = () => (
     <>
       <label htmlFor="contact">
-        Contact Information (name of contact, telephone number, mobile, number,
-        email)
+        Contact Information (name, phone number, mobile number, email)
       </label>
       <textarea
         className="form-control"
         id="contact"
         name="contact"
-        rows={5}
+        rows={3}
         required
         onChange={this.onTextChange}
       />
@@ -260,7 +258,7 @@ class NewEvent extends React.Component<Props, State> {
         onChange={this.onSelectionChange}
         required
       >
-        <option value="">--select tag--</option>
+        <option value="">--Select a Tag--</option>
         <option>Environment</option>
         <option>Fund-Raising</option>
         <option>Senior</option>

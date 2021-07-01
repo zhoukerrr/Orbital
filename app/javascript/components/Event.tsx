@@ -239,7 +239,7 @@ class Event extends React.Component<Props, State> {
   Venue = () => (
     <>
       <h5 className="mb-2">Venue</h5>
-      {this.state.event.venue}
+      <div style={{ whiteSpace: "pre-line" }}>{this.state.event.venue}</div>
       <br />
     </>
   );
@@ -247,12 +247,7 @@ class Event extends React.Component<Props, State> {
   Details = () => (
     <>
       <h5 className="mb-2">Details</h5>
-      <div
-        dangerouslySetInnerHTML={{
-          __html: `${this.state.event.details}`,
-        }}
-      />
-      <br />
+      <div style={{ whiteSpace: "pre-line" }}>{this.state.event.details}</div>
     </>
   );
 
@@ -281,7 +276,7 @@ class Event extends React.Component<Props, State> {
   Contact = () => (
     <>
       <h5 className="mb-2">Contact Details</h5>
-      {this.state.event.contact}
+      <div style={{ whiteSpace: "pre-line" }}>{this.state.event.contact}</div>
       <br />
     </>
   );
