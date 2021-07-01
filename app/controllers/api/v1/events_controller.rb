@@ -38,6 +38,8 @@ class Api::V1::EventsController < ApplicationController
 *Name*: #{event.name}
 *Venue*: #{event.venue}
 *Date*: #{event.start_date.strftime("%d %B %Y")} to #{event.end_date.strftime("%d %B %Y")}
+#{event.summary}
+
 *Sign up Link*: #{event.link}
 *For more details*, click [here](#{request.base_url + "/event/" + event.id.to_s})!", parse_mode:'Markdown')
     end
