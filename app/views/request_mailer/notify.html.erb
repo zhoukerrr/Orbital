@@ -13,12 +13,19 @@
     <p>Date: <%= @event.start_date.strftime("%d %B %Y") %> to <%= @event.end_date.strftime("%d %B %Y") %></p>
     <p>Summary:</p>
     <p><%= @event.summary %></p>
-    <p>Venue: <%= @event.venue %></p>
+    <p>Venue:</p>
+      <% @event.venue.split("\n").each do |paragraph| %>
+        <p><%= paragraph %></p><br/>
+      <% end %>
     <p>Skills Needed: <%= @event.skills %></p>
     <p>Details:</p>
-    <p><%= @event.details %></p>
+      <% @event.details.split("\n").each do |paragraph| %>
+        <p><%= paragraph %></p><br/>
+      <% end %>
     <p>Sign Up Link: <%= @event.link %></p>
     <p>Contact:</p>
-    <p><%= @event.contact %></p>
+    <% @event.contact.split("\n").each do |paragraph| %>
+        <p><%= paragraph %></p><br/>
+      <% end %>
   </body>
 </html>
