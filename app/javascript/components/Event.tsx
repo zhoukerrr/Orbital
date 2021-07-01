@@ -409,31 +409,6 @@ class Event extends React.Component<Props, State> {
               </div>
 
               <div className="col-sm-12 col-lg-2">
-                {this.state.event.status == "approved" ? (
-                  <Link to="/events" className="btn btn-primary">
-                    {this.props.role == "admin" ||
-                    this.props.role == "organiser"
-                      ? "Back to Public Events"
-                      : "Back to Events"}
-                  </Link>
-                ) : null}
-                <br />
-                <br />
-                {this.props.user_id == event.user_id ? (
-                  <Link to="/my_events" className="btn btn-primary">
-                    Back to My Events
-                  </Link>
-                ) : null}
-                <br />
-                <br />
-                {this.props.role == "admin" &&
-                this.state.event.status == "submitted" ? (
-                  <Link to="/all_submitted" className="btn btn-primary">
-                    Back to Submitted
-                  </Link>
-                ) : null}
-                <br />
-                <br />
                 {can_delete ? <this.Delete /> : null}
                 {can_decide ? (
                   <div className="form-group">

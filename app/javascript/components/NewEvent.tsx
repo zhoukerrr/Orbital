@@ -361,7 +361,7 @@ class NewEvent extends React.Component<Props, State> {
                   Create Event
                 </button>
                 <Link to="/events" className="btn btn-link mt-3">
-                  Back to events
+                  Cancel
                 </Link>
               </form>
             </div>
