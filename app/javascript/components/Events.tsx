@@ -33,7 +33,7 @@ class Events extends React.Component<Props, State> {
   }
 
   componentDidMount = () => {
-    var url: string = "/api/v1/events?status=approved";
+    var url: string = "/api/v1/events?status=approved&user=all";
     if (this.props.location.search === "") {
       url = url.concat("&offset=0&limit=" + this.noOfEventsPerPage);
     } else {

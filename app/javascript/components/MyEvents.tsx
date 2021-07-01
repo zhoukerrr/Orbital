@@ -37,13 +37,12 @@ class Events extends React.Component<Props, State> {
   }
 
   componentDidMount = () => {
-    var url: string;
+    var url: string = "/api/v1/events?user=self";
     if (this.props.location.search === "") {
-      url =
-        "/api/v1/events/self?status=approved&offset=0&limit=" +
-        this.noOfEventsPerPage;
+      url = url.concat(
+        "&status=approved&offset=0&limit=" + this.noOfEventsPerPage
+      );
     } else {
-      url = "/api/v1/events/self?";
       const params: any = qs.parse(this.props.location.search, {
         ignoreQueryPrefix: true,
       });
@@ -51,9 +50,9 @@ class Events extends React.Component<Props, State> {
       const keys: string[] = Object.keys(params);
       if (keys.includes("status")) {
         this.setState({ eventType: params.status });
-        url = url.concat("status=" + params.status);
+        url = url.concat("&status=" + params.status);
       } else {
-        url = url.concat("status=approved"); // approved status as default
+        url = url.concat("&status=approved"); // approved status as default
       }
       if (keys.includes("page")) {
         this.setState({ page: parseInt(params.page) });
