@@ -139,6 +139,7 @@ class Event extends React.Component<Props, State> {
   }
 
   approveEvent = () => {
+    let current = this.state.event.status;
     if (window.confirm("Are you sure you want to APPROVE this entry?")) {
       const {
         match: {
@@ -158,7 +159,7 @@ class Event extends React.Component<Props, State> {
           throw new Error("Network response was not ok.");
         })
         .then((response) =>
-          response.event.status == "submitted"
+          response.event.status == current
             ? fetch(url, {
                 method: "PATCH",
                 headers: {
@@ -176,7 +177,9 @@ class Event extends React.Component<Props, State> {
 
                 .catch((error) => console.log(error.message))
             : alert(
-                "This entry was already APPROVED by another admin. Remarks: " +
+                "This entry was already " +
+                  response.event.status.toUpperCase() +
+                  " by another admin. Remarks: " +
                   response.event.remarks
               )
         )
@@ -185,6 +188,7 @@ class Event extends React.Component<Props, State> {
   };
 
   rejectEvent = () => {
+    let current = this.state.event.status;
     if (window.confirm("Are you sure you want to REJECT this entry?")) {
       const {
         match: {
@@ -204,7 +208,7 @@ class Event extends React.Component<Props, State> {
           throw new Error("Network response was not ok.");
         })
         .then((response) =>
-          response.event.status == "submitted"
+          response.event.status == current
             ? fetch(url, {
                 method: "PATCH",
                 headers: {
@@ -222,7 +226,9 @@ class Event extends React.Component<Props, State> {
 
                 .catch((error) => console.log(error.message))
             : alert(
-                "This entry was already REJECTED by another admin. Remarks: " +
+                "This entry was already " +
+                  response.event.status.toUpperCase() +
+                  " by another admin. Remarks: " +
                   response.event.remarks
               )
         )
@@ -233,7 +239,7 @@ class Event extends React.Component<Props, State> {
   Venue = () => (
     <>
       <h5 className="mb-2">Venue</h5>
-      {this.state.event.venue}
+      <div style={{ whiteSpace: "pre-line" }}>{this.state.event.venue}</div>
       <br />
     </>
   );
@@ -241,12 +247,7 @@ class Event extends React.Component<Props, State> {
   Details = () => (
     <>
       <h5 className="mb-2">Details</h5>
-      <div
-        dangerouslySetInnerHTML={{
-          __html: `${this.state.event.details}`,
-        }}
-      />
-      <br />
+      <div style={{ whiteSpace: "pre-line" }}>{this.state.event.details}</div>
     </>
   );
 
@@ -275,7 +276,7 @@ class Event extends React.Component<Props, State> {
   Contact = () => (
     <>
       <h5 className="mb-2">Contact Details</h5>
-      {this.state.event.contact}
+      <div style={{ whiteSpace: "pre-line" }}>{this.state.event.contact}</div>
       <br />
     </>
   );
@@ -409,31 +410,6 @@ class Event extends React.Component<Props, State> {
               </div>
 
               <div className="col-sm-12 col-lg-2">
-                {this.state.event.status == "approved" ? (
-                  <Link to="/events" className="btn btn-primary">
-                    {this.props.role == "admin" ||
-                    this.props.role == "organiser"
-                      ? "Back to Public Events"
-                      : "Back to Events"}
-                  </Link>
-                ) : null}
-                <br />
-                <br />
-                {this.props.user_id == event.user_id ? (
-                  <Link to="/my_events" className="btn btn-primary">
-                    Back to My Events
-                  </Link>
-                ) : null}
-                <br />
-                <br />
-                {this.props.role == "admin" &&
-                this.state.event.status == "submitted" ? (
-                  <Link to="/all_submitted" className="btn btn-primary">
-                    Back to Submitted
-                  </Link>
-                ) : null}
-                <br />
-                <br />
                 {can_delete ? <this.Delete /> : null}
                 {can_decide ? (
                   <div className="form-group">
