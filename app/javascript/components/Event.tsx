@@ -238,7 +238,7 @@ class Event extends React.Component<Props, State> {
 
   Venue = () => (
     <>
-      <h5 className="mb-2">Venue</h5>
+      <h4 className="mb-2">Venue</h4>
       <div style={{ whiteSpace: "pre-line" }}>{this.state.event.venue}</div>
       <br />
     </>
@@ -246,14 +246,14 @@ class Event extends React.Component<Props, State> {
 
   Details = () => (
     <>
-      <h5 className="mb-2">Details</h5>
+      <h4 className="mb-2">Details</h4>
       <div style={{ whiteSpace: "pre-line" }}>{this.state.event.details}</div>
     </>
   );
 
   Skills = () => (
     <>
-      <h5 className="mb-2">Skills Needed</h5>
+      <h4 className="mb-2">Skills Needed</h4>
       {this.state.event.skills}
       <br />
     </>
@@ -261,7 +261,7 @@ class Event extends React.Component<Props, State> {
 
   Link = () => (
     <>
-      <h5 className="mb-2">Sign Up Link</h5>
+      <h4 className="mb-2">Sign Up Link</h4>
       <a
         href={"//" + this.state.event.link}
         type="button"
@@ -275,7 +275,7 @@ class Event extends React.Component<Props, State> {
 
   Contact = () => (
     <>
-      <h5 className="mb-2">Contact Details</h5>
+      <h4 className="mb-2">Contact Details</h4>
       <div style={{ whiteSpace: "pre-line" }}>{this.state.event.contact}</div>
       <br />
     </>
@@ -283,21 +283,21 @@ class Event extends React.Component<Props, State> {
 
   Status = () => (
     <>
-      <h5 className="mb-2">Status</h5>
+      <h4 className="mb-2">Status</h4>
       {this.state.event.status}
     </>
   );
 
   Remarks = () => (
     <>
-      <h5 className="mb-2">Remarks</h5>
+      <h4 className="mb-2">Remarks</h4>
       {this.state.event.remarks == null ? "NIL" : this.state.event.remarks}
     </>
   );
 
   StartDate = () => (
     <>
-      <h5 className="mb-2">Start Date</h5>
+      <h4 className="mb-2">Start Date</h4>
       {this.state.start_date}
       <br />
     </>
@@ -305,7 +305,7 @@ class Event extends React.Component<Props, State> {
 
   EndDate = () => (
     <>
-      <h5 className="mb-2">End Date</h5>
+      <h4 className="mb-2">End Date</h4>
       {this.state.end_date}
       <br />
     </>
