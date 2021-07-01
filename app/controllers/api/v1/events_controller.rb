@@ -7,9 +7,11 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def index
-    event = Event.where(status: params[:status]).order(created_at: :desc)
+    allEvents = Event.where(status: params[:status]).order(created_at: :desc)
+    events = allEvents.offset(params[:offset]).limit(params[:limit])
+    noOfEvents = allEvents.count
     usernames = User.select(:id, :name).order(:id)
-    render json: {:event=>event, :usernames=>usernames}
+    render json: {:event=>events, :usernames=>usernames, :noOfEvents=>noOfEvents}
   end
 
   def self
