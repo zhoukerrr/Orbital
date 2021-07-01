@@ -6,6 +6,7 @@ import PageGroup from "./commons/PageButtonGroup";
 // import { clamp } from "lodash";
 
 type Props = {
+  key: number;
   history: any;
   location: any;
   user_id: number;
@@ -98,13 +99,11 @@ class Events extends React.Component<Props, State> {
   pageButtonGroupOnClickHandler = (value: number) => {
     const link = "/my_events?status=" + this.state.eventType + "&page=" + value;
     this.props.history.push(link);
-    this.props.history.go(0);
   };
 
   eventTypeButtonOnClickHandler = (str: string) => {
     const link = "/my_events?status=" + str + "&page=1";
     this.props.history.push(link);
-    this.props.history.go(0);
   };
 
   render = () => {

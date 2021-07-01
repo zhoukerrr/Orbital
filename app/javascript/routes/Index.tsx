@@ -20,21 +20,31 @@ export default (props: any) => (
         path="/all_submitted"
         exact
         render={(p: RouteComponentProps) => (
-          <AllSubmitted {...p} role={props.role} />
+          <AllSubmitted {...p} key={Math.random()} role={props.role} />
         )}
       />
       <Route
         path="/my_events"
         exact
         render={(p: RouteComponentProps) => (
-          <MyEvents {...p} user_id={props.user_id} role={props.role} />
+          <MyEvents
+            {...p}
+            user_id={props.user_id}
+            key={Math.random()}
+            role={props.role}
+          />
         )}
       />
       <Route
         path="/events"
         exact
         render={(p: RouteComponentProps) => (
-          <Events {...p} user_id={props.user_id} role={props.role} />
+          <Events
+            {...p}
+            user_id={props.user_id}
+            key={Math.random()}
+            role={props.role}
+          />
         )}
       />
       <Route

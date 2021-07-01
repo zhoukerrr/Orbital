@@ -4,6 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 import PageGroup from "./commons/PageButtonGroup";
 
 type Props = {
+  key: number;
   history: any;
   location: any;
   role: string;
@@ -85,7 +86,6 @@ class Events extends React.Component<Props, State> {
   pageButtonGroupOnClickHandler = (value: number) => {
     const link = "/all_submitted?page=" + value;
     this.props.history.push(link);
-    this.props.history.go(0);
   };
 
   render = () => {

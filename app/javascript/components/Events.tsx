@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import PageGroup from "./commons/PageButtonGroup";
 
 type Props = {
+  key: number;
   history: any;
   location: any;
   user_id: number;
@@ -87,7 +88,6 @@ class Events extends React.Component<Props, State> {
   pageButtonGroupOnClickHandler = (value: number) => {
     const link = "/events?page=" + value;
     this.props.history.push(link);
-    this.props.history.go(0);
   };
 
   render = () => {
