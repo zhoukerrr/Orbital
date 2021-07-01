@@ -139,6 +139,7 @@ class Event extends React.Component<Props, State> {
   }
 
   approveEvent = () => {
+    let current = this.state.event.status;
     if (window.confirm("Are you sure you want to APPROVE this entry?")) {
       const {
         match: {
@@ -158,7 +159,7 @@ class Event extends React.Component<Props, State> {
           throw new Error("Network response was not ok.");
         })
         .then((response) =>
-          response.event.status == "submitted"
+          response.event.status == current
             ? fetch(url, {
                 method: "PATCH",
                 headers: {
@@ -176,7 +177,9 @@ class Event extends React.Component<Props, State> {
 
                 .catch((error) => console.log(error.message))
             : alert(
-                "This entry was already APPROVED by another admin. Remarks: " +
+                "This entry was already " +
+                  response.event.status.toUpperCase() +
+                  " by another admin. Remarks: " +
                   response.event.remarks
               )
         )
@@ -185,6 +188,7 @@ class Event extends React.Component<Props, State> {
   };
 
   rejectEvent = () => {
+    let current = this.state.event.status;
     if (window.confirm("Are you sure you want to REJECT this entry?")) {
       const {
         match: {
@@ -204,7 +208,7 @@ class Event extends React.Component<Props, State> {
           throw new Error("Network response was not ok.");
         })
         .then((response) =>
-          response.event.status == "submitted"
+          response.event.status == current
             ? fetch(url, {
                 method: "PATCH",
                 headers: {
@@ -222,7 +226,9 @@ class Event extends React.Component<Props, State> {
 
                 .catch((error) => console.log(error.message))
             : alert(
-                "This entry was already REJECTED by another admin. Remarks: " +
+                "This entry was already " +
+                  response.event.status.toUpperCase() +
+                  " by another admin. Remarks: " +
                   response.event.remarks
               )
         )
