@@ -42,7 +42,10 @@ class NewEvent extends React.Component<Props, State> {
       startDate: new Date(
         this.newDate.getFullYear(),
         this.newDate.getMonth(),
-        this.newDate.getDate()
+        this.newDate.getDate(),
+        23,
+        59,
+        59
       ),
       endDate: new Date(
         this.newDate.getFullYear(),
