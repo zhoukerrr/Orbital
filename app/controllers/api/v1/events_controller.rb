@@ -13,9 +13,11 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def self
-    event = Event.where(user_id: current_user.id).where(status: params[:status]).order(created_at: :desc)
+    allEvents = Event.where({user_id: current_user.id, status: params[:status]})
+    events = allEvents.order(created_at: :desc).offset(params[:offset]).limit(params[:limit])
+    noOfEvents = allEvents.count
     usernames = User.select(:id, :name).order(:id)
-    render json: {:event=>event, :usernames=>usernames}
+    render json: {:event=>events, :usernames=>usernames, :noOfEvents=>noOfEvents}
   end
 
   def create

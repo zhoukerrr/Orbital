@@ -1,10 +1,13 @@
 import * as React from "react";
-import { Link, Redirect } from "react-router-dom";
+import * as qs from "qs";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import EventTypeButtonGroup from "./commons/EventTypeButtonGroup";
 import PageGroup from "./commons/PageButtonGroup";
+// import { clamp } from "lodash";
 
 type Props = {
   history: any;
+  location: any;
   user_id: number;
   role: string;
 };
@@ -34,7 +37,35 @@ class Events extends React.Component<Props, State> {
   }
 
   componentDidMount = () => {
-    const url = "/api/v1/events/self?status=approved";
+    var url: string;
+    if (this.props.location.search === "") {
+      url =
+        "/api/v1/events/self?status=approved&offset=0&limit=" +
+        this.noOfEventsPerPage;
+    } else {
+      url = "/api/v1/events/self?";
+      const params: any = qs.parse(this.props.location.search, {
+        ignoreQueryPrefix: true,
+      });
+
+      const keys: string[] = Object.keys(params);
+      if (keys.includes("status")) {
+        this.setState({ eventType: params.status });
+        url = url.concat("status=" + params.status);
+      } else {
+        url = url.concat("status=approved"); // approved status as default
+      }
+      if (keys.includes("page")) {
+        this.setState({ page: parseInt(params.page) });
+        const offset: number =
+          (parseInt(params.page) - 1) * this.noOfEventsPerPage;
+        url = url.concat("&offset=" + offset);
+      } else {
+        url = url.concat("&offset=0"); // 0 as default
+      }
+      url = url.concat("&limit=" + this.noOfEventsPerPage); // 5 as default
+    }
+
     fetch(url)
       .then((response) => {
         if (response.ok) {
@@ -43,16 +74,10 @@ class Events extends React.Component<Props, State> {
         throw new Error("Network response was not ok.");
       })
       .then((response) => {
-        const begin = 0;
-        const end = Math.min(
-          begin + this.noOfEventsPerPage,
-          response.event.length
-        );
-
         this.setState({
-          events: response.event.slice(begin, end),
+          events: response.event,
           usernames: response.usernames,
-          noOfPages: Math.ceil(response.event.length / this.noOfEventsPerPage),
+          noOfPages: Math.ceil(response.noOfEvents / this.noOfEventsPerPage),
         });
         console.log(response);
       })
@@ -72,62 +97,15 @@ class Events extends React.Component<Props, State> {
   );
 
   pageButtonGroupOnClickHandler = (value: number) => {
-    const url = "/api/v1/events/self?status=" + this.state.eventType; // TODO: Add params to fetch only what is necessary
-    fetch(url)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error("Network response was not ok.");
-      })
-      .then((response) => {
-        const begin = Math.min(
-          (value - 1) * this.noOfEventsPerPage,
-          Math.floor(response.event.length / this.noOfEventsPerPage) *
-            this.noOfEventsPerPage
-        );
-        const end = Math.min(begin + 5, response.event.length);
-
-        this.setState({
-          events: response.event.slice(begin, end),
-          usernames: response.usernames,
-          noOfPages: Math.ceil(response.event.length / this.noOfEventsPerPage),
-          page: value,
-        });
-        console.log(response);
-      })
-      .catch(() => this.props.history.push("/"));
-    this.state.events.length;
+    const link = "/my_events?status=" + this.state.eventType + "&page=" + value;
+    this.props.history.push(link);
+    this.props.history.go(0);
   };
 
   eventTypeButtonOnClickHandler = (str: string) => {
-    const value = str as "approved" | "rejected" | "submitted";
-    const url = "/api/v1/events/self?status=" + value;
-    fetch(url)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error("Network response was not ok.");
-      })
-      .then((response) => {
-        const begin = 0;
-        const end = Math.min(
-          begin + this.noOfEventsPerPage,
-          response.event.length
-        );
-
-        this.setState({
-          events: response.event.slice(begin, end),
-          usernames: response.usernames,
-          noOfPages: Math.ceil(response.event.length / this.noOfEventsPerPage),
-          page: 1,
-          eventType: value,
-        });
-        console.log(response);
-      })
-      .then(() => this.setState({ done: true }))
-      .catch(() => this.props.history.push("/"));
+    const link = "/my_events?status=" + str + "&page=1";
+    this.props.history.push(link);
+    this.props.history.go(0);
   };
 
   render = () => {
