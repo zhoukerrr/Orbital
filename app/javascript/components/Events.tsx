@@ -17,6 +17,7 @@ type State = {
   done: boolean;
   page: number;
   noOfPages: number;
+  tags: string[];
 };
 
 class Events extends React.Component<Props, State> {
@@ -29,14 +30,15 @@ class Events extends React.Component<Props, State> {
       usernames: [],
       done: false,
       page: 1,
-      noOfPages: 1,
+      noOfPages: 0,
+      tags: [],
     };
   }
 
   componentDidMount = () => {
     var url: string = "/api/v1/events?status=approved&user=all";
     if (this.props.location.search === "") {
-      url = url.concat("&offset=0&limit=" + this.noOfEventsPerPage);
+      url = url.concat("&limit=" + this.noOfEventsPerPage);
     } else {
       const params: any = qs.parse(this.props.location.search, {
         ignoreQueryPrefix: true,
@@ -48,8 +50,12 @@ class Events extends React.Component<Props, State> {
         const offset: number =
           (parseInt(params.page) - 1) * this.noOfEventsPerPage;
         url = url.concat("&offset=" + offset);
-      } else {
-        url = url.concat("&offset=0"); // 0 as default
+      }
+      if (keys.includes("tags")) {
+        this.setState({ tags: params.tags });
+        url = url.concat(
+          "&" + qs.stringify({ tags: params.tags }, { arrayFormat: "brackets" })
+        );
       }
       url = url.concat("&limit=" + this.noOfEventsPerPage); // 5 as default
     }
@@ -86,7 +92,21 @@ class Events extends React.Component<Props, State> {
   );
 
   pageButtonGroupOnClickHandler = (value: number) => {
-    const link = "/events?page=" + value;
+    var link = "/events?page=" + value;
+    if (this.state.tags.length !== 0) {
+      link = link.concat(
+        "&" + qs.stringify({ tags: this.state.tags }, { encode: false })
+      );
+    }
+    this.props.history.push(link);
+  };
+
+  tagButtonOnClickHandler = (
+    evt: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    const link =
+      "/events?page=1&" +
+      qs.stringify({ tags: [evt.currentTarget.value] }, { encode: false });
     this.props.history.push(link);
   };
 
@@ -109,7 +129,12 @@ class Events extends React.Component<Props, State> {
             <p className="mb-1">{event.summary}</p>
             <div className="d-flex w-100 justify-content-between">
               <small className="text-muted">
-                <button type="button" className="btn btn-outline-dark">
+                <button
+                  type="button"
+                  className="btn btn-outline-dark"
+                  value={event.tag}
+                  onClick={this.tagButtonOnClickHandler}
+                >
                   {event.tag}
                 </button>
               </small>
