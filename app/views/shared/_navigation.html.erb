@@ -38,12 +38,19 @@
               <%= link_to('Events', '/events', class: "nav-link")%>
             </li> 
         <% end %>
-        <li class="nav-item">
-            <%= link_to('Profile', user_path(current_user), class: "nav-link")%>
-        </li> 
-        <li class="nav-item">
-            <%= link_to('Account', edit_user_registration_path, class: "nav-link")%>
-        </li>  
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+            <%= current_user.user_name %>
+          </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><%= link_to('Profile', user_path(current_user), class: "nav-link")%></li>
+            <li><%= link_to('Account', edit_user_registration_path, class: "nav-link")%></li>
+            <% if current_user.user_role == "admin" %>
+              <li><%= link_to('TEMP SIGNUP', new_user_registration_path, class: "nav-link")%></li>
+            <% end %>
+          </ul>
+          
+        </li>
         <li class="nav-item">
             <%= link_to('Logout', destroy_user_session_path, method: :delete, class: "nav-link") %>
         </li>

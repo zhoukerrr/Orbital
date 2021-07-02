@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   get 'homepage/about'
-  devise_for :users
+  devise_for :users, :controllers => { :registrations => 'registrations'}
   resources :users, only: [:index, :show, :edit, :update]
   
   namespace :api do

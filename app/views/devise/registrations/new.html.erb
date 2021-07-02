@@ -1,29 +1,13 @@
 <script>
-  function change() {
-    if(document.getElementById("role").value == "student") {
-      if (confirm("Are you sure you want to sign up as organisation?")) {
-        document.getElementById("role").value = "organiser";
-        document.getElementById("second").readOnly = false;
-      } else {
-        document.getElementById("invalidCheck").checked = false;
-      }
-    } else if (document.getElementById("role").value == "organiser") {
-      document.getElementById("role").value = "student";
-      document.getElementById("second").value = "u.nus.edu";
-      document.getElementById("second").readOnly = true;
-    } else {
-      document.getElementById("role").value = "test";
-    }
-  }
-
   function combine() {
     document.getElementById("email").value = document.getElementById("first").value + "@" + document.getElementById("second").value;
   }
 </script>
 
-<h2>Sign up</h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+<% if user_signed_in? %>
+  <% if current_user.user_role == "admin" %>
+    <h2>Sign up for Organisers</h2>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field form-group">
@@ -31,18 +15,11 @@
     <%= f.text_field :name, autofocus: true, autocomplete: "name", class:"form-control", required: true %>
   </div>
 
-  <%= f.label :email %><em> (Please use your NUS email if you are a student/alumni)</em><br />
-  <div class="input-group">
-    <input id="first" class="form-control" required>
-    <span class="input-group-text">@</span>
-    <input id="second" class="form-control" value="u.nus.edu" readonly required>
-  </div>
-
-  <div class="field form-group" hidden>
-    <%= f.label :email %><em> (Please use your NUS email if you are a student/alumni)</em><br />
+  <div class="field form-group">
+    <%= f.label :email %><br />
     <%= f.email_field :email, autocomplete: "email", class:"form-control", id:"email" %>
   </div>
-<br />
+  <br />
   <div class="field form-group">
     <%= f.label :password %>
     <% if @minimum_password_length %>
@@ -56,11 +33,53 @@
     <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"form-control", required: true %>
   </div>
   <br/>
-  <div class="form-check">
-    <input class="form-check-input" type="checkbox" value="" id="invalidCheck" onclick="change()">
-    <label class="form-check-label" for="invalidCheck">
-      Sign up as Organisation
-    </label>
+
+  <div class="field form-group" hidden>
+    <%= f.label :role %><br />
+    <%= f.text_field :role, autocomplete: "role", class:"form-control", value: "organiser" , id:"role" %>
+  </div>
+
+  <br/>
+  
+  <div class="actions">
+    <%= f.submit "Sign up", class: 'btn btn-primary' %>
+  </div>
+<% end %>
+  <% end %>
+<% else %>
+  <h2>Sign up</h2>
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="field form-group">
+    <%= f.label :name %><br />
+    <%= f.text_field :name, autofocus: true, autocomplete: "name", class:"form-control", required: true %>
+  </div>
+
+  <%= f.label :email %><em> (Please use your NUS email)</em><br />
+  <div class="input-group">
+    <input id="first" class="form-control" required>
+    <span class="input-group-text">@</span>
+    <input id="second" class="form-control" value="u.nus.edu" readonly required>
+  </div>
+
+  <div class="field form-group" hidden>
+    <%= f.label :email %><em> (Please use your NUS email)</em><br />
+    <%= f.email_field :email, autocomplete: "email", class:"form-control", id:"email" %>
+  </div>
+  <br />
+  <div class="field form-group">
+    <%= f.label :password %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "new-password", class:"form-control", required: true %>
+  </div>
+
+  <div class="field form-group">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"form-control", required: true %>
   </div>
   <br/>
 
@@ -77,3 +96,4 @@
 <% end %>
 <br/>
 <%= render "devise/shared/links" %>
+<% end %>
