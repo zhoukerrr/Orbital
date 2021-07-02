@@ -1,6 +1,8 @@
 import * as qs from "qs";
 import * as React from "react";
 import { Link } from "react-router-dom";
+import { tags } from "./types";
+import FilterBar from "./commons/FilterBar";
 import PageGroup from "./commons/PageButtonGroup";
 
 type Props = {
@@ -110,6 +112,12 @@ class Events extends React.Component<Props, State> {
     this.props.history.push(link);
   };
 
+  filterBarOnClickHandler = (selected: string[]) => {
+    const link =
+      "/events?page=1&" + qs.stringify({ tags: selected }, { encode: false });
+    this.props.history.push(link);
+  };
+
   render = () => {
     const { events } = this.state;
 
@@ -164,29 +172,40 @@ class Events extends React.Component<Props, State> {
         </section>
         <div className="py-5">
           <main className="container">
-            <div className="d-flex justify-content-between">
-              <PageGroup
-                noOfPages={this.state.noOfPages}
-                currentPage={this.state.page}
-                onClickHandler={this.pageButtonGroupOnClickHandler}
-              />
-              {canCreate ? <this.CreateButton /> : null}
-            </div>
-            <br />
-            {/* events catalog */}
-            <div
-              className="row"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "stretch",
-              }}
-            >
-              {allEvents.length > 0
-                ? allEvents
-                : this.state.done
-                ? noEvent
-                : null}
+            <div className="row" style={{ flexWrap: "nowrap" }}>
+              <div className="column" style={{ width: "80%" }}>
+                <div className="d-flex justify-content-between">
+                  <PageGroup
+                    noOfPages={this.state.noOfPages}
+                    currentPage={this.state.page}
+                    onClickHandler={this.pageButtonGroupOnClickHandler}
+                  />
+                  {canCreate ? <this.CreateButton /> : null}
+                </div>
+                <br />
+                {/* events catalog */}
+                <div
+                  className="row"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "stretch",
+                  }}
+                >
+                  {allEvents.length > 0
+                    ? allEvents
+                    : this.state.done
+                    ? noEvent
+                    : null}
+                </div>
+              </div>
+              <div className="column">
+                <FilterBar
+                  values={tags}
+                  currentlySelected={this.state.tags}
+                  onSelectHandler={this.filterBarOnClickHandler}
+                />
+              </div>
             </div>
             <Link to="/" className="btn btn-link">
               Home

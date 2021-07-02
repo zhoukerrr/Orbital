@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker-cssmodules.min.css";
 import "react-datepicker/src/stylesheets/datepicker.scss";
-import { isThisTypeNode, ThisExpression } from "typescript";
+import { tags } from "./types";
 
 type Props = {
   history: any;
@@ -249,27 +249,23 @@ class NewEvent extends React.Component<Props, State> {
     </>
   );
 
-  Tag = () => (
-    <>
-      <select
-        className="form-control"
-        id="tag"
-        defaultValue=""
-        onChange={this.onSelectionChange}
-        required
-      >
-        <option value="">--Select a Tag--</option>
-        <option>Environment</option>
-        <option>Fund-Raising</option>
-        <option>Senior</option>
-        <option>Teaching</option>
-        <option>Technology</option>
-        <option>Youth</option>
-        <option>Overseas</option>
-        <option>Others</option>
-      </select>
-    </>
-  );
+  Tag = () => {
+    const options: JSX.Element[] = tags.map((tag) => <option>{tag}</option>);
+    return (
+      <>
+        <select
+          className="form-control"
+          id="tag"
+          defaultValue=""
+          onChange={this.onSelectionChange}
+          required
+        >
+          <option value="">--Select a Tag--</option>
+          {options}
+        </select>
+      </>
+    );
+  };
 
   StartDate = () => {
     return (
