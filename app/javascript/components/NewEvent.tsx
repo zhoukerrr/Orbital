@@ -23,6 +23,7 @@ type State = {
   skills: string;
   link: string;
   contact: string;
+  poster: string;
   user_id: number;
   isLoading: boolean;
 };
@@ -60,6 +61,7 @@ class NewEvent extends React.Component<Props, State> {
       skills: "",
       link: "",
       contact: "",
+      poster: "",
       user_id: this.props.user_id,
       isLoading: false,
     };
@@ -109,33 +111,16 @@ class NewEvent extends React.Component<Props, State> {
     event.preventDefault();
     this.setState({ isLoading: true });
     const url = "/api/v1/events/create";
-    const {
-      name,
-      tag,
-      summary,
-      venue,
-      startDate,
-      endDate,
-      details,
-      skills,
-      link,
-      contact,
-      user_id,
-    } = this.state;
+    const submission = this.state;
 
     const body = {
-      name,
-      tag,
-      summary,
-      venue,
-      start_date: startDate,
-      end_date: endDate,
-      details: this.stripHtmlEntities(details),
-      skills,
-      link,
-      contact,
-      user_id,
+      ...submission,
+      start_date: submission.startDate,
+      end_date: submission.endDate,
+      details: this.stripHtmlEntities(submission.details),
     };
+    delete body.startDate;
+    delete body.endDate;
 
     const token = document
       .querySelector('meta[name="csrf-token"]')
@@ -314,6 +299,21 @@ class NewEvent extends React.Component<Props, State> {
     );
   };
 
+  Poster = () => {
+    return (
+      <div className="form-group">
+        <label htmlFor="posterLink">(Optional) Poster Link</label>
+        <input
+          type="text"
+          name="poster"
+          id="poster"
+          className="form-control"
+          onChange={this.onInputChange}
+        />
+      </div>
+    );
+  };
+
   TermsAndConditions = () => {
     return (
       <div className="form-check">
@@ -363,6 +363,7 @@ class NewEvent extends React.Component<Props, State> {
                 <this.Details />
                 <this.Skills />
                 <this.Link />
+                <this.Poster/>
                 <this.Contact />
                 <this.TermsAndConditions />
                 {this.state.isLoading ? (

@@ -13,20 +13,7 @@ type Props = {
 };
 
 type State = {
-  event: {
-    name: string;
-    details: string;
-    user_id: number;
-    venue: string;
-    // TODO: the type is not entirely Date, may have to do some convertion here
-    start_date: any;
-    end_date: any;
-    skills: string;
-    link: string;
-    contact: string;
-    status: string;
-    remarks: string;
-  };
+  event: any;
   start_date: string;
   end_date: string;
   isLoading: boolean;
@@ -45,6 +32,7 @@ class Event extends React.Component<Props, State> {
         end_date: "",
         skills: "",
         link: "",
+        poster: "";
         contact: "",
         status: "",
         remarks: "",
@@ -249,6 +237,13 @@ class Event extends React.Component<Props, State> {
     </>
   );
 
+  Poster = () => {
+    return this.state.event.poster === "" ? null : (
+    <>
+      <img src={this.state.event.poster} title="event poster" />
+    </>
+  )};
+
   Details = () => (
     <>
       <h4 className="mb-2">Details</h4>
@@ -415,6 +410,8 @@ class Event extends React.Component<Props, State> {
                 </ul>
               </div>
               <div className="col-sm-12 col-lg-7">
+                <this.Poster />
+                <br />
                 <this.Details />
                 <br />
                 <this.Skills />

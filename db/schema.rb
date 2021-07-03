@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_23_062805) do
+ActiveRecord::Schema.define(version: 2021_07_03_095802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 2021_06_23_062805) do
     t.text "tag", null: false
     t.datetime "end_date", null: false
     t.datetime "start_date", null: false
+    t.string "poster"
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
