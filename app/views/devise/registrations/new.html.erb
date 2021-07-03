@@ -20,29 +20,28 @@
     <%= f.email_field :email, autocomplete: "email", class:"form-control", id:"email" %>
   </div>
   <br />
-  <div class="field form-group">
+  
+  <% token =  Devise.friendly_token%>
+  <div class="field form-group" hidden>
     <%= f.label :password %>
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>
     <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password", class:"form-control", required: true %>
+    <%= f.password_field :password, autocomplete: "new-password", class:"form-control", value: token, required: true %>
   </div>
 
-  <div class="field form-group">
+  <div class="field form-group" hidden>
     <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"form-control", required: true %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"form-control", value: token, required: true %>
   </div>
-  <br/>
 
   <div class="field form-group" hidden>
     <%= f.label :role %><br />
     <%= f.text_field :role, autocomplete: "role", class:"form-control", value: "organiser" , id:"role" %>
   </div>
-
-  <br/>
   
   <div class="actions">
-    <%= f.submit "Sign up", class: 'btn btn-primary' %>
+    <%= f.submit "Create new Organiser", class: 'btn btn-primary' %>
   </div>
 <% end %>
   <% end %>
