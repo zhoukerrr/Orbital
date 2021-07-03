@@ -13,4 +13,9 @@ class ApplicationController < ActionController::Base
             session[:return_to] ||= request.referer
         end
     end
+
+    rescue_from ActionController::InvalidAuthenticityToken do |exception|
+        sign_out # Example method that will destroy the user cookies
+    end
+
 end
