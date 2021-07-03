@@ -1,6 +1,7 @@
 import { repeat } from "lodash";
 import * as React from "react";
 import { Link, Redirect } from "react-router-dom";
+import { isThisTypeNode } from "typescript";
 
 type Props = {
   match: {
@@ -28,6 +29,7 @@ type State = {
   };
   start_date: string;
   end_date: string;
+  isLoading: boolean;
 };
 
 class Event extends React.Component<Props, State> {
@@ -49,6 +51,7 @@ class Event extends React.Component<Props, State> {
       },
       start_date: "",
       end_date: "",
+      isLoading: false,
     };
 
     this.addHtmlEntities = this.addHtmlEntities.bind(this);
@@ -141,6 +144,7 @@ class Event extends React.Component<Props, State> {
   approveEvent = () => {
     let current = this.state.event.status;
     if (window.confirm("Are you sure you want to APPROVE this entry?")) {
+      this.setState({ isLoading: true });
       const {
         match: {
           params: { id },
@@ -190,6 +194,7 @@ class Event extends React.Component<Props, State> {
   rejectEvent = () => {
     let current = this.state.event.status;
     if (window.confirm("Are you sure you want to REJECT this entry?")) {
+      this.setState({ isLoading: true });
       const {
         match: {
           params: { id },
@@ -367,6 +372,14 @@ class Event extends React.Component<Props, State> {
       </>
     ) : null;
 
+  Spinner = () => {
+    return (
+      <div className="spinner-border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    );
+  };
+
   render() {
     const { event } = this.state;
 
@@ -424,7 +437,11 @@ class Event extends React.Component<Props, State> {
                   </div>
                 ) : null}
                 <br />
-                {can_decide ? <this.Decision /> : null}
+                {!can_decide ? null : this.state.isLoading ? (
+                  <this.Spinner />
+                ) : (
+                  <this.Decision />
+                )}
               </div>
             </div>
           </div>

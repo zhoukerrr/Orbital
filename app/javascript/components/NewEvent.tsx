@@ -24,6 +24,7 @@ type State = {
   link: string;
   contact: string;
   user_id: number;
+  isLoading: boolean;
 };
 
 class NewEvent extends React.Component<Props, State> {
@@ -60,6 +61,7 @@ class NewEvent extends React.Component<Props, State> {
       link: "",
       contact: "",
       user_id: this.props.user_id,
+      isLoading: false,
     };
 
     this.onInputChange = this.onInputChange.bind(this);
@@ -105,6 +107,7 @@ class NewEvent extends React.Component<Props, State> {
 
   onSubmit(event: any) {
     event.preventDefault();
+    this.setState({ isLoading: true });
     const url = "/api/v1/events/create";
     const {
       name,
@@ -331,6 +334,14 @@ class NewEvent extends React.Component<Props, State> {
     );
   };
 
+  Spinner = () => {
+    return (
+      <div className="spinner-border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    );
+  };
+
   render() {
     const canCreate =
       this.props.role == "admin" || this.props.role == "organiser";
@@ -354,9 +365,17 @@ class NewEvent extends React.Component<Props, State> {
                 <this.Link />
                 <this.Contact />
                 <this.TermsAndConditions />
-                <button type="submit" className="btn custom-button mt-3">
-                  Create Event
-                </button>
+                {this.state.isLoading ? (
+                  <>
+                    <br />
+                    <this.Spinner />
+                  </>
+                ) : (
+                  <button type="submit" className="btn custom-button mt-3">
+                    Create Event
+                  </button>
+                )}
+                <br />
                 <Link to="/events" className="btn btn-link mt-3">
                   Cancel
                 </Link>
