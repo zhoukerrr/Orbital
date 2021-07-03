@@ -32,7 +32,7 @@ class Event extends React.Component<Props, State> {
         end_date: "",
         skills: "",
         link: "",
-        poster: "";
+        poster: "",
         contact: "",
         status: "",
         remarks: "",
@@ -239,10 +239,11 @@ class Event extends React.Component<Props, State> {
 
   Poster = () => {
     return this.state.event.poster === "" ? null : (
-    <>
-      <img src={this.state.event.poster} title="event poster" />
-    </>
-  )};
+      <>
+        <img src={this.state.event.poster} title="event poster" />
+      </>
+    );
+  };
 
   Details = () => (
     <>
