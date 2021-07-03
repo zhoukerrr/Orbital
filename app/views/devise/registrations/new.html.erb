@@ -86,13 +86,13 @@
     <%= f.label :role %><br />
     <%= f.text_field :role, autocomplete: "role", class:"form-control", value: "student" , id:"role" %>
   </div>
-
-  <br/>
   
   <div class="actions" onclick="combine()">
     <%= f.submit "Sign up", class: 'btn btn-primary' %>
   </div>
 <% end %>
 <br/>
+<h5>Signing up as organiser? Please email: e0544597@u.nus.edu</h5>
 <%= render "devise/shared/links" %>
+
 <% end %>
