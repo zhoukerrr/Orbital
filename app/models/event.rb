@@ -10,4 +10,5 @@ class Event < ApplicationRecord
     validates :link, presence: true
     validates :contact, presence: true
     belongs_to :user
+    has_many :interests, dependent: :destroy
 end

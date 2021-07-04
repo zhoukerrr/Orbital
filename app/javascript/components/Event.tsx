@@ -1,7 +1,7 @@
 import { repeat } from "lodash";
 import * as React from "react";
 import { Link, Redirect } from "react-router-dom";
-import { isThisTypeNode } from "typescript";
+import { isThisTypeNode, ThisTypeNode } from "typescript";
 
 type Props = {
   match: {
@@ -17,6 +17,8 @@ type State = {
   start_date: string;
   end_date: string;
   isLoading: boolean;
+  interest: boolean;
+  interest_id: number;
 };
 
 class Event extends React.Component<Props, State> {
@@ -40,6 +42,8 @@ class Event extends React.Component<Props, State> {
       start_date: "",
       end_date: "",
       isLoading: false,
+      interest: false,
+      interest_id: 0,
     };
 
     this.addHtmlEntities = this.addHtmlEntities.bind(this);
@@ -79,6 +83,25 @@ class Event extends React.Component<Props, State> {
                 : this.addHtmlEntities(prevState.event.details),
           },
         }))
+      )
+      .catch(() => this.props.history.push("/events"));
+
+    fetch(`/api/v1/interests/my_interests`)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then((response) =>
+        response.filter(
+          (interest: any) => interest.event_id == this.props.match.params.id
+        ).length == 1
+          ? this.setState({
+              interest: true,
+              interest_id: response[0].id,
+            })
+          : null
       )
       .catch(() => this.props.history.push("/events"));
   }
@@ -229,6 +252,71 @@ class Event extends React.Component<Props, State> {
     }
   };
 
+  signUp = (interest: any) => {
+    interest.preventDefault();
+    const url = "/api/v1/interests/create";
+
+    const token = document
+      .querySelector('meta[name="csrf-token"]')
+      .getAttribute("content");
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "X-CSRF-Token": token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        event_id: this.props.match.params.id,
+        user_id: this.props.user_id,
+        attend: false,
+      }),
+    })
+      .then((response) => response.json())
+      .then(() => fetch(`/api/v1/interests/my_interests`))
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then((response) =>
+        response.filter(
+          (interest: any) => interest.event_id == this.props.match.params.id
+        ).length == 1
+          ? this.setState({
+              interest: true,
+              interest_id: response[0].id,
+            })
+          : null
+      )
+      .catch(() => this.props.history.push("/events"));
+  };
+
+  signDown = () => {
+    if (window.confirm("Are you sure you are no longer interested?")) {
+      const url = `/api/v1/interests/destroy/${this.state.interest_id}`;
+      const token = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
+
+      fetch(url, {
+        method: "DELETE",
+        headers: {
+          "X-CSRF-Token": token,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error("Network response was not ok.");
+        })
+        .then(() => this.setState({ interest: false, interest_id: 0 }))
+        .catch((error) => console.log(error.message));
+    }
+  };
+
   Venue = () => (
     <>
       <h4 className="mb-2">Venue</h4>
@@ -376,6 +464,22 @@ class Event extends React.Component<Props, State> {
     );
   };
 
+  IndicateInterest = () => {
+    return (
+      <button type="button" className="btn btn-primary" onClick={this.signUp}>
+        I am interested!
+      </button>
+    );
+  };
+
+  WithdrawInterest = () => {
+    return (
+      <button type="button" className="btn btn-danger" onClick={this.signDown}>
+        I am no longer interested
+      </button>
+    );
+  };
+
   render() {
     const { event } = this.state;
 
@@ -441,6 +545,12 @@ class Event extends React.Component<Props, State> {
                   <this.Decision />
                 )}
               </div>
+              <br />
+              {this.state.interest ? (
+                <this.WithdrawInterest />
+              ) : (
+                <this.IndicateInterest />
+              )}
             </div>
           </div>
         </div>
