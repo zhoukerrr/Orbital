@@ -1,10 +1,6 @@
 import * as React from "react";
 import { Link, Redirect } from "react-router-dom";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import "react-datepicker/dist/react-datepicker-cssmodules.min.css";
-import "react-datepicker/src/stylesheets/datepicker.scss";
-import { tags } from "./types";
+import EventEdit from "./commons/EventEdit";
 
 type Props = {
   history: any;
@@ -65,10 +61,6 @@ class NewEvent extends React.Component<Props, State> {
       user_id: this.props.user_id,
       isLoading: false,
     };
-
-    this.onInputChange = this.onInputChange.bind(this);
-    this.onTextChange = this.onTextChange.bind(this);
-    this.onSelectionChange = this.onSelectionChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.stripHtmlEntities = this.stripHtmlEntities.bind(this);
   }
@@ -77,35 +69,13 @@ class NewEvent extends React.Component<Props, State> {
     return String(str).replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
-  onTextChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
-    const key: string = event.target.id;
-    const value: any = event.target.value;
+  onChangeHandler = (key: string, value: any) => {
     if (Object.keys(this.state).includes(key)) {
       this.setState({
         [key]: value,
       } as Pick<State, keyof State>);
     }
-  }
-
-  onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const key: string = event.target.id;
-    const value: any = event.target.value;
-    if (Object.keys(this.state).includes(key)) {
-      this.setState({
-        [key]: value,
-      } as Pick<State, keyof State>);
-    }
-  }
-
-  onSelectionChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    const key: string = event.target.id;
-    const value: any = event.target.value;
-    if (Object.keys(this.state).includes(key)) {
-      this.setState({
-        [key]: value,
-      } as Pick<State, keyof State>);
-    }
-  }
+  };
 
   onSubmit(event: any) {
     event.preventDefault();
@@ -138,182 +108,6 @@ class NewEvent extends React.Component<Props, State> {
       .catch((error) => console.log(error.message));
   }
 
-  EventName = () => (
-    <div className="form-group">
-      <label htmlFor="eventName">Event name</label>
-      <input
-        type="text"
-        name="name"
-        id="name"
-        className="form-control"
-        required
-        onChange={this.onInputChange}
-      />
-    </div>
-  );
-
-  Summary = () => (
-    <>
-      <label htmlFor="summary">Short-Summary</label>
-      <input
-        className="form-control"
-        id="summary"
-        name="summary"
-        required
-        onChange={this.onInputChange}
-      />
-    </>
-  );
-
-  Venue = () => (
-    <>
-      <label htmlFor="venue">Venue</label>
-      <textarea
-        className="form-control"
-        id="venue"
-        name="venue"
-        rows={4}
-        required
-        onChange={this.onTextChange}
-      />
-    </>
-  );
-
-  Details = () => (
-    <>
-      <label htmlFor="contact">Details</label>
-      <textarea
-        className="form-control"
-        id="details"
-        name="details"
-        rows={5}
-        required
-        onChange={this.onTextChange}
-      />
-    </>
-  );
-
-  Skills = () => (
-    <div className="form-group">
-      <label htmlFor="eventDetails">Skills Needed</label>
-      <input
-        type="text"
-        name="skills"
-        id="skills"
-        className="form-control"
-        required
-        onChange={this.onInputChange}
-      />
-    </div>
-  );
-
-  Link = () => (
-    <div className="form-group">
-      <label htmlFor="eventDetails">Sign Up Link</label>
-      <input
-        type="text"
-        name="link"
-        id="link"
-        className="form-control"
-        required
-        onChange={this.onInputChange}
-      />
-    </div>
-  );
-
-  Contact = () => (
-    <>
-      <label htmlFor="contact">
-        Contact Information (name, phone number, mobile number, email)
-      </label>
-      <textarea
-        className="form-control"
-        id="contact"
-        name="contact"
-        rows={3}
-        required
-        onChange={this.onTextChange}
-      />
-    </>
-  );
-
-  Tag = () => {
-    const options: JSX.Element[] = tags.map((tag) => <option>{tag}</option>);
-    return (
-      <>
-        <select
-          className="form-control"
-          id="tag"
-          defaultValue=""
-          onChange={this.onSelectionChange}
-          required
-        >
-          <option value="">--Select a Tag--</option>
-          {options}
-        </select>
-      </>
-    );
-  };
-
-  StartDate = () => {
-    return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <label htmlFor="start-date">Start Date</label>
-        <DatePicker
-          selected={this.state.startDate}
-          onChange={(newDate) =>
-            this.setState((prevState) => ({
-              endDate:
-                prevState.endDate > (newDate as Date)
-                  ? prevState.endDate
-                  : (newDate as Date),
-              startDate: newDate as Date,
-            }))
-          }
-          minDate={this.newDate}
-        />
-      </div>
-    );
-  };
-
-  EndDate = () => {
-    return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <label htmlFor="end-date">End Date</label>
-        <DatePicker
-          selected={this.state.endDate}
-          onChange={(newDate) => this.setState({ endDate: newDate as Date })}
-          minDate={this.state.startDate}
-        />
-      </div>
-    );
-  };
-
-  Poster = () => {
-    return (
-      <div className="form-group">
-        <label htmlFor="posterLink">(Optional) Poster Link</label>
-        <input
-          type="text"
-          name="poster"
-          id="poster"
-          className="form-control"
-          onChange={this.onInputChange}
-        />
-      </div>
-    );
-  };
-
   TermsAndConditions = () => {
     return (
       <div className="form-check">
@@ -345,6 +139,16 @@ class NewEvent extends React.Component<Props, State> {
   render() {
     const canCreate =
       this.props.role == "admin" || this.props.role == "organiser";
+    const event = {
+      ...this.state,
+      start_date: this.state.startDate,
+      end_date: this.state.endDate,
+      status: "",
+      remarks: "",
+    };
+    delete event.isLoading;
+    delete event.startDate;
+    delete event.endDate;
 
     if (canCreate) {
       return (
@@ -353,18 +157,10 @@ class NewEvent extends React.Component<Props, State> {
             <div className="col-sm-12 col-lg-6 offset-lg-3">
               <h1 className="font-weight-normal mb-5">Add a new event.</h1>
               <form onSubmit={this.onSubmit}>
-                <this.EventName />
-                <br />
-                <this.Tag />
-                <this.Summary />
-                <this.Venue />
-                <this.StartDate />
-                <this.EndDate />
-                <this.Details />
-                <this.Skills />
-                <this.Link />
-                <this.Poster/>
-                <this.Contact />
+                <EventEdit
+                  event={event}
+                  onChangeHandler={this.onChangeHandler}
+                />
                 <this.TermsAndConditions />
                 {this.state.isLoading ? (
                   <>

@@ -64,7 +64,7 @@ export default class EventView extends React.Component<Props, State> {
       })
       .then((response) => {
         this.setState({
-          event: response.event,
+          event: response,
         });
         console.log(response);
       })
@@ -169,7 +169,7 @@ export default class EventView extends React.Component<Props, State> {
           throw new Error("Network response was not ok.");
         })
         .then((response) =>
-          response.event.status == current
+          response.status == current
             ? fetch(url, {
                 method: "PATCH",
                 headers: {
@@ -188,9 +188,9 @@ export default class EventView extends React.Component<Props, State> {
                 .catch((error) => console.log(error.message))
             : alert(
                 "This entry was already " +
-                  response.event.status.toUpperCase() +
+                  response.status.toUpperCase() +
                   " by another admin. Remarks: " +
-                  response.event.remarks
+                  response.remarks
               )
         )
         .then(() => this.props.history.push("/all_submitted"));
@@ -219,7 +219,7 @@ export default class EventView extends React.Component<Props, State> {
           throw new Error("Network response was not ok.");
         })
         .then((response) =>
-          response.event.status == current
+          response.status == current
             ? fetch(url, {
                 method: "PATCH",
                 headers: {
@@ -238,9 +238,9 @@ export default class EventView extends React.Component<Props, State> {
                 .catch((error) => console.log(error.message))
             : alert(
                 "This entry was already " +
-                  response.event.status.toUpperCase() +
+                  response.status.toUpperCase() +
                   " by another admin. Remarks: " +
-                  response.event.remarks
+                  response.remarks
               )
         )
         .then(() => this.props.history.push("/all_submitted"));

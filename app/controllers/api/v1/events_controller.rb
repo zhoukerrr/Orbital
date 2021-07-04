@@ -77,7 +77,7 @@ class Api::V1::EventsController < ApplicationController
       clone = event.attributes.except("start_date", "end_date")
       clone['start_date']=event.start_date.strftime("%d %B %Y")
       clone['end_date']=event.start_date.strftime("%d %B %Y")
-      render json: {:event=>clone}
+      render json: clone
     else
       render json: event.errors
     end
