@@ -3,6 +3,9 @@ import { Event } from "../types";
 
 type Props = {
   event: Event;
+  /**
+   * Whether the remarks component should render.
+   */
   ownerView: boolean;
 };
 
@@ -24,9 +27,10 @@ export default class EventPreview extends React.Component<Props, State> {
   );
 
   Poster = () => {
-    return this.props.event.poster === "" ? null : (
+    return this.props.event.poster === "" || !this.props.event.poster ? null : (
       <>
         <img src={this.props.event.poster} title="event poster" />
+        <br />
       </>
     );
   };
@@ -119,7 +123,6 @@ export default class EventPreview extends React.Component<Props, State> {
         </div>
         <div className="col-sm-12 col-lg-7">
           <this.Poster />
-          <br />
           <this.Details />
           <br />
           <this.Skills />

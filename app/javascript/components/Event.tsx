@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Redirect } from "react-router-dom";
+import { Event } from "./types";
 import EventPreview from "./commons/EventPreview";
 
 type Props = {
@@ -12,13 +13,13 @@ type Props = {
 };
 
 type State = {
-  event: any;
+  event: Event;
   isLoading: boolean;
   interest: boolean;
   interest_id: number;
 };
 
-class Event extends React.Component<Props, State> {
+export default class EventView extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -61,11 +62,12 @@ class Event extends React.Component<Props, State> {
         }
         throw new Error("Network response was not ok.");
       })
-      .then((response) =>
+      .then((response) => {
         this.setState({
           event: response.event,
-        })
-      )
+        });
+        console.log(response);
+      })
       .then(() =>
         this.setState((prevState) => ({
           event: {
@@ -447,5 +449,3 @@ class Event extends React.Component<Props, State> {
     }
   }
 }
-
-export default Event;

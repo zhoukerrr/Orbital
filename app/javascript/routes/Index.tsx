@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import Home from "../components/Home";
 import Events from "../components/Events";
-import Event from "../components/Event";
+import EventView from "../components/Event";
 import NewEvent from "../components/NewEvent";
 import MyEvents from "../components/MyEvents";
 import AllSubmitted from "../components/AllSubmitted";
@@ -51,7 +51,7 @@ export default (props: any) => (
         path="/event/:id"
         exact
         render={(p: RouteComponentProps) => (
-          <Event {...p} user_id={props.user_id} role={props.role} />
+          <EventView {...p} user_id={props.user_id} role={props.role} />
         )}
       />
       <Route

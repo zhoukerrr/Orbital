@@ -74,11 +74,10 @@ class Api::V1::EventsController < ApplicationController
 
   def show
     if event
-      clone = event.clone
-      clone.update_attribute(:start_date, event.start_date.strftime("%d %B %Y"))
-      clone.update_attribute(:end_date, event.end_date.strftime("%d %B %Y"))
+      clone = event.attributes.except("start_date", "end_date")
+      clone['start_date']=event.start_date.strftime("%d %B %Y")
+      clone['end_date']=event.start_date.strftime("%d %B %Y")
       render json: {:event=>clone}
-      # render json: event
     else
       render json: event.errors
     end
