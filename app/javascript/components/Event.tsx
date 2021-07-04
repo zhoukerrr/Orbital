@@ -1,7 +1,6 @@
-import { repeat } from "lodash";
 import * as React from "react";
-import { Link, Redirect } from "react-router-dom";
-import { isThisTypeNode, ThisTypeNode } from "typescript";
+import { Redirect } from "react-router-dom";
+import EventPreview from "./commons/EventPreview";
 
 type Props = {
   match: {
@@ -14,8 +13,6 @@ type Props = {
 
 type State = {
   event: any;
-  start_date: string;
-  end_date: string;
   isLoading: boolean;
   interest: boolean;
   interest_id: number;
@@ -39,8 +36,6 @@ class Event extends React.Component<Props, State> {
         status: "",
         remarks: "",
       },
-      start_date: "",
-      end_date: "",
       isLoading: false,
       interest: false,
       interest_id: 0,
@@ -69,8 +64,6 @@ class Event extends React.Component<Props, State> {
       .then((response) =>
         this.setState({
           event: response.event,
-          start_date: response.start_date,
-          end_date: response.end_date,
         })
       )
       .then(() =>
@@ -317,89 +310,6 @@ class Event extends React.Component<Props, State> {
     }
   };
 
-  Venue = () => (
-    <>
-      <h4 className="mb-2">Venue</h4>
-      <div style={{ whiteSpace: "pre-line" }}>{this.state.event.venue}</div>
-      <br />
-    </>
-  );
-
-  Poster = () => {
-    return this.state.event.poster === "" ? null : (
-      <>
-        <img src={this.state.event.poster} title="event poster" />
-      </>
-    );
-  };
-
-  Details = () => (
-    <>
-      <h4 className="mb-2">Details</h4>
-      <div style={{ whiteSpace: "pre-line" }}>{this.state.event.details}</div>
-    </>
-  );
-
-  Skills = () => (
-    <>
-      <h4 className="mb-2">Skills Needed</h4>
-      {this.state.event.skills}
-      <br />
-    </>
-  );
-
-  Link = () => (
-    <>
-      <h4 className="mb-2">Sign Up Link</h4>
-      <a
-        href={"//" + this.state.event.link}
-        type="button"
-        className="btn btn-link"
-      >
-        {this.state.event.link}
-      </a>
-      <br />
-    </>
-  );
-
-  Contact = () => (
-    <>
-      <h4 className="mb-2">Contact Details</h4>
-      <div style={{ whiteSpace: "pre-line" }}>{this.state.event.contact}</div>
-      <br />
-    </>
-  );
-
-  Status = () => (
-    <>
-      <h4 className="mb-2">Status</h4>
-      {this.state.event.status}
-    </>
-  );
-
-  Remarks = () => (
-    <>
-      <h4 className="mb-2">Remarks</h4>
-      {this.state.event.remarks == null ? "NIL" : this.state.event.remarks}
-    </>
-  );
-
-  StartDate = () => (
-    <>
-      <h4 className="mb-2">Start Date</h4>
-      {this.state.start_date}
-      <br />
-    </>
-  );
-
-  EndDate = () => (
-    <>
-      <h4 className="mb-2">End Date</h4>
-      {this.state.end_date}
-      <br />
-    </>
-  );
-
   Delete = () => (
     <>
       <button
@@ -498,32 +408,7 @@ class Event extends React.Component<Props, State> {
           </div>
           <div className="container py-5">
             <div className="row">
-              <div className="col-sm-12 col-lg-3">
-                <ul className="list-group">
-                  <this.StartDate />
-                  <br />
-                  <this.EndDate />
-                  <br />
-                  <this.Venue />
-                  <br />
-                  <this.Contact />
-                  <br />
-                  {can_delete ? <this.Status /> : null}
-                  <br />
-                  <br />
-                  {can_delete ? <this.Remarks /> : null}
-                </ul>
-              </div>
-              <div className="col-sm-12 col-lg-7">
-                <this.Poster />
-                <br />
-                <this.Details />
-                <br />
-                <this.Skills />
-                <br />
-                <this.Link />
-              </div>
-
+              <EventPreview event={this.state.event} ownerView={can_delete} />
               <div className="col-sm-12 col-lg-2">
                 {can_delete ? <this.Delete /> : null}
                 {can_decide ? (
