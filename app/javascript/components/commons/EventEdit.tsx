@@ -26,6 +26,7 @@ export default class EventEdit extends React.Component<Props, State> {
         className="form-control"
         required
         onChange={this.onInputChange}
+        value={this.props.event.name}
       />
     </div>
   );
@@ -38,6 +39,7 @@ export default class EventEdit extends React.Component<Props, State> {
         id="summary"
         required
         onChange={this.onInputChange}
+        value={this.props.event.summary}
       />
     </>
   );
@@ -51,6 +53,7 @@ export default class EventEdit extends React.Component<Props, State> {
         rows={4}
         required
         onChange={this.onInputChange}
+        value={this.props.event.venue}
       />
     </>
   );
@@ -64,6 +67,7 @@ export default class EventEdit extends React.Component<Props, State> {
         rows={5}
         required
         onChange={this.onInputChange}
+        value={this.props.event.details}
       />
     </>
   );
@@ -77,6 +81,7 @@ export default class EventEdit extends React.Component<Props, State> {
         className="form-control"
         required
         onChange={this.onInputChange}
+        value={this.props.event.skills}
       />
     </div>
   );
@@ -90,6 +95,7 @@ export default class EventEdit extends React.Component<Props, State> {
         className="form-control"
         required
         onChange={this.onInputChange}
+        value={this.props.event.link}
       />
     </div>
   );
@@ -105,6 +111,7 @@ export default class EventEdit extends React.Component<Props, State> {
         rows={3}
         required
         onChange={this.onInputChange}
+        value={this.props.event.contact}
       />
     </>
   );
@@ -119,6 +126,7 @@ export default class EventEdit extends React.Component<Props, State> {
           defaultValue=""
           onChange={this.onInputChange}
           required
+          value={this.props.event.tag}
         >
           <option value="">--Select a Tag--</option>
           {options}
@@ -137,7 +145,7 @@ export default class EventEdit extends React.Component<Props, State> {
       >
         <label htmlFor="start-date">Start Date</label>
         <DatePicker
-          selected={this.props.event.start_date}
+          selected={this.props.event.start_date as Date}
           onChange={(newDate) => {
             this.props.onChangeHandler("start_date", newDate as Date);
             if (this.props.event.end_date <= (newDate as Date)) {
@@ -160,11 +168,11 @@ export default class EventEdit extends React.Component<Props, State> {
       >
         <label htmlFor="end-date">End Date</label>
         <DatePicker
-          selected={this.props.event.end_date}
+          selected={this.props.event.end_date as Date}
           onChange={(newDate) =>
             this.props.onChangeHandler("end_date", newDate as Date)
           }
-          minDate={this.props.event.start_date}
+          minDate={this.props.event.start_date as Date}
         />
       </div>
     );
@@ -179,6 +187,7 @@ export default class EventEdit extends React.Component<Props, State> {
           id="poster"
           className="form-control"
           onChange={this.onInputChange}
+          value={this.props.event.poster}
         />
       </div>
     );

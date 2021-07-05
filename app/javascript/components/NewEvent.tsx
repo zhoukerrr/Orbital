@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link, Redirect } from "react-router-dom";
 import EventEdit from "./commons/EventEdit";
+import EventPreview from "./commons/EventPreview";
 import { Event } from "./types";
 
 type Props = {
@@ -12,6 +13,7 @@ type Props = {
 type State = {
   event: Event;
   isLoading: boolean;
+  preview: boolean;
 };
 
 class NewEvent extends React.Component<Props, State> {
@@ -54,6 +56,7 @@ class NewEvent extends React.Component<Props, State> {
         remarks: "",
       },
       isLoading: false,
+      preview: false,
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.stripHtmlEntities = this.stripHtmlEntities.bind(this);
@@ -64,15 +67,19 @@ class NewEvent extends React.Component<Props, State> {
   }
 
   onChangeHandler = (key: string, value: any) => {
-    if (Object.keys(this.state).includes(key)) {
-      this.setState({
-        [key]: value,
-      } as Pick<State, keyof State>);
+    if (Object.keys(this.state.event).includes(key)) {
+      this.setState((prevState) => ({
+        event: { ...prevState.event, [key]: value as Pick<State, keyof State> },
+      }));
     }
   };
 
   onSubmit(event: any) {
     event.preventDefault();
+    if (!this.state.preview) {
+      this.setState({ preview: true });
+      return;
+    }
     this.setState({ isLoading: true });
     const url = "/api/v1/events/create";
     const submission = this.state.event;
@@ -137,20 +144,41 @@ class NewEvent extends React.Component<Props, State> {
             <div className="col-sm-12 col-lg-6 offset-lg-3">
               <h1 className="font-weight-normal mb-5">Add a new event.</h1>
               <form onSubmit={this.onSubmit}>
-                <EventEdit
-                  event={this.state.event}
-                  onChangeHandler={this.onChangeHandler}
-                />
-                <this.TermsAndConditions />
-                {this.state.isLoading ? (
+                {!this.state.preview ? (
                   <>
-                    <br />
-                    <this.Spinner />
+                    <EventEdit
+                      event={this.state.event}
+                      onChangeHandler={this.onChangeHandler}
+                    />
+                    <this.TermsAndConditions />
+                    <button type="submit" className="btn custom-button mt-3">
+                      Submit
+                    </button>
                   </>
                 ) : (
-                  <button type="submit" className="btn custom-button mt-3">
-                    Create Event
-                  </button>
+                  <>
+                    <EventPreview event={this.state.event} ownerView={false} />
+                    {this.state.isLoading ? (
+                      <>
+                        <br />
+                        <this.Spinner />
+                      </>
+                    ) : (
+                      <button type="submit" className="btn custom-button mt-3">
+                        Confirm Submission
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      className="btn custom-button mt-3"
+                      disabled={this.state.isLoading}
+                      onClick={() => {
+                        this.setState({ preview: false });
+                      }}
+                    >
+                      Back to Editing
+                    </button>
+                  </>
                 )}
                 <br />
                 <Link to="/events" className="btn btn-link mt-3">
