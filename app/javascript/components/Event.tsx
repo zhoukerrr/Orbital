@@ -91,14 +91,11 @@ export default class EventView extends React.Component<Props, State> {
         throw new Error("Network response was not ok.");
       })
       .then((response) =>
-        response.filter(
-          (interest: any) => interest.event_id == this.props.match.params.id
-        ).length == 1
-          ? this.setState({
-              interest: true,
-              interest_id: response[0].id,
-            })
-          : null
+        response.map((interest: any) =>
+          interest.event_id == this.props.match.params.id
+            ? this.setState({ interest_id: interest.id, interest: true })
+            : null
+        )
       )
       .catch(() => this.props.history.push("/events"));
   }
@@ -277,14 +274,11 @@ export default class EventView extends React.Component<Props, State> {
         throw new Error("Network response was not ok.");
       })
       .then((response) =>
-        response.filter(
-          (interest: any) => interest.event_id == this.props.match.params.id
-        ).length == 1
-          ? this.setState({
-              interest: true,
-              interest_id: response[0].id,
-            })
-          : null
+        response.map((interest: any) =>
+          interest.event_id == this.props.match.params.id
+            ? this.setState({ interest_id: interest.id, interest: true })
+            : null
+        )
       )
       .catch(() => this.props.history.push("/events"));
   };
