@@ -4,6 +4,8 @@ export type Event = {
   name: string;
   details: string;
   user_id: number;
+  summary: string;
+  tag: string;
   venue: string;
   // TODO: the type is not entirely Date, may have to do some convertion here
   start_date: any;

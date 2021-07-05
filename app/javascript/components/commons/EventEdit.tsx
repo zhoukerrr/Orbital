@@ -22,7 +22,6 @@ export default class EventEdit extends React.Component<Props, State> {
       <label htmlFor="eventName">Event name</label>
       <input
         type="text"
-        name="name"
         id="name"
         className="form-control"
         required
@@ -37,7 +36,6 @@ export default class EventEdit extends React.Component<Props, State> {
       <input
         className="form-control"
         id="summary"
-        name="summary"
         required
         onChange={this.onInputChange}
       />
@@ -50,10 +48,9 @@ export default class EventEdit extends React.Component<Props, State> {
       <textarea
         className="form-control"
         id="venue"
-        name="venue"
         rows={4}
         required
-        onChange={this.onTextChange}
+        onChange={this.onInputChange}
       />
     </>
   );
@@ -64,10 +61,9 @@ export default class EventEdit extends React.Component<Props, State> {
       <textarea
         className="form-control"
         id="details"
-        name="details"
         rows={5}
         required
-        onChange={this.onTextChange}
+        onChange={this.onInputChange}
       />
     </>
   );
@@ -77,7 +73,6 @@ export default class EventEdit extends React.Component<Props, State> {
       <label htmlFor="eventDetails">Skills Needed</label>
       <input
         type="text"
-        name="skills"
         id="skills"
         className="form-control"
         required
@@ -91,7 +86,6 @@ export default class EventEdit extends React.Component<Props, State> {
       <label htmlFor="eventDetails">Sign Up Link</label>
       <input
         type="text"
-        name="link"
         id="link"
         className="form-control"
         required
@@ -108,10 +102,9 @@ export default class EventEdit extends React.Component<Props, State> {
       <textarea
         className="form-control"
         id="contact"
-        name="contact"
         rows={3}
         required
-        onChange={this.onTextChange}
+        onChange={this.onInputChange}
       />
     </>
   );
@@ -124,7 +117,7 @@ export default class EventEdit extends React.Component<Props, State> {
           className="form-control"
           id="tag"
           defaultValue=""
-          onChange={this.onSelectionChange}
+          onChange={this.onInputChange}
           required
         >
           <option value="">--Select a Tag--</option>
@@ -146,9 +139,9 @@ export default class EventEdit extends React.Component<Props, State> {
         <DatePicker
           selected={this.props.event.start_date}
           onChange={(newDate) => {
-            this.props.onChangeHandler("startDate", newDate as Date);
+            this.props.onChangeHandler("start_date", newDate as Date);
             if (this.props.event.end_date <= (newDate as Date)) {
-              this.props.onChangeHandler("endDate", newDate as Date);
+              this.props.onChangeHandler("end_date", newDate as Date);
             }
           }}
           minDate={new Date()}
@@ -169,7 +162,7 @@ export default class EventEdit extends React.Component<Props, State> {
         <DatePicker
           selected={this.props.event.end_date}
           onChange={(newDate) =>
-            this.props.onChangeHandler("endDate", newDate as Date)
+            this.props.onChangeHandler("end_date", newDate as Date)
           }
           minDate={this.props.event.start_date}
         />
@@ -183,7 +176,6 @@ export default class EventEdit extends React.Component<Props, State> {
         <label htmlFor="posterLink">(Optional) Poster Link</label>
         <input
           type="text"
-          name="poster"
           id="poster"
           className="form-control"
           onChange={this.onInputChange}
@@ -192,19 +184,12 @@ export default class EventEdit extends React.Component<Props, State> {
     );
   };
 
-  onTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const key: string = event.target.id;
-    const value: any = event.target.value;
-    this.props.onChangeHandler(key, value);
-  };
-
-  onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const key: string = event.target.id;
-    const value: any = event.target.value;
-    this.props.onChangeHandler(key, value);
-  };
-
-  onSelectionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  onInputChange = (
+    event:
+      | React.ChangeEvent<HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
     const key: string = event.target.id;
     const value: any = event.target.value;
     this.props.onChangeHandler(key, value);

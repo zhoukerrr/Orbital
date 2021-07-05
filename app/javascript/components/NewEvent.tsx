@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link, Redirect } from "react-router-dom";
 import EventEdit from "./commons/EventEdit";
+import { Event } from "./types";
 
 type Props = {
   history: any;
@@ -9,18 +10,7 @@ type Props = {
 };
 
 type State = {
-  name: string;
-  tag: string;
-  summary: string;
-  venue: string;
-  startDate: Date;
-  endDate: Date;
-  details: string;
-  skills: string;
-  link: string;
-  contact: string;
-  poster: string;
-  user_id: number;
+  event: Event;
   isLoading: boolean;
 };
 
@@ -33,32 +23,36 @@ class NewEvent extends React.Component<Props, State> {
     this.newDate = new Date();
 
     this.state = {
-      name: "",
-      tag: "",
-      summary: "",
-      venue: "",
-      startDate: new Date(
-        this.newDate.getFullYear(),
-        this.newDate.getMonth(),
-        this.newDate.getDate(),
-        23,
-        59,
-        59
-      ),
-      endDate: new Date(
-        this.newDate.getFullYear(),
-        this.newDate.getMonth(),
-        this.newDate.getDate(),
-        23,
-        59,
-        59
-      ),
-      details: "",
-      skills: "",
-      link: "",
-      contact: "",
-      poster: "",
-      user_id: this.props.user_id,
+      event: {
+        name: "",
+        tag: "",
+        summary: "",
+        venue: "",
+        start_date: new Date(
+          this.newDate.getFullYear(),
+          this.newDate.getMonth(),
+          this.newDate.getDate(),
+          23,
+          59,
+          59
+        ),
+        end_date: new Date(
+          this.newDate.getFullYear(),
+          this.newDate.getMonth(),
+          this.newDate.getDate(),
+          23,
+          59,
+          59
+        ),
+        details: "",
+        skills: "",
+        link: "",
+        contact: "",
+        poster: "",
+        user_id: this.props.user_id,
+        status: "",
+        remarks: "",
+      },
       isLoading: false,
     };
     this.onSubmit = this.onSubmit.bind(this);
@@ -81,16 +75,12 @@ class NewEvent extends React.Component<Props, State> {
     event.preventDefault();
     this.setState({ isLoading: true });
     const url = "/api/v1/events/create";
-    const submission = this.state;
+    const submission = this.state.event;
 
     const body = {
       ...submission,
-      start_date: submission.startDate,
-      end_date: submission.endDate,
       details: this.stripHtmlEntities(submission.details),
     };
-    delete body.startDate;
-    delete body.endDate;
 
     const token = document
       .querySelector('meta[name="csrf-token"]')
@@ -139,16 +129,6 @@ class NewEvent extends React.Component<Props, State> {
   render() {
     const canCreate =
       this.props.role == "admin" || this.props.role == "organiser";
-    const event = {
-      ...this.state,
-      start_date: this.state.startDate,
-      end_date: this.state.endDate,
-      status: "",
-      remarks: "",
-    };
-    delete event.isLoading;
-    delete event.startDate;
-    delete event.endDate;
 
     if (canCreate) {
       return (
@@ -158,7 +138,7 @@ class NewEvent extends React.Component<Props, State> {
               <h1 className="font-weight-normal mb-5">Add a new event.</h1>
               <form onSubmit={this.onSubmit}>
                 <EventEdit
-                  event={event}
+                  event={this.state.event}
                   onChangeHandler={this.onChangeHandler}
                 />
                 <this.TermsAndConditions />
