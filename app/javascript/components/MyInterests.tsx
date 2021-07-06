@@ -9,7 +9,7 @@ type Props = {
 };
 
 type State = {
-  interests: any[];
+  events: any[];
   done: boolean;
 };
 
@@ -17,7 +17,7 @@ class Events extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      interests: [],
+      events: [],
       done: false,
     };
   }
@@ -32,29 +32,50 @@ class Events extends React.Component<Props, State> {
         }
         throw new Error("Network response was not ok.");
       })
-      .then((response) => {
+      .then((interests) => {
+        return interests.map((interest: any) => interest.event_id);
+      })
+      .then((event_ids) => {
+        return Promise.all(
+          event_ids.map((id: any) =>
+            fetch(`/api/v1/show/${id}`).then((response) => {
+              if (response.ok) {
+                return response.json();
+              }
+              throw new Error("Network response was not ok.");
+            })
+          )
+        );
+      })
+      .then((result) => {
         this.setState({
-          interests: response,
+          events: result,
           done: true,
         });
-        console.log(response);
       })
       .catch(() => this.props.history.push("/"));
   };
 
   render = () => {
-    const { interests } = this.state;
+    const { events } = this.state;
 
-    const allInterests = interests.map((interest) => (
+    const allInterests = events.map((entry) => (
       <div className="list-group">
         <a className="list-group-item list-group-item-action">
           <div>
             <div className="d-flex w-100 justify-content-between">
-              <h5 className="mb-1">{interest.event_id}</h5>
+              <h5 className="mb-1">{entry.event.name}</h5>
+              <small className="text-muted">by {entry.organiser.name}</small>
             </div>
+            <p className="mb-1">{entry.event.summary}</p>
             <div className="d-flex w-100 justify-content-between">
+              <small className="text-muted">
+                <button type="button" className="btn btn-outline-dark" disabled>
+                  {entry.event.tag}
+                </button>
+              </small>
               <Link
-                to={`/event/${interest.event_id}`}
+                to={`/event/${entry.event.id}`}
                 className="btn custom-button"
               >
                 View Event
