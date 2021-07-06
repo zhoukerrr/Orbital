@@ -17,6 +17,7 @@ type State = {
   isLoading: boolean;
   interest: boolean;
   interest_id: number;
+  organiser: string;
 };
 
 export default class EventView extends React.Component<Props, State> {
@@ -42,6 +43,7 @@ export default class EventView extends React.Component<Props, State> {
       isLoading: false,
       interest: false,
       interest_id: 0,
+      organiser: "",
     };
 
     this.addHtmlEntities = this.addHtmlEntities.bind(this);
@@ -66,21 +68,11 @@ export default class EventView extends React.Component<Props, State> {
       })
       .then((response) => {
         this.setState({
-          event: response,
+          event: response.event,
+          organiser: response.organiser.name,
         });
         console.log(response);
       })
-      .then(() =>
-        this.setState((prevState) => ({
-          event: {
-            ...prevState.event,
-            details:
-              prevState.event.details.length == 0
-                ? "No details available"
-                : this.addHtmlEntities(prevState.event.details),
-          },
-        }))
-      )
       .catch(() => this.props.history.push("/events"));
 
     fetch(`/api/v1/interests/my_interests`)
@@ -400,9 +392,15 @@ export default class EventView extends React.Component<Props, State> {
         <div className="">
           <div className="hero position-relative d-flex align-items-center justify-content-center">
             <div className="overlay bg-dark position-absolute" />
-            <h1 className="display-4 position-relative text-white">
-              {event.name}
-            </h1>
+            <div>
+              <h1 className="display-4 position-relative text-white">
+                {event.name}
+              </h1>
+              <br />
+              <h4 className="display-4 position-relative text-white">
+                by {this.state.organiser}
+              </h4>
+            </div>
           </div>
           <div className="container py-5">
             <div className="row">

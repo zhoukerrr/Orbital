@@ -84,26 +84,21 @@ class Events extends React.Component<Props, State> {
         <div className="py-5">
           <main className="container">
             <div className="row" style={{ flexWrap: "nowrap" }}>
-              <div className="column" style={{ width: "80%" }}>
-                <div
-                  className="row"
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "stretch",
-                  }}
-                >
-                  {allInterests.length > 0
-                    ? allInterests
-                    : this.state.done
-                    ? noInterests
-                    : null}
-                </div>
+              <div
+                className="row"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "stretch",
+                }}
+              >
+                {allInterests.length > 0
+                  ? allInterests
+                  : this.state.done
+                  ? noInterests
+                  : null}
               </div>
             </div>
-            <Link to="/" className="btn btn-link">
-              Home
-            </Link>
           </main>
         </div>
       </>
