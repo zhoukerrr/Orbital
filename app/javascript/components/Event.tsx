@@ -160,7 +160,7 @@ export default class EventView extends React.Component<Props, State> {
           throw new Error("Network response was not ok.");
         })
         .then((response) =>
-          response.status == current
+          response.event.status == current
             ? fetch(url, {
                 method: "PATCH",
                 headers: {
@@ -179,9 +179,9 @@ export default class EventView extends React.Component<Props, State> {
                 .catch((error) => console.log(error.message))
             : alert(
                 "This entry was already " +
-                  response.status.toUpperCase() +
+                  response.event.status.toUpperCase() +
                   " by another admin. Remarks: " +
-                  response.remarks
+                  response.event.remarks
               )
         )
         .then(() => this.props.history.push("/all_submitted"));
@@ -210,7 +210,7 @@ export default class EventView extends React.Component<Props, State> {
           throw new Error("Network response was not ok.");
         })
         .then((response) =>
-          response.status == current
+          response.event.status == current
             ? fetch(url, {
                 method: "PATCH",
                 headers: {
@@ -229,9 +229,9 @@ export default class EventView extends React.Component<Props, State> {
                 .catch((error) => console.log(error.message))
             : alert(
                 "This entry was already " +
-                  response.status.toUpperCase() +
+                  response.event.status.toUpperCase() +
                   " by another admin. Remarks: " +
-                  response.remarks
+                  response.event.remarks
               )
         )
         .then(() => this.props.history.push("/all_submitted"));
