@@ -1,7 +1,7 @@
 import * as qs from "qs";
 import * as React from "react";
 import { Link, Redirect } from "react-router-dom";
-import PageGroup from "./commons/PageButtonGroup";
+import EventCatalog from "./commons/EventCatalog";
 
 type Props = {
   key: number;
@@ -11,83 +11,32 @@ type Props = {
 };
 
 type State = {
-  events: any[];
-  usernames: any[];
-  done: boolean;
-  page: number;
-  noOfPages: number;
+  queryString: string;
   tags: string[];
 };
 
 class Events extends React.Component<Props, State> {
-  private noOfEventsPerPage: number = 5;
-
   constructor(props: Props) {
     super(props);
     this.state = {
-      events: [],
-      usernames: [],
-      done: false,
-      page: 1,
-      noOfPages: 0,
+      queryString: "?status=submitted&user=all",
       tags: [],
     };
   }
 
   componentDidMount = () => {
-    var url: string = "/api/v1/events?status=submitted&user=all";
-    if (this.props.location.search === "") {
-      url = url.concat("&limit=" + this.noOfEventsPerPage);
-    } else {
+    if (this.props.location.search !== "") {
       const params: any = qs.parse(this.props.location.search, {
         ignoreQueryPrefix: true,
       });
-
-      const keys: string[] = Object.keys(params);
-      if (keys.includes("page")) {
-        this.setState({ page: parseInt(params.page) });
-        const offset: number =
-          (parseInt(params.page) - 1) * this.noOfEventsPerPage;
-        url = url.concat("&offset=" + offset);
-      }
-      if (keys.includes("tags")) {
+      if (Object.keys(params).includes("tags")) {
         this.setState({ tags: params.tags });
-        url = url.concat(
-          "&" + qs.stringify({ tags: params.tags }, { arrayFormat: "brackets" })
-        );
       }
-      url = url.concat("&limit=" + this.noOfEventsPerPage); // 5 as default
+      this.setState({
+        queryString: this.props.location.search + "&status=submitted&user=all",
+      });
     }
-
-    fetch(url)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error("Network response was not ok.");
-      })
-      .then((response) => {
-        this.setState({
-          events: response.event,
-          usernames: response.usernames,
-          noOfPages: Math.ceil(response.noOfEvents / this.noOfEventsPerPage),
-        });
-        console.log(response);
-      })
-      .then(() => this.setState({ done: true }))
-      .catch(() => this.props.history.push("/"));
   };
-
-  getNamefromID(id: number): string {
-    const { usernames } = this.state;
-    return usernames.find((set) => set.id == id).name;
-  }
-
-  CreateButton = () => (
-    <Link to="/event" className="btn custom-button">
-      Create New Event
-    </Link>
-  );
 
   pageButtonGroupOnClickHandler = (value: number) => {
     var link = "/all_submitted?page=" + value;
@@ -109,49 +58,6 @@ class Events extends React.Component<Props, State> {
   };
 
   render = () => {
-    const { events } = this.state;
-
-    const canCreate =
-      this.props.role == "admin" || this.props.role == "organiser";
-
-    const allEvents = events.map((event) => (
-      <div className="list-group">
-        <a className="list-group-item list-group-item-action">
-          <div>
-            <div className="d-flex w-100 justify-content-between">
-              <h5 className="mb-1">{event.name}</h5>
-              <small className="text-muted">
-                by {this.getNamefromID(event.user_id)}
-              </small>
-            </div>
-            <p className="mb-1">{event.summary}</p>
-            <div className="d-flex w-100 justify-content-between">
-              <small className="text-muted">
-                <button
-                  type="button"
-                  className="btn btn-outline-dark"
-                  value={event.tag}
-                  onClick={this.tagButtonOnClickHandler}
-                >
-                  {event.tag}
-                </button>
-              </small>
-              <Link to={`/event/${event.id}`} className="btn custom-button">
-                View Event
-              </Link>
-            </div>
-          </div>
-        </a>
-      </div>
-    ));
-    const noEvent = (
-      <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
-        <h4>
-          No such event yet. Why not <Link to="/event">create one</Link>
-        </h4>
-      </div>
-    );
-
     if (this.props.role == "admin") {
       return (
         <>
@@ -163,31 +69,14 @@ class Events extends React.Component<Props, State> {
           </section>
           <div className="py-5">
             <main className="container">
-              <div className="d-flex justify-content-between">
-                {allEvents.length > 0 ? (
-                  <PageGroup
-                    noOfPages={this.state.noOfPages}
-                    currentPage={this.state.page}
-                    onClickHandler={this.pageButtonGroupOnClickHandler}
-                  />
-                ) : null}
-                {canCreate ? <this.CreateButton /> : null}
-              </div>
-              <br />
-              <div
-                className="row"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "stretch",
-                }}
-              >
-                {allEvents.length > 0
-                  ? allEvents
-                  : this.state.done
-                  ? noEvent
-                  : null}
-              </div>
+              <EventCatalog
+                key={Math.random()}
+                queryString={this.state.queryString}
+                pageButtonGroupOnClickHandler={
+                  this.pageButtonGroupOnClickHandler
+                }
+                tagButtonOnClickHandler={this.tagButtonOnClickHandler}
+              />
               <Link to="/" className="btn btn-link">
                 Home
               </Link>

@@ -43,12 +43,7 @@ export default (props: any) => (
         path="/my_events"
         exact
         render={(p: RouteComponentProps) => (
-          <MyEvents
-            {...p}
-            user_id={props.user_id}
-            key={Math.random()}
-            role={props.role}
-          />
+          <MyEvents {...p} key={Math.random()} role={props.role} />
         )}
       />
       <Route

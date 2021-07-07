@@ -8,7 +8,6 @@ type Props = {
   key: number;
   history: any;
   location: any;
-  user_id: number;
   role: string;
 };
 
@@ -19,8 +18,6 @@ type State = {
 };
 
 class Events extends React.Component<Props, State> {
-  private noOfEventsPerPage: number = 5;
-
   constructor(props: Props) {
     super(props);
     this.state = {
