@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       delete '/destroy/:id', to: 'events#destroy'
       patch '/approve/:id', to: 'events#approve'
       patch '/reject/:id', to: 'events#reject'
+      get '/interested_in/:id', to: 'events#interested_in'
     end
   end
   root 'homepage#index'

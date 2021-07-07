@@ -1,4 +1,3 @@
-import { forEach } from "lodash";
 import * as React from "react";
 import { Link } from "react-router-dom";
 
@@ -14,7 +13,7 @@ type State = {
   done: boolean;
 };
 
-class Events extends React.Component<Props, State> {
+class MyInterests extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -117,4 +116,4 @@ class Events extends React.Component<Props, State> {
   };
 }
 
-export default Events;
+export default MyInterests;

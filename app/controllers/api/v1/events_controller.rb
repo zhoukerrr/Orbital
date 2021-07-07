@@ -93,6 +93,16 @@ class Api::V1::EventsController < ApplicationController
     render json: { message: 'Event deleted!' }
   end
 
+  def interested_in
+    if event
+      interests = Interest.where(event_id: event.id).order(created_at: :desc)
+      students = User.where(id: interests.map {|n| n.user_id})
+      render json: students
+    else
+      render json: event.errors
+    end
+  end
+
   def event_params
     params.permit(:name, :tag, :summary, :venue, :start_date, :end_date, :details, :skills, :link, :contact, :user_id,
                   :status, :remarks, :poster)

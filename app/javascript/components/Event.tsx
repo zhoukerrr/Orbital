@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Event } from "./types";
 import EventPreview from "./commons/EventPreview";
 
@@ -386,6 +386,8 @@ export default class EventView extends React.Component<Props, State> {
 
   render() {
     const { event } = this.state;
+    const id = this.props.match.params.id;
+    const url = "/interest/" + id;
 
     const can_delete =
       this.props.role == "admin" || this.props.user_id == event.user_id;
@@ -431,7 +433,11 @@ export default class EventView extends React.Component<Props, State> {
                 )}
               </div>
               <br />
-              {this.state.interest ? (
+              {can_delete ? (
+                <Link to={url} className="btn btn-primary">
+                  View Event Signups
+                </Link>
+              ) : this.state.interest ? (
                 <this.WithdrawInterest />
               ) : (
                 <this.IndicateInterest />
