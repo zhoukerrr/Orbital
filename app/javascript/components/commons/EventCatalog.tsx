@@ -81,8 +81,8 @@ export default class EventCatalog extends React.Component<Props, State> {
     return user ? user.name : "Anonymous";
   }
 
-  render() {
-    const allEvents = this.state.events.slice().map((event) => (
+  getEventCard(event: Event): JSX.Element {
+    return (
       <div className="list-group">
         <a className="list-group-item list-group-item-action">
           <div>
@@ -111,7 +111,13 @@ export default class EventCatalog extends React.Component<Props, State> {
           </div>
         </a>
       </div>
-    ));
+    );
+  }
+
+  render() {
+    const allEvents = this.state.events
+      .slice()
+      .map((value) => this.getEventCard(value));
 
     const noEvent = (
       <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">

@@ -9,8 +9,6 @@ type Props = {
   key: number;
   history: any;
   location: any;
-  user_id: number;
-  role: string;
 };
 
 type State = {
@@ -18,9 +16,7 @@ type State = {
   tags: string[];
 };
 
-class Events extends React.Component<Props, State> {
-  private noOfEventsPerPage: number = 5;
-
+export default class Events extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -42,12 +38,6 @@ class Events extends React.Component<Props, State> {
       });
     }
   };
-
-  CreateButton = () => (
-    <Link to="/event" className="btn custom-button">
-      Create New Event
-    </Link>
-  );
 
   pageButtonGroupOnClickHandler = (value: number) => {
     var link = "/events?page=" + value;
@@ -75,9 +65,6 @@ class Events extends React.Component<Props, State> {
   };
 
   render = () => {
-    const canCreate =
-      this.props.role == "admin" || this.props.role == "organiser";
-
     return (
       <>
         <section className="jumbotron jumbotron-fluid text-center">
@@ -89,8 +76,7 @@ class Events extends React.Component<Props, State> {
         <div className="py-5">
           <main className="container">
             <div className="row" style={{ flexWrap: "nowrap" }}>
-              <div className="column" style={{ width: "80%" }}>
-                {canCreate ? <this.CreateButton /> : null}
+              <div style={{ width: "80%" }}>
                 <EventCatalog
                   key={Math.random()}
                   queryString={this.state.queryString}
@@ -117,5 +103,3 @@ class Events extends React.Component<Props, State> {
     );
   };
 }
-
-export default Events;
