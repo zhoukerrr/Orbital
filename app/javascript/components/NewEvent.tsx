@@ -52,7 +52,7 @@ class NewEvent extends React.Component<Props, State> {
         contact: "",
         poster: "",
         user_id: this.props.user_id,
-        status: "",
+        status: "submitted",
         remarks: "",
       },
       isLoading: false,
