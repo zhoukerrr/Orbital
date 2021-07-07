@@ -114,6 +114,18 @@ export default class EventCatalog extends React.Component<Props, State> {
     );
   }
 
+  Spinner = () => {
+    return (
+      <div
+        className="spinner-border"
+        role="status"
+        style={{ alignSelf: "center" }}
+      >
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    );
+  };
+
   render() {
     const allEvents = this.state.events
       .slice()
@@ -138,11 +150,13 @@ export default class EventCatalog extends React.Component<Props, State> {
               alignItems: "stretch",
             }}
           >
-            {allEvents.length > 0
-              ? allEvents
-              : !this.state.isLoading
-              ? noEvent
-              : null}
+            {allEvents.length > 0 ? (
+              allEvents
+            ) : !this.state.isLoading ? (
+              noEvent
+            ) : (
+              <this.Spinner />
+            )}
           </div>
           <br />
           <PageGroup
