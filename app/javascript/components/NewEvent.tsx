@@ -26,6 +26,7 @@ class NewEvent extends React.Component<Props, State> {
 
     this.state = {
       event: {
+        id: undefined,
         name: "",
         tag: "",
         summary: "",

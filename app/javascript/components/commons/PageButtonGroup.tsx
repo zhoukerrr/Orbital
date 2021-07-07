@@ -37,6 +37,9 @@ export default class PageButtonGroup extends React.Component<Props, State> {
       style={{
         boxShadow: "none",
       }}
+      disabled={
+        value.toString() === display && value === this.props.currentPage
+      }
       value={value}
       onClick={this.onClickHandler}
     >
@@ -67,7 +70,7 @@ export default class PageButtonGroup extends React.Component<Props, State> {
     const needRightEllipsis = lastButton < this.props.noOfPages;
 
     return (
-      <div className="btn-group" role="group">
+      <div className="btn-group" role="group" style={{ alignSelf: "center" }}>
         {this.pageButton(1, "<<")}
         {this.pageButton(Math.max(this.props.currentPage - 1, 1), "<")}
         {needLeftEllipsis ? (

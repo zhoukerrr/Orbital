@@ -1,7 +1,4 @@
 import * as React from "react";
-import { Redirect } from "react-router-dom";
-import { Event } from "./types";
-import EventPreview from "./commons/EventPreview";
 
 type Props = {
   match: {

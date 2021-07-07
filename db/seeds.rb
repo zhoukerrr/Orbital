@@ -2,7 +2,7 @@
 20.times do |i|
   Event.create(
     name: "Seed Event #{i + 1}",
-    tag: "Environment",
+    tag: "Animal Welfare",
     summary: "seed generated summary",
     venue: "seed generated venue",
     start_date: "2021-06-25T16:00:00.000Z",
@@ -18,7 +18,7 @@ end
 20.times do |i|
   Event.create(
     name: "Seed Event #{i + 21}",
-    tag: "Fund-Raising",
+    tag: "Arts & Heritage",
     summary: "seed generated summary",
     venue: "seed generated venue",
     start_date: "2021-06-25T16:00:00.000Z",
@@ -34,7 +34,7 @@ end
 20.times do |i|
   Event.create(
     name: "Seed Event #{i + 41}",
-    tag: "Senior",
+    tag: "Children & Youth",
     summary: "seed generated summary",
     venue: "seed generated venue",
     start_date: "2021-06-25T16:00:00.000Z",
@@ -68,7 +68,7 @@ end
 20.times do |i|
   Event.create(
     name: "Seed Event #{i + 21}",
-    tag: "Fund-Raising",
+    tag: "Community",
     summary: "seed generated summary",
     venue: "seed generated venue",
     start_date: "2021-06-25T16:00:00.000Z",
@@ -85,7 +85,7 @@ end
 20.times do |i|
   Event.create(
     name: "Seed Event #{i + 41}",
-    tag: "Senior",
+    tag: "Disability",
     summary: "seed generated summary",
     venue: "seed generated venue",
     start_date: "2021-06-25T16:00:00.000Z",

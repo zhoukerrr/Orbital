@@ -1,6 +1,7 @@
 export type EventType = "approved" | "rejected" | "submitted";
 export type UserType = "admin" | "organiser" | "student";
 export type Event = {
+  id: number;
   name: string;
   details: string;
   user_id: number;

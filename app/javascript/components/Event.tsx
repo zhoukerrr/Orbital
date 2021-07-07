@@ -25,6 +25,7 @@ export default class EventView extends React.Component<Props, State> {
     super(props);
     this.state = {
       event: {
+        id: 0,
         name: "",
         details: "",
         tag: "",
