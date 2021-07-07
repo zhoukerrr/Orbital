@@ -18,12 +18,18 @@ export type Event = {
 };
 
 export const tags: string[] = [
+  "Animal Welfare",
+  "Arts & Heritage",
+  "Children & Youth",
+  "Community",
+  "Disability",
+  "Education",
+  "Elderly",
   "Environment",
-  "Fund-Raising",
-  "Senior",
-  "Teaching",
-  "Technology",
-  "Youth",
-  "Overseas",
-  "Others",
+  "Families",
+  "Health",
+  "Humanitarian",
+  "Social Service",
+  "Sports",
+  "Women & Girls",
 ];

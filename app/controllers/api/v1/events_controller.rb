@@ -82,7 +82,7 @@ class Api::V1::EventsController < ApplicationController
       clone['start_date'] = event.start_date.to_s
       clone['end_date'] = event.end_date.to_s
       user = User.find(event.user_id)
-      render json: {event: clone, organiser: user, typebeforecast: event.start_date.class, typeaftercast: event.end_date.to_date().class}
+      render json: {event: clone, organiser: user}
     else
       render json: event.errors
     end
