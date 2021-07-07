@@ -7,8 +7,8 @@ export type Event = {
   summary: string;
   tag: string;
   venue: string;
-  start_date: string | Date;
-  end_date: string | Date;
+  start_date: Date;
+  end_date: Date;
   skills: string;
   link: string;
   poster: string;

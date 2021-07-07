@@ -72,6 +72,3 @@ export default (props: any) => (
     </Switch>
   </Router>
 );
-
-//Default route is removed
-//<Route render={() => <Redirect to={{ pathname: "/" }} />} />

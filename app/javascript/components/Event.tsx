@@ -31,8 +31,8 @@ export default class EventView extends React.Component<Props, State> {
         summary: "",
         user_id: undefined,
         venue: "",
-        start_date: "",
-        end_date: "",
+        start_date: new Date(),
+        end_date: new Date(),
         skills: "",
         link: "",
         poster: "",
@@ -68,7 +68,11 @@ export default class EventView extends React.Component<Props, State> {
       })
       .then((response) => {
         this.setState({
-          event: response.event,
+          event: {
+            ...response.event,
+            start_date: new Date(response.event.start_date),
+            end_date: new Date(response.event.end_date),
+          },
           organiser: response.organiser.name,
         });
         console.log(response);

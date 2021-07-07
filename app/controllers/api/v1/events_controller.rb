@@ -79,10 +79,10 @@ class Api::V1::EventsController < ApplicationController
   def show
     if event
       clone = event.attributes.except('start_date', 'end_date')
-      clone['start_date'] = event.start_date.strftime('%d %B %Y')
-      clone['end_date'] = event.start_date.strftime('%d %B %Y')
+      clone['start_date'] = event.start_date.to_s
+      clone['end_date'] = event.end_date.to_s
       user = User.find(event.user_id)
-      render json: {event: clone, organiser: user}
+      render json: {event: clone, organiser: user, typebeforecast: event.start_date.class, typeaftercast: event.end_date.to_date().class}
     else
       render json: event.errors
     end
