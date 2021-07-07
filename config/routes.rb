@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       get 'interests/show/:id', to: 'interests#show'
       delete 'interests/destroy/:id', to: 'interests#destroy'
       get 'interests/my_interests'
+      get 'interests/my_interested_events'
     end
   end
   get 'homepage/about'
