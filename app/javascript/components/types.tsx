@@ -20,8 +20,8 @@ export type Event = {
 
 export const tags: string[] = [
   "Animal Welfare",
-  "Arts & Heritage",
-  "Children & Youth",
+  "Arts and Heritage",
+  "Children and Youth",
   "Community",
   "Disability",
   "Education",
@@ -32,5 +32,5 @@ export const tags: string[] = [
   "Humanitarian",
   "Social Service",
   "Sports",
-  "Women & Girls",
+  "Women and Girls",
 ];

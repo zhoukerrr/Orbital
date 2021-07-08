@@ -18,7 +18,7 @@ end
 20.times do |i|
   Event.create(
     name: "Seed Event #{i + 21}",
-    tag: "Arts & Heritage",
+    tag: "Arts and Heritage",
     summary: "seed generated summary",
     venue: "seed generated venue",
     start_date: "2021-06-25T16:00:00.000Z",
@@ -34,7 +34,7 @@ end
 20.times do |i|
   Event.create(
     name: "Seed Event #{i + 41}",
-    tag: "Children & Youth",
+    tag: "Children and Youth",
     summary: "seed generated summary",
     venue: "seed generated venue",
     start_date: "2021-06-25T16:00:00.000Z",
@@ -50,7 +50,7 @@ end
 #Approved Events
 20.times do |i|
   Event.create(
-    name: "Seed Event #{i + 1}",
+    name: "Seed Event #{i + 51}",
     tag: "Environment",
     summary: "seed generated summary",
     venue: "seed generated venue",
@@ -67,7 +67,7 @@ end
 
 20.times do |i|
   Event.create(
-    name: "Seed Event #{i + 21}",
+    name: "Seed Event #{i + 61}",
     tag: "Community",
     summary: "seed generated summary",
     venue: "seed generated venue",
@@ -84,7 +84,7 @@ end
 
 20.times do |i|
   Event.create(
-    name: "Seed Event #{i + 41}",
+    name: "Seed Event #{i + 71}",
     tag: "Disability",
     summary: "seed generated summary",
     venue: "seed generated venue",
