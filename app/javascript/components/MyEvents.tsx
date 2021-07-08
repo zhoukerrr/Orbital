@@ -20,34 +20,28 @@ type State = {
 class Events extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-      queryString: "?status=approved&user=self",
-      eventType: "approved",
-      tags: [],
-    };
-  }
 
-  componentDidMount = () => {
     if (this.props.location.search !== "") {
       const params: any = qs.parse(this.props.location.search, {
         ignoreQueryPrefix: true,
       });
-      if (Object.keys(params).includes("tags")) {
-        this.setState({ tags: params.tags });
-      }
-      if (Object.keys(params).includes("status")) {
-        this.setState({
-          eventType: params.status,
-          queryString: this.props.location.search + "&user=self",
-        });
-      } else {
-        this.setState({
-          queryString:
-            this.props.location.search + "&status=approved&user=self",
-        });
-      }
+      this.state = {
+        tags: Object.keys(params).includes("tags") ? params.tags : [],
+        eventType: Object.keys(params).includes("status")
+          ? params.status
+          : "approved",
+        queryString: Object.keys(params).includes("status")
+          ? this.props.location.search + "&user=self"
+          : this.props.location.search + "&status=approved&user=self",
+      };
+    } else {
+      this.state = {
+        queryString: "?status=approved&user=self",
+        eventType: "approved",
+        tags: [],
+      };
     }
-  };
+  }
 
   CreateButton = () => (
     <Link to="/event" className="btn custom-button">

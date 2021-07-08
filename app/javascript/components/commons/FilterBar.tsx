@@ -16,7 +16,7 @@ export default class FilterBar extends React.Component<Props, State> {
     selected
   ) => {
     return values.map((value) => (
-      <div className="form-check">
+      <div className="form-check" key={value}>
         <input
           className="form-check-input"
           type="checkbox"

@@ -43,6 +43,7 @@ export default class PageButtonGroup extends React.Component<Props, State> {
       }
       value={value}
       onClick={this.onClickHandler}
+      key={display}
     >
       {display}
     </button>

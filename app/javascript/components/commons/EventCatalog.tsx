@@ -82,8 +82,8 @@ export default class EventCatalog extends React.Component<Props, State> {
 
   getEventCard(event: Event): JSX.Element {
     return (
-      <div className="list-group">
-        <a className="list-group-item list-group-item-action">
+      <div className="list-group" key={event.id}>
+        <div className="list-group-item list-group-item-action">
           <div>
             <div className="d-flex w-100 justify-content-between">
               <h5 className="mb-1">{event.name}</h5>
@@ -108,7 +108,7 @@ export default class EventCatalog extends React.Component<Props, State> {
               </Link>
             </div>
           </div>
-        </a>
+        </div>
       </div>
     );
   }
