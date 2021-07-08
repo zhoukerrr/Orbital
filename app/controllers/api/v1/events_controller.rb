@@ -7,12 +7,12 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def index
-    all_events = if params[:user] == 'self'
-                   Event.where({ user_id: current_user.id,
-                                 status: params[:status] })
-                 else
-                   Event.where(status: params[:status])
-                 end
+    all_events = Event.where(status: params[:status])
+    if params[:user] == 'self'
+      all_events = all_events.where(user_id: current_user.id)
+    else
+      all_events = all_events.where("end_date >= ?", ::Time.zone.now.to_datetime)
+    end
     all_events = all_events.where(tag: params[:tags]) if params[:tags]
     events = all_events.order(created_at: :desc).offset(params[:offset] || 0).limit(params[:limit])
     no_of_events = all_events.count
