@@ -71,8 +71,8 @@ export default class EventView extends React.Component<Props, State> {
         this.setState({
           event: {
             ...response.event,
-            start_date: new Date(response.event.start_date),
-            end_date: new Date(response.event.end_date),
+            start_date: new Date(response.event.start_date.replace(/-/g, "/")),
+            end_date: new Date(response.event.end_date.replace(/-/g, "/")),
           },
           organiser: response.organiser.name,
         });

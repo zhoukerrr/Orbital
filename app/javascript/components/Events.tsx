@@ -59,9 +59,13 @@ export default class Events extends React.Component<Props, State> {
   };
 
   filterBarOnClickHandler = (selected: string[]) => {
-    const link =
-      "/events?page=1&" + qs.stringify({ tags: selected }, { encode: false });
-    this.props.history.push(link);
+    if (selected.length === 0) {
+      this.props.history.push("/events?page=1");
+    } else {
+      const link =
+        "/events?page=1&" + qs.stringify({ tags: selected }, { encode: false });
+      this.props.history.push(link);
+    }
   };
 
   render = () => {
@@ -78,7 +82,7 @@ export default class Events extends React.Component<Props, State> {
             <div className="row" style={{ flexWrap: "nowrap" }}>
               <div style={{ width: "80%" }}>
                 <EventCatalog
-                  key={Math.random()}
+                  // key={Math.random()}
                   queryString={this.state.queryString}
                   pageButtonGroupOnClickHandler={
                     this.pageButtonGroupOnClickHandler
