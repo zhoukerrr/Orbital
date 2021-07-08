@@ -132,9 +132,7 @@ export default class EventCatalog extends React.Component<Props, State> {
 
     const noEvent = (
       <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
-        <h4>
-          No such event yet. Why not <Link to="/event">create one</Link>
-        </h4>
+        <h4>Wow! Such emptiness!</h4>
       </div>
     );
 
