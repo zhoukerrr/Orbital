@@ -38,7 +38,8 @@ export default class PageButtonGroup extends React.Component<Props, State> {
         boxShadow: "none",
       }}
       disabled={
-        value.toString() === display && value === this.props.currentPage
+        this.props.noOfPages === 0 ||
+        (value.toString() === display && value === this.props.currentPage)
       }
       value={value}
       onClick={this.onClickHandler}
