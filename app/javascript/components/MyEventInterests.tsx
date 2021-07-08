@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Redirect } from "react-router-dom";
 
 type Props = {
   match: {
@@ -11,6 +12,7 @@ type Props = {
 
 type State = {
   students: any[];
+  user_id: number;
   isLoading: boolean;
 };
 
@@ -19,6 +21,7 @@ export default class MyEventInterests extends React.Component<Props, State> {
     super(props);
     this.state = {
       students: [],
+      user_id: 0,
       isLoading: true,
     };
   }
@@ -40,7 +43,11 @@ export default class MyEventInterests extends React.Component<Props, State> {
         throw new Error("Network response was not ok.");
       })
       .then((response) => {
-        this.setState({ students: response, isLoading: false });
+        this.setState({
+          students: response.students,
+          user_id: response.user,
+          isLoading: false,
+        });
         console.log(response);
       })
       .catch(() => this.props.history.push("/event/" + id));
@@ -60,51 +67,62 @@ export default class MyEventInterests extends React.Component<Props, State> {
     const noStudents = (
       <tr>
         <td>No Students yet.</td>
+        <td>-</td>
+        <td>-</td>
       </tr>
     );
 
-    return (
-      <>
-        <section className="jumbotron jumbotron-fluid text-center">
-          <div className="container py-5">
-            <h1 className="display-4">List of students</h1>
-            <p className="lead text-muted">
-              {allstudents.length} students have signed up so far!
-            </p>
-          </div>
-        </section>
-        <div className="py-5">
-          <main className="container">
-            <div className="row" style={{ flexWrap: "nowrap" }}>
-              <div
-                className="row"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "stretch",
-                }}
-              >
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Email</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {allstudents.length > 0
-                      ? allstudents
-                      : this.state.isLoading
-                      ? null
-                      : noStudents}
-                  </tbody>
-                </table>
-              </div>
+    if (
+      this.props.role == "admin" ||
+      this.props.user_id == this.state.user_id
+    ) {
+      return (
+        <>
+          <section className="jumbotron jumbotron-fluid text-center">
+            <div className="container py-5">
+              <h1 className="display-4">List of students</h1>
+              <p className="lead text-muted">
+                {allstudents.length} students have signed up so far!
+              </p>
             </div>
-          </main>
-        </div>
-      </>
-    );
+          </section>
+          <div className="py-5">
+            <main className="container">
+              <div className="row" style={{ flexWrap: "nowrap" }}>
+                <div
+                  className="row"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "stretch",
+                  }}
+                >
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {allstudents.length > 0
+                        ? allstudents
+                        : this.state.isLoading
+                        ? null
+                        : noStudents}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </main>
+          </div>
+        </>
+      );
+    } else if (this.state.isLoading) {
+      return null;
+    } else {
+      return <Redirect push to={"/event/" + this.props.match.params.id} />;
+    }
   }
 }

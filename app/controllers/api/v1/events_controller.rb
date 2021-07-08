@@ -97,7 +97,7 @@ class Api::V1::EventsController < ApplicationController
     if event
       interests = Interest.where(event_id: event.id).order(created_at: :desc)
       students = User.where(id: interests.map {|n| n.user_id})
-      render json: students
+      render json: {students: students, user: event.user_id}
     else
       render json: event.errors
     end
