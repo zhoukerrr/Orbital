@@ -86,7 +86,15 @@ export default class EventCatalog extends React.Component<Props, State> {
         <div className="list-group-item list-group-item-action">
           <div>
             <div className="d-flex w-100 justify-content-between">
-              <h5 className="mb-1">{event.name}</h5>
+              <h5
+                className="mb-1"
+                style={{
+                  color:
+                    new Date(event.end_date) <= new Date() ? "red" : "black",
+                }}
+              >
+                {event.name}
+              </h5>
               <small className="text-muted">
                 by {this.getNamefromID(event.user_id)}
               </small>

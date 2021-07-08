@@ -123,7 +123,6 @@ export default class EventEdit extends React.Component<Props, State> {
         <select
           className="form-control"
           id="tag"
-          defaultValue=""
           onChange={this.onInputChange}
           required
           value={this.props.event.tag}
