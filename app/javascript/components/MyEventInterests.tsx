@@ -49,8 +49,9 @@ export default class MyEventInterests extends React.Component<Props, State> {
   render() {
     const { students } = this.state;
 
-    const allstudents = students.map((student) => (
+    const allstudents = students.map((student, index) => (
       <tr>
+        <td>{index + 1}</td>
         <td>{student.name}</td>
         <td>{student.email}</td>
       </tr>
@@ -86,6 +87,7 @@ export default class MyEventInterests extends React.Component<Props, State> {
                 <table className="table">
                   <thead>
                     <tr>
+                      <th scope="col">#</th>
                       <th scope="col">Name</th>
                       <th scope="col">Email</th>
                     </tr>

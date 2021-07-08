@@ -372,7 +372,7 @@ export default class EventView extends React.Component<Props, State> {
   IndicateInterest = () => {
     return (
       <button type="button" className="btn btn-primary" onClick={this.signUp}>
-        I am interested!
+        Sign up
       </button>
     );
   };
