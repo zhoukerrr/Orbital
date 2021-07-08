@@ -5,7 +5,6 @@ import { Event } from "../types";
 import PageGroup from "./PageButtonGroup";
 
 type Props = {
-  // key: number;
   queryString: string;
   pageButtonGroupOnClickHandler: (value: number) => void;
   tagButtonOnClickHandler: (

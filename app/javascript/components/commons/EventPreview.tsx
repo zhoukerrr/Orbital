@@ -89,7 +89,9 @@ export default class EventPreview extends React.Component<Props, State> {
   StartDate = () => (
     <>
       <h4 className="mb-2">Start Date</h4>
-      {this.props.event.start_date.toDateString()}
+      {this.props.event.start_date
+        ? this.props.event.start_date.toDateString()
+        : null}
       <br />
     </>
   );
@@ -97,7 +99,9 @@ export default class EventPreview extends React.Component<Props, State> {
   EndDate = () => (
     <>
       <h4 className="mb-2">End Date</h4>
-      {this.props.event.end_date.toDateString()}
+      {this.props.event.end_date
+        ? this.props.event.end_date.toDateString()
+        : null}
       <br />
     </>
   );

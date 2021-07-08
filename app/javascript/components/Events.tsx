@@ -19,25 +19,22 @@ type State = {
 export default class Events extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-      queryString: "?status=approved&user=all",
-      tags: [],
-    };
-  }
 
-  componentDidMount = () => {
     if (this.props.location.search !== "") {
       const params: any = qs.parse(this.props.location.search, {
         ignoreQueryPrefix: true,
       });
-      if (Object.keys(params).includes("tags")) {
-        this.setState({ tags: params.tags });
-      }
-      this.setState({
+      this.state = {
         queryString: this.props.location.search + "&status=approved&user=all",
-      });
+        tags: Object.keys(params).includes("tags") ? params.tags : [],
+      };
+    } else {
+      this.state = {
+        queryString: "?status=approved&user=all",
+        tags: [],
+      };
     }
-  };
+  }
 
   pageButtonGroupOnClickHandler = (value: number) => {
     var link = "/events?page=" + value;
@@ -82,7 +79,6 @@ export default class Events extends React.Component<Props, State> {
             <div className="row" style={{ flexWrap: "nowrap" }}>
               <div style={{ width: "80%" }}>
                 <EventCatalog
-                  // key={Math.random()}
                   queryString={this.state.queryString}
                   pageButtonGroupOnClickHandler={
                     this.pageButtonGroupOnClickHandler
