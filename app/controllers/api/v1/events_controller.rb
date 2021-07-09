@@ -1,9 +1,25 @@
 class Api::V1::EventsController < ApplicationController
   before_action :authenticate_user!
-  # before_action :event, only: [:show, :edit, :update, :destroy]
+  before_action :can_create?, only: [:create]
+  before_action :can_decide?, only: [:approve, :reject]
+  before_action :can_delete?, only: [:destroy, :interested_in]
+  # maybe need some form of control for index and show
+  def can_create?
+    unless (current_user.user_role == "admin" || current_user.user_role == "organiser")
+      head(404)
+    end
+  end
 
-  def authorized?
-    @event.user_id == current_user.id
+  def can_delete?
+    unless (current_user.user_role == "admin" || Event.find(params[:id]).user_id == current_user.id)
+      head(404)
+    end
+  end
+
+  def can_decide?
+    unless current_user.user_role == "admin"
+      head(404)
+    end
   end
 
   def index
