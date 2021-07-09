@@ -27,9 +27,6 @@ class Api::V1::InterestsController < ApplicationController
     end
   end
 
-  def show
-  end
-
   def destroy
     interest&.destroy
     render json: { message: 'Interest removed!' }
