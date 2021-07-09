@@ -2,13 +2,30 @@
   function combine() {
     document.getElementById("email").value = document.getElementById("first").value + "@u.nus.edu";
   }
+
+  function admin() {
+    if (confirm("Are you sure you want to create an admin account?")) {
+      document.getElementById("role").value = "admin";
+    } else {
+      return false;
+    }
+  }
+
+  function organiser() {
+    document.getElementById("role").value = "organiser";
+    document.getElementById("oragniser").value = true;
+  }
 </script>
 
 <% if user_signed_in? %>
   <% if current_user.user_role == "admin" %>
-    <h2>Sign up for Organisers</h2>
+    <h2>Creat a New Account</h2>
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
+
+  <label class="form-label">Account Type: </label>
+  <input type="radio" name="type" onclick="organiser()" value="Organiser" checked>Organiser
+  <input type="radio" name="type" onclick="return admin()" value="Admin">Admin
 
   <div class="field form-group">
     <%= f.label :name %><br />
@@ -37,11 +54,11 @@
 
   <div class="field form-group" hidden>
     <%= f.label :role %><br />
-    <%= f.text_field :role, autocomplete: "role", class:"form-control", value: "organiser" , id:"role" %>
+    <%= f.text_field :role, autocomplete: "role", class:"form-control", value: "organiser" , id:"role", readonly: true %>
   </div>
   
   <div class="actions">
-    <%= f.submit "Create new Organiser", class: 'btn btn-primary' %>
+    <%= f.submit "Create new Account", class: 'btn btn-primary' %>
   </div>
 <% end %>
   <% end %>
