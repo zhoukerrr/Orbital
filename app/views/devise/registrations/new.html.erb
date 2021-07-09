@@ -1,6 +1,6 @@
 <script>
   function combine() {
-    document.getElementById("email").value = document.getElementById("first").value + "@" + document.getElementById("second").value;
+    document.getElementById("email").value = document.getElementById("first").value + "@u.nus.edu";
   }
 </script>
 
@@ -82,11 +82,6 @@
   </div>
   <br/>
 
-  <div class="field form-group" hidden>
-    <%= f.label :role %><br />
-    <%= f.text_field :role, autocomplete: "role", class:"form-control", value: "student" , id:"role" %>
-  </div>
-  
   <div class="actions" onclick="combine()">
     <%= f.submit "Sign up", class: 'btn btn-primary' %>
   </div>
