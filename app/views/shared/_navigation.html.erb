@@ -4,6 +4,8 @@
     <% if user_signed_in? %>
       <% if current_user.user_role == "admin" %>
         <%= link_to 'Users', users_path %>
+      <% else %>
+        <%= link_to 'Organisers', users_path %>
       <% end %>
     <% end %>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
