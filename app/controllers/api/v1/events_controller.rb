@@ -3,7 +3,7 @@ class Api::V1::EventsController < ApplicationController
   before_action :can_create?, only: [:create]
   before_action :can_decide?, only: [:approve, :reject]
   before_action :can_delete?, only: [:destroy, :interested_in]
-  # maybe need some form of control for index and show
+  # maybe need some form of control for index, create and show
   def can_create?
     unless (current_user.user_role == "admin" || current_user.user_role == "organiser")
       head(404)
@@ -23,7 +23,14 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def index
-    all_events = Event.where(status: params[:status])
+    if current_user.user_role == "admin"
+      all_events = Event.where(status: params[:status])
+    elsif current_user.user_role == "organiser"
+      all_events = Event.where(status: "approved").or(Event.where(user_id: current_user.id))
+    else
+      all_events = Event.where(status: "approved")
+    end
+
     if params[:user] == 'self'
       all_events = all_events.where(user_id: current_user.id)
     else

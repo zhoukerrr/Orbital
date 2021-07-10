@@ -259,7 +259,6 @@ export default class EventView extends React.Component<Props, State> {
       body: JSON.stringify({
         event_id: this.props.match.params.id,
         user_id: this.props.user_id,
-        attend: false,
       }),
     })
       .then((response) => response.json())
