@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
   get 'homepage/about'
   devise_for :users, :controllers => { :registrations => 'registrations'}
-  resources :users, only: [:index, :show, :edit, :update]
+  resources :users, only: [:index, :show, :edit, :update, :destroy]
   
   namespace :api do
     namespace :v1 do

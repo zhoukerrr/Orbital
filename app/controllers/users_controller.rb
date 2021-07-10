@@ -38,6 +38,19 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    if (current_user.user_role == "admin") 
+      @user = User.find(params[:id])
+      if (current_user.id == @user.id) 
+        head(404)
+      elsif @user.destroy
+        redirect_to users_path, notice: "User deleted."
+      end
+    else
+      head(404)
+    end
+  end
+
   private
 
   def user_params

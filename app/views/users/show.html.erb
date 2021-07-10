@@ -4,3 +4,7 @@
 <% if current_user.id == @user.id %>
     <%= link_to 'Edit My Profile', edit_user_path(@user), class: 'btn btn-primary'%>
 <% end %>
+
+<% if current_user.user_role == "admin" && current_user.id != @user.id %>
+    <%= link_to 'Delete this Account', user_path(@user), class: 'btn btn-danger', method: :delete, data: { confirm: "Are you sure you want to delete this account? All the records associated with this account will be removed. This action cannot be undone." }%>
+<% end %>
