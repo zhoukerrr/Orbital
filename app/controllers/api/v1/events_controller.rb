@@ -3,7 +3,8 @@ class Api::V1::EventsController < ApplicationController
   before_action :can_create?, only: [:create]
   before_action :can_decide?, only: [:approve, :reject]
   before_action :can_delete?, only: [:destroy, :interested_in]
-  # maybe need some form of control for index, create and show
+
+  # maybe need some form of control for create and show
   def can_create?
     unless (current_user.user_role == "admin" || current_user.user_role == "organiser")
       head(404)
@@ -34,7 +35,7 @@ class Api::V1::EventsController < ApplicationController
     if params[:user] == 'self'
       all_events = all_events.where(user_id: current_user.id)
     else
-      all_events = all_events.where("end_date >= ?", ::Time.zone.now.to_datetime)
+      all_events = all_events.where(status: "approved").where("end_date >= ?", ::Time.zone.now.to_datetime)
     end
     all_events = all_events.where(tag: params[:tags]) if params[:tags]
     events = all_events.order(created_at: :desc).offset(params[:offset] || 0).limit(params[:limit])
@@ -43,9 +44,13 @@ class Api::V1::EventsController < ApplicationController
     render json: { event: events, usernames: usernames, noOfEvents: no_of_events }
   end
 
-  def create
-    event = Event.create!(event_params)
-    if event
+  def create 
+    if (current_user.user_role != "admin" && current_user.user_role != "organiser") 
+      head(404) 
+    end
+    event = Event.new(event_params)
+    if event.user_id == current_user.id
+      event.save
       @user = User.find(event.user_id)
       @admin = User.where(role: 'admin')
       render json: event
@@ -100,7 +105,7 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def show
-    if event
+    if event && (current_user.user_role == "admin" || event.user_id == current_user.id || event.status == "approved")
       clone = event.attributes.except('start_date', 'end_date')
       clone['start_date'] = event.start_date.to_s
       clone['end_date'] = event.end_date.to_s
