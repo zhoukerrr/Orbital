@@ -2,8 +2,12 @@ class Api::V1::InterestsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    interest = Interest.all.order(created_at: :desc)
-    render json: interest
+    if current_user.user_role == "admin"
+      interest = Interest.all.order(created_at: :desc)
+      render json: interest
+    else
+      head(404)
+    end
   end
 
   def my_interests
@@ -19,17 +23,25 @@ class Api::V1::InterestsController < ApplicationController
   end
 
   def create
-    interest = Interest.create!(interest_params)
-    if interest
+    interest = Interest.new(interest_params)
+    check = Interest.where(user_id: interest.user_id).where(event_id: interest.event_id).length()
+    if interest && check == 0 && interest.user_id == current_user.id
+      interest.save
       render json: interest
     else
       render json: interest.errors
     end
   end
 
-  def destroy
-    interest&.destroy
-    render json: { message: 'Interest removed!' }
+  def destroy 
+    @interest = Interest.find(params[:id])
+    if @interest.user_id != current_user.id
+      head(404)
+    elsif @interest.destroy
+      render json: { message: 'Interest removed!' }
+    else
+      head(404)
+    end
   end
 
   private
