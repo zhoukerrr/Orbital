@@ -44,6 +44,17 @@ class Api::V1::InterestsController < ApplicationController
     end
   end
 
+  def attend #secure later
+    @interest = Interest.find(params[:id])
+    if @interest.attend
+      @interest.update_attribute(:attend, false)
+      render json: @interest
+    else
+      @interest.update_attribute(:attend, true)
+      render json: @interest
+    end
+  end
+
   private
 
   def interest_params

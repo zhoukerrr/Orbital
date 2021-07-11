@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Redirect } from "react-router-dom";
+import Index from "../routes/Index";
 
 type Props = {
   match: {
@@ -53,20 +54,65 @@ export default class MyEventInterests extends React.Component<Props, State> {
       .catch(() => this.props.history.push("/event/" + id));
   }
 
+  markAttend = (interest_id: number, position: number) => {
+    const url = `/api/v1/attend/${interest_id}`;
+    const token = document
+      .querySelector('meta[name="csrf-token"]')
+      .getAttribute("content");
+
+    fetch(url, {
+      method: "PATCH",
+      headers: {
+        "X-CSRF-Token": token,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .catch(() =>
+        this.props.history.push("/event/" + this.props.match.params.id)
+      );
+  };
+
   render() {
     const { students } = this.state;
 
     const allstudents = students.map((student, index) => (
       <tr>
         <td>{index + 1}</td>
-        <td>{student.name}</td>
-        <td>{student.email}</td>
+        <td>{student.student.name}</td>
+        <td>{student.student.email}</td>
+        <td>
+          {student.attendance ? (
+            <input
+              className="form-check-input"
+              type="checkbox"
+              value=""
+              id={Index.toString()}
+              onClick={() => this.markAttend(student.interest_id, index)}
+              defaultChecked
+            ></input>
+          ) : (
+            <input
+              className="form-check-input"
+              type="checkbox"
+              value=""
+              onClick={() => this.markAttend(student.interest_id, index)}
+              id={Index.toString()}
+            ></input>
+          )}
+        </td>
       </tr>
     ));
 
     const noStudents = (
       <tr>
         <td>No Students yet.</td>
+        <td>-</td>
         <td>-</td>
         <td>-</td>
       </tr>
@@ -97,12 +143,13 @@ export default class MyEventInterests extends React.Component<Props, State> {
                     alignItems: "stretch",
                   }}
                 >
-                  <table className="table">
-                    <thead>
+                  <table className="table table-hover">
+                    <thead className="table-light">
                       <tr>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Attendance</th>
                       </tr>
                     </thead>
                     <tbody>
