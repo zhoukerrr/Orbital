@@ -124,8 +124,8 @@ class Api::V1::EventsController < ApplicationController
   def interested_in
     if event && (current_user.id == event.user_id || current_user.user_role == "admin")
       interests = Interest.where(event_id: event.id).order(created_at: :desc)
-      #students = User.where(id: interests.map {|n| n.user_id})
       interests = interests.map{|n| {student: User.find(n.user_id), attendance: n.attend, interest_id: n.id}}
+      interests.sort_by!{ |e| e[:student].name.downcase }
       render json: {students: interests, user: event.user_id}
     else
       render json: event.errors
