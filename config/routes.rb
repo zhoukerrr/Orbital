@@ -4,7 +4,6 @@ Rails.application.routes.draw do
       get 'interests/index'
       post 'interests/create'
       delete 'interests/destroy/:id', to: 'interests#destroy'
-      get 'interests/my_interests'
       get 'interests/my_interested_events'
       patch '/attend/:id', to: 'interests#attend'
     end
