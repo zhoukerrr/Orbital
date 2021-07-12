@@ -126,7 +126,7 @@ class Api::V1::EventsController < ApplicationController
       interests = Interest.where(event_id: event.id).order(created_at: :desc)
       interests = interests.map{|n| {student: User.find(n.user_id), attendance: n.attend, interest_id: n.id}}
       interests.sort_by!{ |e| e[:student].name.downcase }
-      render json: {students: interests, user: event.user_id}
+      render json: {students: interests, user: event.user_id, event_name: event.name}
     else
       render json: event.errors
     end

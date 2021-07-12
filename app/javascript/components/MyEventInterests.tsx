@@ -20,6 +20,7 @@ type State = {
   }[];
   user_id: number;
   isLoading: boolean;
+  name: string;
 };
 
 export default class MyEventInterests extends React.Component<Props, State> {
@@ -29,6 +30,7 @@ export default class MyEventInterests extends React.Component<Props, State> {
       students: [],
       user_id: 0,
       isLoading: true,
+      name: "",
     };
   }
 
@@ -52,6 +54,7 @@ export default class MyEventInterests extends React.Component<Props, State> {
         this.setState({
           students: response.students,
           user_id: response.user,
+          name: response.event_name,
           isLoading: false,
         });
         console.log(response);
@@ -60,6 +63,7 @@ export default class MyEventInterests extends React.Component<Props, State> {
   }
 
   markAttend = (interest_id: number, position: number) => {
+    this.setState({ isLoading: true });
     const url = `/api/v1/attend/${interest_id}`;
     const token = document
       .querySelector('meta[name="csrf-token"]')
@@ -83,7 +87,7 @@ export default class MyEventInterests extends React.Component<Props, State> {
         temp[position].attendance
           ? (temp[position].attendance = false)
           : (temp[position].attendance = true);
-        this.setState({ students: temp });
+        this.setState({ students: temp, isLoading: false });
       })
       .catch(() =>
         this.props.history.push("/event/" + this.props.match.params.id)
@@ -136,7 +140,9 @@ export default class MyEventInterests extends React.Component<Props, State> {
       attendace: x.attendance.toString(),
     }));
 
-    if (
+    if (this.state.isLoading) {
+      return null;
+    } else if (
       this.props.role == "admin" ||
       this.props.user_id == this.state.user_id
     ) {
@@ -144,7 +150,7 @@ export default class MyEventInterests extends React.Component<Props, State> {
         <>
           <section className="jumbotron jumbotron-fluid text-center">
             <div className="container py-5">
-              <h1 className="display-4">List of students</h1>
+              <h1 className="display-4">{this.state.name}</h1>
               <p className="lead text-muted">
                 {allstudents.length} students have signed up so far!
               </p>
@@ -153,7 +159,7 @@ export default class MyEventInterests extends React.Component<Props, State> {
           <div className="py-5">
             <main className="container">
               <CsvDownloader
-                filename="Students"
+                filename={this.state.name}
                 datas={data}
                 text="Download the data"
               />
@@ -191,8 +197,6 @@ export default class MyEventInterests extends React.Component<Props, State> {
           </div>
         </>
       );
-    } else if (this.state.isLoading) {
-      return null;
     } else {
       return <Redirect push to={"/event/" + this.props.match.params.id} />;
     }
