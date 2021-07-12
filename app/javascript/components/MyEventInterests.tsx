@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Redirect } from "react-router-dom";
 import Index from "../routes/Index";
+import CsvDownloader from "react-csv-downloader";
 
 type Props = {
   match: {
@@ -12,7 +13,11 @@ type Props = {
 };
 
 type State = {
-  students: any[];
+  students: {
+    student: any;
+    attendance: boolean;
+    interest_id: number;
+  }[];
   user_id: number;
   isLoading: boolean;
 };
@@ -73,6 +78,13 @@ export default class MyEventInterests extends React.Component<Props, State> {
         }
         throw new Error("Network response was not ok.");
       })
+      .then(() => {
+        const temp = this.state.students;
+        temp[position].attendance
+          ? (temp[position].attendance = false)
+          : (temp[position].attendance = true);
+        this.setState({ students: temp });
+      })
       .catch(() =>
         this.props.history.push("/event/" + this.props.match.params.id)
       );
@@ -118,6 +130,12 @@ export default class MyEventInterests extends React.Component<Props, State> {
       </tr>
     );
 
+    const data = students.map((x) => ({
+      name: x.student.name,
+      email: x.student.email,
+      attendace: x.attendance.toString(),
+    }));
+
     if (
       this.props.role == "admin" ||
       this.props.user_id == this.state.user_id
@@ -134,6 +152,13 @@ export default class MyEventInterests extends React.Component<Props, State> {
           </section>
           <div className="py-5">
             <main className="container">
+              <CsvDownloader
+                filename="Students"
+                datas={data}
+                text="Download the data"
+              />
+              <br />
+              <br />
               <div className="row" style={{ flexWrap: "nowrap" }}>
                 <div
                   className="row"
