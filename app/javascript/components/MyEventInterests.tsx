@@ -140,9 +140,7 @@ export default class MyEventInterests extends React.Component<Props, State> {
       attendace: x.attendance.toString(),
     }));
 
-    if (this.state.isLoading) {
-      return null;
-    } else if (
+    if (
       this.props.role == "admin" ||
       this.props.user_id == this.state.user_id
     ) {
@@ -158,11 +156,17 @@ export default class MyEventInterests extends React.Component<Props, State> {
           </section>
           <div className="py-5">
             <main className="container">
-              <CsvDownloader
-                filename={this.state.name}
-                datas={data}
-                text="Download the data"
-              />
+              {this.state.isLoading ? (
+                <div className="spinner-border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              ) : (
+                <CsvDownloader
+                  filename={this.state.name}
+                  datas={data}
+                  text="Download the data"
+                />
+              )}
               <br />
               <br />
               <div className="row" style={{ flexWrap: "nowrap" }}>
@@ -197,6 +201,8 @@ export default class MyEventInterests extends React.Component<Props, State> {
           </div>
         </>
       );
+    } else if (this.state.isLoading) {
+      return null;
     } else {
       return <Redirect push to={"/event/" + this.props.match.params.id} />;
     }
