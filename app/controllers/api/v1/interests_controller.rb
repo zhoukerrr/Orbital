@@ -10,6 +10,11 @@ class Api::V1::InterestsController < ApplicationController
     end
   end
 
+  def my_interests
+    interest = Interest.where(user_id: current_user.id).order(created_at: :desc)
+    render json: interest
+  end
+
   def my_interested_events
     interest = Interest.where(user_id: current_user.id).order(created_at: :desc)
     events = Event.where(id: interest.map {|n| n.event_id})
