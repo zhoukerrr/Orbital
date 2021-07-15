@@ -25,7 +25,7 @@ class Api::V1::EventsController < ApplicationController
 
   def index
     if current_user.user_role == "admin"
-      all_events = Event.where(status: params[:status])
+      all_events = Event.all
     elsif current_user.user_role == "organiser"
       all_events = Event.where(status: "approved").or(Event.where(user_id: current_user.id))
     else
@@ -35,7 +35,7 @@ class Api::V1::EventsController < ApplicationController
     if params[:user] == 'self'
       all_events = all_events.where(user_id: current_user.id)
     else
-      all_events = all_events.where(status: "approved").where("end_date >= ?", ::Time.zone.now.to_datetime)
+      all_events = all_events.where(status: params[:status]).where("end_date >= ?", ::Time.zone.now.to_datetime)
     end
     all_events = all_events.where(tag: params[:tags]) if params[:tags]
     events = all_events.order(created_at: :desc).offset(params[:offset] || 0).limit(params[:limit])
