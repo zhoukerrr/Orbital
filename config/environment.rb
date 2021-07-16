@@ -7,11 +7,11 @@ Rails.application.initialize!
 ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.perform_deliveries = true
 ActionMailer::Base.smtp_settings = {
-  address: 'smtp.gmail.com',
+  address: Rails.application.credentials.smtp_settings[:address],
   port: 465,
-  domain: 'gmail.com',
-  user_name: 'ccsgp2021',
-  password: 'daxmad-bitjav-byjwE8',
+  domain: Rails.application.credentials.smtp_settings[:domain],
+  user_name: Rails.application.credentials.smtp_settings[:user_name],
+  password: Rails.application.credentials.smtp_settings[:password],
   authentication: 'plain',
   :ssl => true,
   :tsl => true,

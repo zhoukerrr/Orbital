@@ -66,10 +66,11 @@ class Api::V1::EventsController < ApplicationController
     event.update_attribute(:status, 'approved')
 
     require 'telegram/bot'
-    token = '1886490695:AAGAXvPGLLH-dRzILvtbgTy-ufkZJlSgogw'
+    token = Rails.application.credentials.telegram_bot[:token]
+    chat_id = Rails.application.credentials.telegram_bot[:chat_id]
     Telegram::Bot::Client.run(token) do |bot|
       if !event.poster || event.poster == ''
-        bot.api.send_message(chat_id: -1_001_570_743_148, text: "Hello! #{@user.name} has a new event for you!\n
+        bot.api.send_message(chat_id: chat_id, text: "Hello! #{@user.name} has a new event for you!\n
 *Name*: #{event.name}
 *Venue*: #{event.venue}
 *Date*: #{event.start_date.strftime('%d %B %Y')} to #{event.end_date.strftime('%d %B %Y')}
@@ -78,7 +79,7 @@ class Api::V1::EventsController < ApplicationController
 *Sign up Link*: #{event.link}
 *For more details*, click [here](#{request.base_url + '/event/' + event.id.to_s})!", parse_mode: 'Markdown')
       else
-        bot.api.send_photo(chat_id: -1_001_570_743_148, photo: event.poster,
+        bot.api.send_photo(chat_id: chat_id, photo: event.poster,
                            caption: "Hello! #{@user.name} has a new event for you!\n
 *Name*: #{event.name}
 *Venue*: #{event.venue}
