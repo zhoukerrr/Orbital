@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { tags } from "./types";
 import FilterBar from "./commons/FilterBar";
 import EventCatalog from "./commons/EventCatalog";
+import SearchBar from "./commons/SearchBar";
 
 type Props = {
   key: number;
@@ -37,32 +38,66 @@ export default class Events extends React.Component<Props, State> {
   }
 
   pageButtonGroupOnClickHandler = (value: number) => {
-    var link = "/events?page=" + value;
-    if (this.state.tags.length !== 0) {
-      link = link.concat(
-        "&" + qs.stringify({ tags: this.state.tags }, { encode: false })
+    if (this.props.location.search !== "") {
+      const params: any = qs.parse(this.props.location.search, {
+        ignoreQueryPrefix: true,
+      });
+      params.page = value;
+      this.props.history.push(
+        "/events?" + qs.stringify(params, { encode: false })
       );
+    } else {
+      this.props.history.push("/events?page=" + value);
     }
-    this.props.history.push(link);
+    // var link = "/events?page=" + value;
+    // if (this.state.tags.length !== 0) {
+    //   link = link.concat(
+    //     "&" + qs.stringify({ tags: this.state.tags }, { encode: false })
+    //   );
+    // }
+    // this.props.history.push(link);
   };
 
   tagButtonOnClickHandler = (
     evt: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     const link =
-      "/events?page=1&" +
+      "/events?" +
       qs.stringify({ tags: [evt.currentTarget.value] }, { encode: false });
     this.props.history.push(link);
   };
 
   filterBarOnClickHandler = (selected: string[]) => {
-    if (selected.length === 0) {
-      this.props.history.push("/events?page=1");
+    if (this.props.location.search !== "") {
+      const params: any = qs.parse(this.props.location.search, {
+        ignoreQueryPrefix: true,
+      });
+      if (params.tags && selected.length === 0) {
+        delete params.tags;
+      } else {
+        params.tags = selected;
+      }
+      this.props.history.push(
+        "/events?" + qs.stringify(params, { encode: false })
+      );
+    } else if (selected.length === 0) {
+      this.props.history.push("/events");
     } else {
       const link =
-        "/events?page=1&" + qs.stringify({ tags: selected }, { encode: false });
+        "/events?" + qs.stringify({ tags: selected }, { encode: false });
       this.props.history.push(link);
     }
+  };
+
+  searchButtonOnClickHandler = (value: string) => {
+    this.props.history.push("/events?" + qs.stringify({ search: value }));
+  };
+
+  getSearchTarget: () => JSX.Element = () => {
+    const params: any = qs.parse(this.props.location.search, {
+      ignoreQueryPrefix: true,
+    });
+    return params.search ? <>Showing Results for "{params.search}"</> : null;
   };
 
   render = () => {
@@ -76,6 +111,13 @@ export default class Events extends React.Component<Props, State> {
         </section>
         <div className="py-5">
           <main className="container">
+            <div className="row">
+              <SearchBar
+                onButtonClickHandler={this.searchButtonOnClickHandler}
+              />
+            </div>
+            <br />
+            {this.getSearchTarget()}
             <div className="row" style={{ flexWrap: "nowrap" }}>
               <div style={{ width: "80%" }}>
                 <EventCatalog
