@@ -18,26 +18,34 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def can_decide?
-    unless current_user.user_role == "admin"
+    unless current_user.user_role == 'admin'
       head(404)
     end
   end
 
   def index
-    if current_user.user_role == "admin"
-      all_events = Event.where(status: params[:status])
-    elsif current_user.user_role == "organiser"
-      all_events = Event.where(status: "approved").or(Event.where(user_id: current_user.id)).where(status: params[:status])
-    else
-      all_events = Event.where(status: "approved").where(status: params[:status])
-    end
-
-    if params[:user] == 'self'
-      all_events = all_events.where(user_id: current_user.id)
-    else
-      all_events = all_events.where("end_date >= ?", ::Time.zone.now.to_datetime)
-    end
+    all_events = if current_user.user_role == 'admin'
+                   Event.where(status: params[:status])
+                 elsif current_user.user_role == 'organiser'
+                   Event.where(status: 'approved').or(Event.where(user_id: current_user.id)).where(status: params[:status])
+                 else
+                   Event.where(status: 'approved').where(status: params[:status])
+                 end
+    # user
+    all_events = if params[:user] == 'self'
+                   all_events.where(user_id: current_user.id)
+                 else
+                   all_events.where('end_date >= ?', ::Time.zone.now.to_datetime)
+                 end
+    # tags
     all_events = all_events.where(tag: params[:tags]) if params[:tags]
+    # search
+    if params[:search]
+      all_events = all_events.where('lower(name) LIKE lower(?)', "%#{params[:search]}%")
+                             .or(all_events.where('lower(details) LIKE lower(?)', "%#{params[:search]}%"))
+                             .or(all_events.where('lower(summary) LIKE lower(?)', "%#{params[:search]}%"))
+    end
+    # offset & limit
     events = all_events.order(created_at: :desc).offset(params[:offset] || 0).limit(params[:limit])
     no_of_events = all_events.count
     usernames = User.select(:id, :name).order(:id)
@@ -45,8 +53,8 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def create 
-    if (current_user.user_role != "admin" && current_user.user_role != "organiser") 
-      head(404) 
+    if (current_user.user_role != 'admin' && current_user.user_role != 'organiser') 
+      head(404)
     end
     event = Event.new(event_params)
     if event.user_id == current_user.id
@@ -106,12 +114,12 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def show
-    if event && (current_user.user_role == "admin" || event.user_id == current_user.id || event.status == "approved")
+    if event && (current_user.user_role == 'admin' || event.user_id == current_user.id || event.status == 'approved')
       clone = event.attributes.except('start_date', 'end_date')
       clone['start_date'] = event.start_date.to_s
       clone['end_date'] = event.end_date.to_s
       user = User.find(event.user_id)
-      render json: {event: clone, organiser: user}
+      render json: { event: clone, organiser: user }
     else
       render json: event.errors
     end
@@ -123,11 +131,11 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def interested_in
-    if event && (current_user.id == event.user_id || current_user.user_role == "admin")
+    if event && (current_user.id == event.user_id || current_user.user_role == 'admin')
       interests = Interest.where(event_id: event.id).order(created_at: :desc)
-      interests = interests.map{|n| {student: User.find(n.user_id), attendance: n.attend, interest_id: n.id}}
-      interests.sort_by!{ |e| e[:student].name.downcase }
-      render json: {students: interests, user: event.user_id, event_name: event.name}
+      interests = interests.map { |n| { student: User.find(n.user_id), attendance: n.attend, interest_id: n.id } }
+      interests.sort_by! { |e| e[:student].name.downcase }
+      render json: { students: interests, user: event.user_id, event_name: event.name }
     else
       render json: event.errors
     end

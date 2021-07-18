@@ -54,7 +54,11 @@ export default class EventCatalog extends React.Component<Props, State> {
       url +=
         "&" + qs.stringify({ tags: params.tags }, { arrayFormat: "brackets" });
     }
+    if (keys.includes("search")) {
+      url += "&search=" + encodeURI(params.search);
+    }
 
+    console.log(url);
     fetch(url)
       .then((response) => {
         if (response.ok) {
