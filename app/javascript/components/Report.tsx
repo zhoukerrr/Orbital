@@ -75,6 +75,7 @@ class Report extends React.Component<Props, State> {
                   <h4>Reported by: </h4>
                   {this.state.user.name}
                   <br />
+                  <br />
                   <h4>Email: </h4>
                   {this.state.user.email}
                 </div>

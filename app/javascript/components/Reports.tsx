@@ -22,6 +22,14 @@ class Reports extends React.Component<Props, State> {
     };
   }
 
+  zip = (arr1: any[], arr2: any[], arr3: any[]) => {
+    for (let i = 0; i < arr1.length; i++) {
+      arr1[i].event = arr2[i];
+      arr1[i].user = arr3[i];
+    }
+    return arr1;
+  };
+
   componentDidMount = () => {
     const url = `/api/v1/reports/index`;
 
@@ -34,7 +42,7 @@ class Reports extends React.Component<Props, State> {
       })
       .then((result) => {
         this.setState({
-          reports: result,
+          reports: this.zip(result.report, result.event, result.user),
           done: true,
         });
       })
@@ -49,12 +57,15 @@ class Reports extends React.Component<Props, State> {
         <a className="list-group-item list-group-item-action">
           <div>
             <div className="d-flex w-100 justify-content-between">
-              <h5 className="mb-1">{report.event_id}</h5>
-              <small className="text-muted">by {report.user_id}</small>
+              <h5 className="mb-1">{report.event}</h5>
+              <small className="text-muted">by {report.user}</small>
             </div>
-            <Link to={`/report/${report.id}`} className="btn custom-button">
-              View Report
-            </Link>
+            <div className="d-flex w-100 justify-content-between">
+              <div></div>
+              <Link to={`/report/${report.id}`} className="btn custom-button">
+                View Report
+              </Link>
+            </div>
           </div>
         </a>
       </div>
