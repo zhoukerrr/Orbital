@@ -37,7 +37,7 @@ export default class SearchBar extends React.Component<Props, State> {
           onChange={this.onInputChangeHandler}
           required
         />
-        <button className="btn btn-outline-success" type="submit">
+        <button className="btn btn-outline-secondary" type="submit">
           Search
         </button>
       </form>

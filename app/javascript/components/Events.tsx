@@ -101,20 +101,22 @@ export default class Events extends React.Component<Props, State> {
         </section>
         <div className="py-5">
           <main className="container">
-            <div className="navbar navbar-expand-md navbar-light">
+            <div
+              className="navbar navbar-expand-md navbar-light"
+              style={{ marginBottom: "20px" }}
+            >
               <SearchBar
                 onButtonClickHandler={this.searchButtonOnClickHandler}
               />
               <button
                 type="button"
-                className="navbar-toggle d-md-none"
+                className="btn btn-outline-secondary navbar-toggle d-md-none"
                 data-toggle="collapse"
                 data-target="#filterCollapse"
               >
-                <span className="navbar-toggler-icon"></span>
+                Filters
               </button>
             </div>
-            <br />
             {this.getSearchTarget()}
             <div style={{ display: "flex", flexWrap: "wrap-reverse" }}>
               <div style={{ flexGrow: 7 }}>
@@ -129,7 +131,11 @@ export default class Events extends React.Component<Props, State> {
               <div
                 className="sidebar-nav collapse collapse-navbar d-md-block"
                 id="filterCollapse"
-                style={{ flexGrow: 1, marginLeft: "50px" }}
+                style={{
+                  flexGrow: 1,
+                  marginLeft: "50px",
+                  marginBottom: "20px",
+                }}
               >
                 <FilterBar
                   values={tags}
