@@ -12,12 +12,12 @@ type Props = {
   location: any;
 };
 
-type State = {
-  queryString: string;
-  tags: string[];
-};
+type State = {};
 
 export default class Events extends React.Component<Props, State> {
+  private queryString: string;
+  private tags: string[];
+
   constructor(props: Props) {
     super(props);
 
@@ -25,15 +25,12 @@ export default class Events extends React.Component<Props, State> {
       const params: any = qs.parse(this.props.location.search, {
         ignoreQueryPrefix: true,
       });
-      this.state = {
-        queryString: this.props.location.search + "&status=approved&user=all",
-        tags: Object.keys(params).includes("tags") ? params.tags : [],
-      };
+      this.queryString =
+        this.props.location.search + "&status=approved&user=all";
+      this.tags = Object.keys(params).includes("tags") ? params.tags : [];
     } else {
-      this.state = {
-        queryString: "?status=approved&user=all",
-        tags: [],
-      };
+      this.queryString = "?status=approved&user=all";
+      this.tags = [];
     }
   }
 
@@ -49,13 +46,6 @@ export default class Events extends React.Component<Props, State> {
     } else {
       this.props.history.push("/events?page=" + value);
     }
-    // var link = "/events?page=" + value;
-    // if (this.state.tags.length !== 0) {
-    //   link = link.concat(
-    //     "&" + qs.stringify({ tags: this.state.tags }, { encode: false })
-    //   );
-    // }
-    // this.props.history.push(link);
   };
 
   tagButtonOnClickHandler = (
@@ -111,27 +101,39 @@ export default class Events extends React.Component<Props, State> {
         </section>
         <div className="py-5">
           <main className="container">
-            <div className="row">
+            <div className="navbar navbar-expand-md navbar-light">
               <SearchBar
                 onButtonClickHandler={this.searchButtonOnClickHandler}
               />
+              <button
+                type="button"
+                className="navbar-toggle d-md-none"
+                data-toggle="collapse"
+                data-target="#filterCollapse"
+              >
+                <span className="navbar-toggler-icon"></span>
+              </button>
             </div>
             <br />
             {this.getSearchTarget()}
-            <div className="row" style={{ flexWrap: "nowrap" }}>
-              <div style={{ width: "80%" }}>
+            <div style={{ display: "flex", flexWrap: "wrap-reverse" }}>
+              <div style={{ flexGrow: 7 }}>
                 <EventCatalog
-                  queryString={this.state.queryString}
+                  queryString={this.queryString}
                   pageButtonGroupOnClickHandler={
                     this.pageButtonGroupOnClickHandler
                   }
                   tagButtonOnClickHandler={this.tagButtonOnClickHandler}
                 />
               </div>
-              <div className="column">
+              <div
+                className="sidebar-nav collapse collapse-navbar d-md-block"
+                id="filterCollapse"
+                style={{ flexGrow: 1, marginLeft: "50px" }}
+              >
                 <FilterBar
                   values={tags}
-                  currentlySelected={this.state.tags}
+                  currentlySelected={this.tags}
                   onSelectHandler={this.filterBarOnClickHandler}
                 />
               </div>
