@@ -1,0 +1,38 @@
+class Api::V1::ReportsController < ApplicationController
+  before_action :authenticate_user!
+
+  def index
+    if current_user.user_role == "admin"
+      report = Report.all.order(created_at: :desc)
+      render json: report
+    else
+      head(404)
+    end
+  end
+
+  def create
+    report = Report.new(report_params)
+    if report.user_id == current_user.id # will restrict to students only 
+      report.save
+      render json: report
+    else
+      head(404)
+    end
+  end
+
+  def show
+    report = Report.find(params[:id])
+    event = Event.find(report.event_id)
+    user = User.find(report.user_id)
+    render json: {report: report, event: event, user: user}
+  end
+
+  #def destroy
+  #end
+
+  private
+
+  def report_params
+    params.permit(:event_id, :user_id, :details, :status)
+  end
+end

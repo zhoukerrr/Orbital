@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
+      get 'reports/index'
+      post 'reports/create'
+      get 'report/show/:id', to: 'reports#show'
+      #delete '/destroy/:id', to: 'reports#destroy'
+    end
+  end
+  namespace :api do
+    namespace :v1 do
       get 'interests/index'
       post 'interests/create'
       delete 'interests/destroy/:id', to: 'interests#destroy'

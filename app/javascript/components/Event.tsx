@@ -18,6 +18,7 @@ type State = {
   interest: boolean;
   interest_id: number;
   organiser: string;
+  report: string;
 };
 
 export default class EventView extends React.Component<Props, State> {
@@ -45,6 +46,7 @@ export default class EventView extends React.Component<Props, State> {
       interest: false,
       interest_id: 0,
       organiser: "",
+      report: "",
     };
 
     this.addHtmlEntities = this.addHtmlEntities.bind(this);
@@ -111,6 +113,10 @@ export default class EventView extends React.Component<Props, State> {
         remarks: value,
       },
     }));
+  };
+
+  handleChange = (event: any) => {
+    this.setState({ report: event.target.value });
   };
 
   deleteEvent(): void {
@@ -384,6 +390,111 @@ export default class EventView extends React.Component<Props, State> {
     );
   };
 
+  ReportEvent = () => {
+    if (
+      window.confirm(
+        "Are you sure you want to report this event?\nOur admins may contact you for more assistance."
+      )
+    ) {
+      const url = "/api/v1/reports/create";
+
+      const token = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "X-CSRF-Token": token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          event_id: this.props.match.params.id,
+          user_id: this.props.user_id,
+          details: this.state.report,
+        }),
+      }).then((response) => {
+        if (response.ok) {
+          alert(
+            "Your report has been submitted. Our admins will review your report."
+          );
+          this.props.history.push("/events");
+        } else {
+          alert("Error. Please try again.");
+        }
+      });
+    }
+  };
+
+  ReportForm = () => {
+    return (
+      <>
+        <button
+          type="button"
+          className="btn btn-danger"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+          data-bs-whatever="@mdo"
+        >
+          Report this event
+        </button>
+
+        <div
+          className="modal fade"
+          id="exampleModal"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">
+                  Report
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body">
+                <form>
+                  <div className="mb-3">
+                    <label className="col-form-label">Details:</label>
+                    <textarea
+                      className="form-control"
+                      id="message-text"
+                      rows={10}
+                      value={this.state.report}
+                      onChange={this.handleChange}
+                    ></textarea>
+                  </div>
+                </form>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  data-bs-dismiss="modal"
+                  onClick={this.ReportEvent}
+                >
+                  Report this event
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
   render() {
     const { event } = this.state;
     const id = this.props.match.params.id;
@@ -431,6 +542,9 @@ export default class EventView extends React.Component<Props, State> {
                 ) : (
                   <this.Decision />
                 )}
+                <br />
+                <br />
+                <this.ReportForm />
               </div>
               <br />
               {can_delete ? (

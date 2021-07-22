@@ -13,11 +13,27 @@ import MyEvents from "../components/MyEvents";
 import AllSubmitted from "../components/AllSubmitted";
 import MyInterests from "../components/MyInterests";
 import MyEventInterests from "../components/MyEventInterests";
+import Reports from "../components/Reports";
+import Report from "../components/Report";
 
 export default (props: any) => (
   <Router>
     <Switch>
       <Route path="/" exact component={Home} />
+      <Route
+        path="/report/:id"
+        exact
+        render={(p: RouteComponentProps) => (
+          <Report {...p} user_id={props.user_id} role={props.role} />
+        )}
+      />
+      <Route
+        path="/reports"
+        exact
+        render={(p: RouteComponentProps) => (
+          <Reports {...p} user_id={props.user_id} role={props.role} />
+        )}
+      />
       <Route
         path="/interest/:id"
         exact
