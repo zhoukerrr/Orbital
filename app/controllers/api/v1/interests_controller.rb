@@ -25,7 +25,8 @@ class Api::V1::InterestsController < ApplicationController
   def create #need to check if event is approved
     interest = Interest.new(interest_params)
     check = Interest.where(user_id: interest.user_id).where(event_id: interest.event_id).length()
-    if interest && check == 0 && interest.user_id == current_user.id
+    event = Event.find(interest.event_id)
+    if interest && check == 0 && interest.user_id == current_user.id && event.status == "approved" && current_user.user_role == "student"
       interest.save
       render json: interest
     else
