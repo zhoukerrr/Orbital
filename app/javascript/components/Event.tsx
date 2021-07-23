@@ -345,7 +345,7 @@ export default class EventView extends React.Component<Props, State> {
           Approve
         </button>
       </>
-    ) : this.state.event.status == "submitted" ? (
+    ) : (
       <>
         <div className="btn-group" role="group">
           <button
@@ -364,7 +364,7 @@ export default class EventView extends React.Component<Props, State> {
           </button>
         </div>
       </>
-    ) : null;
+    );
 
   Spinner = () => {
     return (
@@ -546,6 +546,7 @@ export default class EventView extends React.Component<Props, State> {
                 <br />
                 <this.ReportForm />
               </div>
+              <br />
               <br />
               {can_delete ? (
                 <Link to={url} className="btn btn-primary">

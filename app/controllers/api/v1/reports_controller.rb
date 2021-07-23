@@ -16,6 +16,8 @@ class Api::V1::ReportsController < ApplicationController
     report = Report.new(report_params)
     if report.user_id == current_user.id # will restrict to students only 
       report.save
+      event = Event.find(report.event_id)
+      event.update_attribute(:status, 'reported')
       render json: report
     else
       head(404)

@@ -70,6 +70,7 @@ class Api::V1::EventsController < ApplicationController
 
   def approve
     event = Event.find(params[:id])
+    if event.status == "submitted"
     @user = User.find(event.user_id)
     event.update_attribute(:status, 'approved')
 
@@ -102,15 +103,22 @@ class Api::V1::EventsController < ApplicationController
     event.update(event_params)
     render json: event
     RequestMailer.sendApprove(event, @user, request.base_url).deliver
+    elsif event.status == "reported"
+      event.update_attribute(:status, 'approved')
+    end
   end
 
   def reject
     event = Event.find(params[:id])
-    @user = User.find(event.user_id)
-    event.update_attribute(:status, 'rejected')
-    event.update(event_params)
-    render json: event
-    RequestMailer.sendReject(event, @user, request.base_url).deliver
+    if event.status == "submitted"
+      @user = User.find(event.user_id)
+      event.update_attribute(:status, 'rejected')
+      event.update(event_params)
+      render json: event
+      RequestMailer.sendReject(event, @user, request.base_url).deliver
+    elsif event.status == "reported"
+      event.update_attribute(:status, 'rejected')
+    end
   end
 
   def show
