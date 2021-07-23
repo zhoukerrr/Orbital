@@ -22,7 +22,7 @@ class Api::V1::InterestsController < ApplicationController
     render json: {event: events, organiser: organisers}
   end
 
-  def create #need to check if event is approved
+  def create
     interest = Interest.new(interest_params)
     check = Interest.where(user_id: interest.user_id).where(event_id: interest.event_id).length()
     event = Event.find(interest.event_id)

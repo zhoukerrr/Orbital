@@ -18,6 +18,9 @@ class Api::V1::ReportsController < ApplicationController
       report.save
       event = Event.find(report.event_id)
       event.update_attribute(:status, 'reported')
+      user = User.find(report.user_id)
+      admin = User.where(role: 'admin')
+      RequestMailer.newReport(report, user, admin, request.base_url).deliver
       render json: report
     else
       head(404)

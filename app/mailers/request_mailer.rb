@@ -21,4 +21,12 @@ class RequestMailer < ApplicationMailer
     @link = link
     mail(to: @user.email, subject: 'Your request is Rejected')
   end
+
+  def newReport(report, user, admin, link)
+    @report = report
+    @user = user
+    @admin = admin.map{|element| element.email}
+    @link = link
+    mail(to: @admin, subject: 'New report received')
+  end
 end

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hi admin!</h1>
+    <h4>Here is a new report.</h4>
+    <p>Find the report at: <%= @link + "/report/" + @report.id.to_s %></p>
+    <p>Submitted by: <%= @user.name %></p>
+    <p>User email: <%= @user.email %></p>
+    <p>Find the Event at: <%= @link + "/event/" + @report.id.to_s %></p>
+    <p>Details:</p>
+      <% @report.details.split("\n").each do |paragraph| %>
+        <p><%= paragraph %></p><br/>
+      <% end %>
+  </body>
+</html>
