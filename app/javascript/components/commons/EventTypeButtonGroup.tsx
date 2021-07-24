@@ -1,14 +1,14 @@
 import * as React from "react";
-import { EventType } from "../types";
+import { eventStatus } from "../types";
 import TypeButtonGroup from "./TypeButtonGroup";
 
 type Props = {
-  currentType: EventType;
+  currentType: typeof eventStatus[number];
   /**
    * The component uses this to handle click events, by applying it on the value
    * of the button clicked. Possible values include `submitted`, `approved` and `rejected`.
    */
-  onClickHandler: (type: EventType) => void;
+  onClickHandler: (type: typeof eventStatus[number]) => void;
 };
 
 type State = {};
