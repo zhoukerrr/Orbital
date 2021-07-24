@@ -2,7 +2,7 @@ import * as qs from "qs";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import ReportTypeButtonGroup from "./commons/ReportTypeButtonGroup";
-import { ReportStatus } from "./types";
+import { reportStatus } from "./types";
 
 type Props = {
   history: any;
@@ -13,7 +13,7 @@ type Props = {
 
 type State = {
   reports: any[];
-  status: typeof ReportStatus[number];
+  status: typeof reportStatus[number];
   done: boolean;
 };
 

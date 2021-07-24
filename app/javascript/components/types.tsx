@@ -1,4 +1,3 @@
-export type EventType = "approved" | "rejected" | "submitted";
 export type UserType = "admin" | "organiser" | "student";
 export type Event = {
   id: number;
@@ -14,11 +13,12 @@ export type Event = {
   link: string;
   poster: string;
   contact: string;
-  status: string;
+  status: typeof eventStatus[number];
   remarks: string;
 };
 
-export const ReportStatus: string[] = ["submitted", "reviewed"];
+export const eventStatus = ["approved", "rejected", "submitted"] as const;
+export const reportStatus = ["submitted", "reviewed"] as const;
 
 export const tags: string[] = [
   "Animal Welfare",

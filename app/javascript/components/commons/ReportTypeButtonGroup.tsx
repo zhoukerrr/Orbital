@@ -1,14 +1,14 @@
 import * as React from "react";
-import { ReportStatus } from "../types";
+import { reportStatus } from "../types";
 import TypeButtonGroup from "./TypeButtonGroup";
 
 type Props = {
-  currentType: typeof ReportStatus[number];
+  currentType: typeof reportStatus[number];
   /**
    * The component uses this to handle click events, by applying it on the value
    * of the button clicked. Possible values include `submitted`, `approved` and `rejected`.
    */
-  onClickHandler: (type: typeof ReportStatus[number]) => void;
+  onClickHandler: (type: typeof reportStatus[number]) => void;
 };
 
 type State = {};
@@ -24,7 +24,7 @@ export default class ReportTypeButtonGroup extends React.Component<
   render() {
     return (
       <TypeButtonGroup
-        values={ReportStatus}
+        values={reportStatus.concat()}
         currentValue={this.props.currentType}
         onClickHandler={this.props.onClickHandler}
       />

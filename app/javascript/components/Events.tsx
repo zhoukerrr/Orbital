@@ -7,7 +7,6 @@ import EventCatalog from "./commons/EventCatalog";
 import SearchBar from "./commons/SearchBar";
 
 type Props = {
-  key: number;
   history: any;
   location: any;
 };
@@ -27,7 +26,7 @@ export default class Events extends React.Component<Props, State> {
       });
       this.queryString =
         this.props.location.search + "&status=approved&user=all";
-      this.tags = Object.keys(params).includes("tags") ? params.tags : [];
+      this.tags = params.tags ? params.tags : [];
     } else {
       this.queryString = "?status=approved&user=all";
       this.tags = [];

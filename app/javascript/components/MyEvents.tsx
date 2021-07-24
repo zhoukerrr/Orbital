@@ -3,21 +3,21 @@ import * as qs from "qs";
 import { Link, Redirect } from "react-router-dom";
 import EventTypeButtonGroup from "./commons/EventTypeButtonGroup";
 import EventCatalog from "./commons/EventCatalog";
+import { eventStatus } from "./types";
 
 type Props = {
-  key: number;
   history: any;
   location: any;
   role: string;
 };
 
-type State = {
-  queryString: string;
-  eventType: "approved" | "rejected" | "submitted";
-  tags: string[];
-};
+type State = {};
 
 class Events extends React.Component<Props, State> {
+  private queryString: string;
+  private eventType: typeof eventStatus[number];
+  private tags: string[];
+
   constructor(props: Props) {
     super(props);
 
@@ -25,21 +25,15 @@ class Events extends React.Component<Props, State> {
       const params: any = qs.parse(this.props.location.search, {
         ignoreQueryPrefix: true,
       });
-      this.state = {
-        tags: Object.keys(params).includes("tags") ? params.tags : [],
-        eventType: Object.keys(params).includes("status")
-          ? params.status
-          : "approved",
-        queryString: Object.keys(params).includes("status")
-          ? this.props.location.search + "&user=self"
-          : this.props.location.search + "&status=approved&user=self",
-      };
+      this.tags = params.tags ? params.tags : [];
+      this.eventType = params.status ? params.status : "approved";
+      this.queryString = params.status
+        ? this.props.location.search + "&user=self"
+        : this.props.location.search + "&status=approved&user=self";
     } else {
-      this.state = {
-        queryString: "?status=approved&user=self",
-        eventType: "approved",
-        tags: [],
-      };
+      this.queryString = "?status=approved&user=self";
+      this.eventType = "approved";
+      this.tags = [];
     }
   }
 
@@ -50,10 +44,10 @@ class Events extends React.Component<Props, State> {
   );
 
   pageButtonGroupOnClickHandler = (value: number) => {
-    var link = "/my_events?status=" + this.state.eventType + "&page=" + value;
-    if (this.state.tags.length !== 0) {
+    var link = "/my_events?status=" + this.eventType + "&page=" + value;
+    if (this.tags.length !== 0) {
       link = link.concat(
-        "&" + qs.stringify({ tags: this.state.tags }, { encode: false })
+        "&" + qs.stringify({ tags: this.tags }, { encode: false })
       );
     }
     this.props.history.push(link);
@@ -69,7 +63,7 @@ class Events extends React.Component<Props, State> {
   ) => {
     const link =
       "/my_events?status=" +
-      this.state.eventType +
+      this.eventType +
       "&" +
       qs.stringify({ tags: [evt.currentTarget.value] }, { encode: false });
     this.props.history.push(link);
@@ -92,15 +86,14 @@ class Events extends React.Component<Props, State> {
             <main className="container">
               <div className="d-flex justify-content-between">
                 <EventTypeButtonGroup
-                  currentType={this.state.eventType}
+                  currentType={this.eventType}
                   onClickHandler={this.eventTypeButtonOnClickHandler}
                 />
                 {canCreate ? <this.CreateButton /> : null}
               </div>
               <br />
               <EventCatalog
-                key={Math.random()}
-                queryString={this.state.queryString}
+                queryString={this.queryString}
                 pageButtonGroupOnClickHandler={
                   this.pageButtonGroupOnClickHandler
                 }
