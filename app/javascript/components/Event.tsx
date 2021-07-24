@@ -39,7 +39,7 @@ export default class EventView extends React.Component<Props, State> {
         link: "",
         poster: "",
         contact: "",
-        status: "",
+        status: null,
         remarks: "",
       },
       isLoading: false,
