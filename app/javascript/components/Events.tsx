@@ -67,6 +67,7 @@ export default class Events extends React.Component<Props, State> {
       } else {
         params.tags = selected;
       }
+      delete params.page;
       this.props.history.push(
         "/events?" + qs.stringify(params, { encode: false })
       );
