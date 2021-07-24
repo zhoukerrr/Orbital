@@ -1,5 +1,8 @@
+import * as qs from "qs";
 import * as React from "react";
 import { Link } from "react-router-dom";
+import ReportTypeButtonGroup from "./commons/ReportTypeButtonGroup";
+import { ReportStatus } from "./types";
 
 type Props = {
   history: any;
@@ -10,16 +13,30 @@ type Props = {
 
 type State = {
   reports: any[];
+  status: typeof ReportStatus[number];
   done: boolean;
 };
 
 class Reports extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-      reports: [],
-      done: false,
-    };
+
+    if (this.props.location.search !== "") {
+      const params: any = qs.parse(this.props.location.search, {
+        ignoreQueryPrefix: true,
+      });
+      this.state = {
+        reports: [],
+        status: params.status ? params.status : "submitted",
+        done: false,
+      };
+    } else {
+      this.state = {
+        reports: [],
+        status: "submitted",
+        done: false,
+      };
+    }
   }
 
   zip = (arr1: any[], arr2: any[], arr3: any[]) => {
@@ -47,6 +64,11 @@ class Reports extends React.Component<Props, State> {
         });
       })
       .catch(() => this.props.history.push("/"));
+  };
+
+  reportTypeButtonOnClickHandler = (str: string) => {
+    const link = "/reports?status=" + str;
+    this.props.history.push(link);
   };
 
   render = () => {
@@ -87,21 +109,26 @@ class Reports extends React.Component<Props, State> {
         </section>
         <div className="py-5">
           <main className="container">
-            <div className="row" style={{ flexWrap: "nowrap" }}>
-              <div
-                className="row"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "stretch",
-                }}
-              >
-                {allInterests.length > 0
-                  ? allInterests
-                  : this.state.done
-                  ? noInterests
-                  : null}
-              </div>
+            <div className="d-flex justify-content-between">
+              <ReportTypeButtonGroup
+                currentType={this.state.status}
+                onClickHandler={this.reportTypeButtonOnClickHandler}
+              />
+            </div>
+            <br />
+            <div
+              className="row"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "stretch",
+              }}
+            >
+              {allInterests.length > 0
+                ? allInterests
+                : this.state.done
+                ? noInterests
+                : null}
             </div>
           </main>
         </div>

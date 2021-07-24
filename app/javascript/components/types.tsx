@@ -18,6 +18,8 @@ export type Event = {
   remarks: string;
 };
 
+export const ReportStatus: string[] = ["submitted", "reviewed"];
+
 export const tags: string[] = [
   "Animal Welfare",
   "Arts and Heritage",

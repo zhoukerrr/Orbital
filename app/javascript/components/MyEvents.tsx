@@ -60,7 +60,7 @@ class Events extends React.Component<Props, State> {
   };
 
   eventTypeButtonOnClickHandler = (str: string) => {
-    const link = "/my_events?status=" + str + "&page=1";
+    const link = "/my_events?status=" + str;
     this.props.history.push(link);
   };
 
@@ -70,7 +70,7 @@ class Events extends React.Component<Props, State> {
     const link =
       "/my_events?status=" +
       this.state.eventType +
-      "&page=1&" +
+      "&" +
       qs.stringify({ tags: [evt.currentTarget.value] }, { encode: false });
     this.props.history.push(link);
   };
@@ -95,7 +95,6 @@ class Events extends React.Component<Props, State> {
                   currentType={this.state.eventType}
                   onClickHandler={this.eventTypeButtonOnClickHandler}
                 />
-                <br />
                 {canCreate ? <this.CreateButton /> : null}
               </div>
               <br />

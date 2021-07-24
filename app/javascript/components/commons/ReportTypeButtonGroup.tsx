@@ -1,23 +1,19 @@
 import * as React from "react";
-import { EventType } from "../types";
+import { ReportStatus } from "../types";
 import TypeButtonGroup from "./TypeButtonGroup";
 
 type Props = {
-  currentType: EventType;
+  currentType: typeof ReportStatus[number];
   /**
    * The component uses this to handle click events, by applying it on the value
    * of the button clicked. Possible values include `submitted`, `approved` and `rejected`.
    */
-  onClickHandler: (type: EventType) => void;
+  onClickHandler: (type: typeof ReportStatus[number]) => void;
 };
 
 type State = {};
 
-/**
- * A button group consisting of 3 buttons - `Submitted`, `Approved` and `Rejected`,
- * each with its corresponding value in lowercase.
- */
-export default class EventTypeButtonGroup extends React.Component<
+export default class ReportTypeButtonGroup extends React.Component<
   Props,
   State
 > {
@@ -26,10 +22,9 @@ export default class EventTypeButtonGroup extends React.Component<
   }
 
   render() {
-    const values = ["submitted", "approved", "rejected"];
     return (
       <TypeButtonGroup
-        values={values}
+        values={ReportStatus}
         currentValue={this.props.currentType}
         onClickHandler={this.props.onClickHandler}
       />

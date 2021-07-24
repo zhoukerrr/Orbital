@@ -31,7 +31,12 @@ export default (props: any) => (
         path="/reports"
         exact
         render={(p: RouteComponentProps) => (
-          <Reports {...p} user_id={props.user_id} role={props.role} />
+          <Reports
+            {...p}
+            key={Math.random()}
+            user_id={props.user_id}
+            role={props.role}
+          />
         )}
       />
       <Route
