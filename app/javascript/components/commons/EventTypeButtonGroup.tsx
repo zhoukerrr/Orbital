@@ -26,10 +26,9 @@ export default class EventTypeButtonGroup extends React.Component<
   }
 
   render() {
-    const values = ["submitted", "approved", "rejected"];
     return (
       <TypeButtonGroup
-        values={values}
+        values={eventStatus.concat()}
         currentValue={this.props.currentType}
         onClickHandler={this.props.onClickHandler}
       />
