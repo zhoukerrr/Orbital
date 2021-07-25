@@ -15,6 +15,15 @@
     document.getElementById("role").value = "organiser";
     document.getElementById("oragniser").value = true;
   }
+
+  function check() {
+    var name = document.getElementById('name').value;
+    if (name.substr(0,1) == " ") {
+        alert("Name cannot start with space!");
+        return false;
+    } 
+    return true;
+}
 </script>
 
 <% if user_signed_in? %>
@@ -29,7 +38,7 @@
 
   <div class="field form-group">
     <%= f.label :name %><br />
-    <%= f.text_field :name, autofocus: true, autocomplete: "name", class:"form-control", required: true %>
+    <%= f.text_field :name, autofocus: true, autocomplete: "name", class:"form-control", required: true, id:"name" %>
   </div>
 
   <div class="field form-group">
@@ -57,7 +66,7 @@
     <%= f.text_field :role, autocomplete: "role", class:"form-control", value: "organiser" , id:"role", readonly: true %>
   </div>
   
-  <div class="actions">
+  <div class="actions" onclick="return check();">
     <%= f.submit "Create new Account", class: 'btn btn-primary' %>
   </div>
 <% end %>
@@ -70,7 +79,7 @@
 
   <div class="field form-group">
     <%= f.label :name %><br />
-    <%= f.text_field :name, autofocus: true, autocomplete: "name", class:"form-control", required: true %>
+    <%= f.text_field :name, autofocus: true, autocomplete: "name", class:"form-control", required: true, id:"name" %>
   </div>
 
   <%= f.label :email %><em> (Please use your NUS email)</em><br />
@@ -99,7 +108,7 @@
   </div>
   <br/>
 
-  <div class="actions" onclick="combine()">
+  <div class="actions" onclick="combine(); return check();">
     <%= f.submit "Sign up", class: 'btn btn-primary' %>
   </div>
 <% end %>
