@@ -11,9 +11,7 @@ type Props = {
   role: string;
 };
 
-type State = {};
-
-class Events extends React.Component<Props, State> {
+class Events extends React.Component<Props> {
   private queryString: string;
   private eventType: typeof eventStatus[number];
   private tags: string[];

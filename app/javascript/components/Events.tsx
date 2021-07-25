@@ -11,9 +11,7 @@ type Props = {
   location: any;
 };
 
-type State = {};
-
-export default class Events extends React.Component<Props, State> {
+export default class Events extends React.Component<Props> {
   private queryString: string;
   private tags: string[];
 
@@ -117,9 +115,9 @@ export default class Events extends React.Component<Props, State> {
                 Filters
               </button>
             </div>
-            {this.getSearchTarget()}
             <div style={{ display: "flex", flexWrap: "wrap-reverse" }}>
               <div style={{ flexGrow: 7 }}>
+                {this.getSearchTarget()}
                 <EventCatalog
                   queryString={this.queryString}
                   pageButtonGroupOnClickHandler={

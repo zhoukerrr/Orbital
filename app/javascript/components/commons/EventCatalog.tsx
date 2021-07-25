@@ -88,37 +88,34 @@ export default class EventCatalog extends React.Component<Props, State> {
     return (
       <div className="list-group" key={event.id}>
         <div className="list-group-item list-group-item-action">
-          <div>
-            <div className="d-flex w-100 justify-content-between">
-              <h5
-                className="mb-1"
-                style={{
-                  color:
-                    new Date(event.end_date) <= new Date() ? "red" : "black",
-                }}
+          <div className="d-flex w-100 justify-content-between">
+            <h5
+              className="mb-1"
+              style={{
+                color: new Date(event.end_date) <= new Date() ? "red" : "black",
+              }}
+            >
+              {event.name}
+            </h5>
+            <small className="text-muted">
+              by {this.getNamefromID(event.user_id)}
+            </small>
+          </div>
+          <p className="mb-1">{event.summary}</p>
+          <div className="d-flex w-100 justify-content-between">
+            <small className="text-muted">
+              <button
+                type="button"
+                className="btn btn-outline-dark"
+                value={event.tag}
+                onClick={this.props.tagButtonOnClickHandler}
               >
-                {event.name}
-              </h5>
-              <small className="text-muted">
-                by {this.getNamefromID(event.user_id)}
-              </small>
-            </div>
-            <p className="mb-1">{event.summary}</p>
-            <div className="d-flex w-100 justify-content-between">
-              <small className="text-muted">
-                <button
-                  type="button"
-                  className="btn btn-outline-dark"
-                  value={event.tag}
-                  onClick={this.props.tagButtonOnClickHandler}
-                >
-                  {event.tag}
-                </button>
-              </small>
-              <Link to={`/event/${event.id}`} className="btn custom-button">
-                View Event
-              </Link>
-            </div>
+                {event.tag}
+              </button>
+            </small>
+            <Link to={`/event/${event.id}`} className="btn custom-button">
+              View Event
+            </Link>
           </div>
         </div>
       </div>
@@ -143,7 +140,7 @@ export default class EventCatalog extends React.Component<Props, State> {
       .map((value) => this.getEventCard(value));
 
     const noEvent = (
-      <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
+      <div className="w-100 vh-50 d-flex align-items-center justify-content-center">
         <h4>Wow! Such emptiness!</h4>
       </div>
     );

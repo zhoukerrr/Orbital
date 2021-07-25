@@ -20,14 +20,13 @@ type State = {
 class Reports extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-
     if (this.props.location.search !== "") {
       const params: any = qs.parse(this.props.location.search, {
         ignoreQueryPrefix: true,
       });
       this.state = {
         reports: [],
-        status: params.status ? params.status : "submitted",
+        status: params.status || "submitted",
         done: false,
       };
     } else {
