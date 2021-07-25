@@ -1,4 +1,3 @@
-import * as React from "react";
 import { reportStatus } from "../../types";
 import TypeButtonGroup, { TypeButtonGroupProps } from "./TypeButtonGroup";
 
