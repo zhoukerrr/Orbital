@@ -17,7 +17,7 @@
               <li><%= link_to('My Events', '/my_events', class: "nav-link")%></li>
             </ul>
           </li>
-          <%= link_to 'Organisers', users_path %>
+          <%= link_to('Organisers', users_path, class: "nav-link") %>
         <% elsif current_user.user_role == "admin" %>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
@@ -42,7 +42,7 @@
               <li><%= link_to('Interested Events', '/my_interests', class: "nav-link")%></li>
             </ul>
           </li>
-          <%= link_to 'Organisers', users_path %>
+          <%= link_to('Organisers', users_path, class: "nav-link") %>
         <% end %>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
