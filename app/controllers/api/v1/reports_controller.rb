@@ -4,6 +4,7 @@ class Api::V1::ReportsController < ApplicationController
   def index
     if current_user.user_role == "admin"
       report = Report.all.order(created_at: :desc)
+      report = report.where(status: params[:status]) if params[:status]
       event = report.map {|n| Event.find(n.event_id).name}
       user = report.map {|n| User.find(n.user_id).name}
       render json: {report: report, event: event, user: user}
@@ -34,8 +35,15 @@ class Api::V1::ReportsController < ApplicationController
     render json: {report: report, event: event, user: user}
   end
 
-  #def destroy
-  #end
+  def review
+    report = Report.find(params[:id])
+    if report.status == 'submitted'
+      report.update_attribute(:status, 'reviewed')
+    elsif report.status == 'reviewed'
+      report.update_attribute(:status, 'submitted')
+    end 
+    render json: report
+  end
 
   private
 

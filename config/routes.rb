@@ -4,7 +4,7 @@ Rails.application.routes.draw do
       get 'reports/index'
       post 'reports/create'
       get 'report/show/:id', to: 'reports#show'
-      #delete '/destroy/:id', to: 'reports#destroy'
+      patch '/review/:id', to: 'reports#review'
     end
   end
   namespace :api do

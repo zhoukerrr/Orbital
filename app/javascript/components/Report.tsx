@@ -55,6 +55,30 @@ class Report extends React.Component<Props, State> {
       .catch(() => this.props.history.push("/"));
   };
 
+  reviewReport = () => {
+    const url = `/api/v1/review/${this.state.report.id}`;
+
+    const token = document
+      .querySelector('meta[name="csrf-token"]')
+      .getAttribute("content");
+
+    fetch(url, {
+      method: "PATCH",
+      headers: {
+        "X-CSRF-Token": token,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then(() => this.props.history.push("/reports?status=submitted"))
+      .catch(() => alert("Something went wrong. Please try again later."));
+  };
+
   render = () => {
     if (this.state.done) {
       return (
@@ -72,6 +96,10 @@ class Report extends React.Component<Props, State> {
             <div className="container py-5">
               <div className="row">
                 <div className="col-sm-12 col-lg-3">
+                  <h4>Status: </h4>
+                  {this.state.report.status}
+                  <br />
+                  <br />
                   <h4>Reported by: </h4>
                   {this.state.user.name}
                   <br />
@@ -93,6 +121,25 @@ class Report extends React.Component<Props, State> {
                   >
                     View Event
                   </Link>
+                  <br />
+                  <br />
+                  {this.state.report.status == "submitted" ? (
+                    <button
+                      type="button"
+                      className="btn btn-success"
+                      onClick={this.reviewReport}
+                    >
+                      Mark as reviewed
+                    </button>
+                  ) : this.state.report.status == "reviewed" ? (
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={this.reviewReport}
+                    >
+                      Not reviewed
+                    </button>
+                  ) : null}
                 </div>
                 <br />
               </div>
