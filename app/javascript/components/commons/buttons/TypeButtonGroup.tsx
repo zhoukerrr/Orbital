@@ -1,20 +1,31 @@
 import * as React from "react";
 
-type Props = {
-  values: string[];
+export type TypeButtonGroupProps = {
+  /** Currently selected value. */
   currentValue: string;
-  onClickHandler: (type: string) => void;
+  /**
+   * Called when one of its buttons is clicked. Takes in the value of the
+   * clicked button.
+   */
+  onClickHandler: (value: string) => void;
 };
 
-type State = {};
+/**
+ * Encapsulates a button group for which the values are distinct and
+ * single-word, and one value is selected at any point in time. The class will
+ * capitalize the word for display but uses the lowercase strings for event
+ * handlers.
+ */
+export default abstract class TypeButtonGroup extends React.Component<TypeButtonGroupProps> {
+  private values: string[];
 
-export default class TypeButtonGroup extends React.Component<Props, State> {
-  constructor(props: Props) {
+  constructor(props: TypeButtonGroupProps, values: string[]) {
     super(props);
+    this.values = values;
   }
 
   private onClickHandler: (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    evt: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void = (evt) => {
     this.props.onClickHandler(evt.currentTarget.value);
   };
@@ -27,6 +38,7 @@ export default class TypeButtonGroup extends React.Component<Props, State> {
    */
   private typeButton: (value: string) => JSX.Element = (value) => (
     <button
+      key={value}
       type="button"
       className={
         value === this.props.currentValue
@@ -46,7 +58,7 @@ export default class TypeButtonGroup extends React.Component<Props, State> {
   render() {
     return (
       <div className="btn-group" role="group">
-        {this.props.values.map(this.typeButton)}
+        {this.values.map(this.typeButton)}
       </div>
     );
   }

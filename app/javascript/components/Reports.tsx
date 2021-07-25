@@ -1,7 +1,7 @@
 import * as qs from "qs";
 import * as React from "react";
 import { Link } from "react-router-dom";
-import ReportTypeButtonGroup from "./commons/ReportTypeButtonGroup";
+import ReportTypeButtonGroup from "./commons/buttons/ReportTypeButtonGroup";
 import { reportStatus } from "./types";
 
 type Props = {
@@ -111,7 +111,7 @@ class Reports extends React.Component<Props, State> {
           <main className="container">
             <div className="d-flex justify-content-between">
               <ReportTypeButtonGroup
-                currentType={this.state.status}
+                currentValue={this.state.status}
                 onClickHandler={this.reportTypeButtonOnClickHandler}
               />
             </div>

@@ -12,12 +12,10 @@ type Props = {
   placeholder?: string;
 };
 
-type State = {};
-
 /**
  * Encapsulates a search bar for which an input is required.
  */
-export default class SearchBar extends React.Component<Props, State> {
+export default class SearchBar extends React.Component<Props> {
   private searchString: string;
 
   private onInputChangeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {

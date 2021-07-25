@@ -2,7 +2,7 @@ import * as qs from "qs";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { Event } from "../types";
-import PageGroup from "./PageButtonGroup";
+import PageGroup from "./buttons/PageButtonGroup";
 
 type Props = {
   queryString: string;

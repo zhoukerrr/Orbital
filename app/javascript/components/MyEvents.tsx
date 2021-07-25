@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as qs from "qs";
 import { Link, Redirect } from "react-router-dom";
-import EventTypeButtonGroup from "./commons/EventTypeButtonGroup";
+import EventTypeButtonGroup from "./commons/buttons/EventTypeButtonGroup";
 import EventCatalog from "./commons/EventCatalog";
 import { eventStatus } from "./types";
 
@@ -86,7 +86,7 @@ class Events extends React.Component<Props, State> {
             <main className="container">
               <div className="d-flex justify-content-between">
                 <EventTypeButtonGroup
-                  currentType={this.eventType}
+                  currentValue={this.eventType}
                   onClickHandler={this.eventTypeButtonOnClickHandler}
                 />
                 {canCreate ? <this.CreateButton /> : null}
