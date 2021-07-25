@@ -1,29 +1,32 @@
 import * as React from "react";
 
 type Props = {
+  /**
+   * Called when the search button is clicked. Takes in the search input value
+   * as an argument.
+   */
   onButtonClickHandler: (value: string) => void;
+  /**
+   * Hint that is shown when there are no existing input.
+   */
+  placeholder?: string;
 };
 
-type State = {
-  searchString: string;
-};
+type State = {};
 
+/**
+ * Encapsulates a search bar for which an input is required.
+ */
 export default class SearchBar extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
+  private searchString: string;
 
-    this.state = {
-      searchString: "",
-    };
-  }
-
-  onInputChangeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchString: evt.currentTarget.value });
+  private onInputChangeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    this.searchString = evt.currentTarget.value;
   };
 
-  onSearchHandler = (evt: React.MouseEvent<HTMLFormElement>) => {
+  private onSearchHandler = (evt: React.MouseEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    this.props.onButtonClickHandler(this.state.searchString);
+    this.props.onButtonClickHandler(this.searchString);
   };
 
   render() {
@@ -32,8 +35,7 @@ export default class SearchBar extends React.Component<Props, State> {
         <input
           className="form-control me-2"
           type="search"
-          placeholder="Search"
-          aria-label="Search"
+          placeholder={this.props.placeholder || "Search"}
           onChange={this.onInputChangeHandler}
           required
         />
