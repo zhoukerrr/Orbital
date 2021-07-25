@@ -9,7 +9,10 @@
     <p>Find your event at: <%= @link + "/event/" + @event.id.to_s %></p>
     <% if (@event.remarks != nil && @event.remarks != "") %>
       <p>Here are the remarks from admin: </p>
-      <p><%= @event.remarks %></p>
+      <% @event.remarks.split("\n").each do |paragraph| %>
+        <p><%= paragraph %></p><br/>
+      <% end %>
     <% end %>
+    <p>Please consider submitting a new request after making changes!</p>
   </body>
 </html>
