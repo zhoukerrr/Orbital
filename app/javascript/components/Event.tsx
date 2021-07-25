@@ -431,13 +431,14 @@ export default class EventView extends React.Component<Props, State> {
                 <form>
                   <div className="mb-3">
                     <label className="col-form-label">Remarks:</label>
-                    <input
+                    <textarea
                       className="form-control"
                       placeholder="Optional remarks here."
                       id="message-text"
+                      rows={5}
                       value={this.state.remarks}
                       onChange={this.remarkChange}
-                    ></input>
+                    ></textarea>
                   </div>
                 </form>
               </div>
@@ -501,13 +502,14 @@ export default class EventView extends React.Component<Props, State> {
                 <form>
                   <div className="mb-3">
                     <label className="col-form-label">Remarks:</label>
-                    <input
+                    <textarea
                       className="form-control"
                       placeholder="Optional remarks here."
                       id="message-text"
+                      rows={5}
                       value={this.state.remarks}
                       onChange={this.remarkChange}
-                    ></input>
+                    ></textarea>
                   </div>
                 </form>
               </div>
