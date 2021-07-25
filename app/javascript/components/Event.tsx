@@ -19,6 +19,7 @@ type State = {
   interest_id: number;
   organiser: string;
   report: string;
+  remarks: string;
 };
 
 export default class EventView extends React.Component<Props, State> {
@@ -47,6 +48,7 @@ export default class EventView extends React.Component<Props, State> {
       interest_id: 0,
       organiser: "",
       report: "",
+      remarks: "",
     };
 
     this.addHtmlEntities = this.addHtmlEntities.bind(this);
@@ -103,19 +105,11 @@ export default class EventView extends React.Component<Props, State> {
     return String(str).replace(/&lt;/g, "<").replace(/&gt;/g, ">");
   }
 
-  onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const key: string = event.target.id;
-    const value: any = event.target.value;
-
-    this.setState((prevState) => ({
-      event: {
-        ...prevState.event,
-        remarks: value,
-      },
-    }));
+  remarkChange = (event: any) => {
+    this.setState({ remarks: event.target.value });
   };
 
-  handleChange = (event: any) => {
+  reportChange = (event: any) => {
     this.setState({ report: event.target.value });
   };
 
@@ -178,7 +172,7 @@ export default class EventView extends React.Component<Props, State> {
                   "X-CSRF-Token": token,
                   "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ remarks: this.state.event.remarks }),
+                body: JSON.stringify({ remarks: this.state.remarks }),
               })
                 .then((response) => {
                   if (response.ok) {
@@ -228,7 +222,7 @@ export default class EventView extends React.Component<Props, State> {
                   "X-CSRF-Token": token,
                   "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ remarks: this.state.event.remarks }),
+                body: JSON.stringify({ remarks: this.state.remarks }),
               })
                 .then((response) => {
                   if (response.ok) {
@@ -327,41 +321,17 @@ export default class EventView extends React.Component<Props, State> {
   Decision = () =>
     this.state.event.status == "approved" ? (
       <>
-        <button
-          type="button"
-          className="btn btn-danger"
-          onClick={this.rejectEvent}
-        >
-          Reject
-        </button>
+        <this.RejectForm />
       </>
     ) : this.state.event.status == "rejected" ? (
       <>
-        <button
-          type="button"
-          className="btn btn-success"
-          onClick={this.approveEvent}
-        >
-          Approve
-        </button>
+        <this.ApproveForm />
       </>
     ) : (
       <>
         <div className="btn-group" role="group">
-          <button
-            type="button"
-            className="btn btn-success"
-            onClick={this.approveEvent}
-          >
-            Approve
-          </button>
-          <button
-            type="button"
-            className="btn btn-danger"
-            onClick={this.rejectEvent}
-          >
-            Reject
-          </button>
+          <this.ApproveForm />
+          <this.RejectForm />
         </div>
       </>
     );
@@ -425,6 +395,146 @@ export default class EventView extends React.Component<Props, State> {
     }
   };
 
+  ApproveForm = () => {
+    return (
+      <>
+        <button
+          type="button"
+          className="btn btn-success"
+          data-bs-toggle="modal"
+          data-bs-target="#approveModal"
+          data-bs-whatever="@mdo"
+        >
+          Approve
+        </button>
+
+        <div
+          className="modal fade"
+          id="approveModal"
+          aria-labelledby="approveModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="approveModalLabel">
+                  Approve Event
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body">
+                <form>
+                  <div className="mb-3">
+                    <label className="col-form-label">Remarks:</label>
+                    <input
+                      className="form-control"
+                      placeholder="Optional remarks here."
+                      id="message-text"
+                      value={this.state.remarks}
+                      onChange={this.remarkChange}
+                    ></input>
+                  </div>
+                </form>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  data-bs-dismiss="modal"
+                  onClick={this.approveEvent}
+                >
+                  Approve
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  RejectForm = () => {
+    return (
+      <>
+        <button
+          type="button"
+          className="btn btn-danger"
+          data-bs-toggle="modal"
+          data-bs-target="#rejectModal"
+          data-bs-whatever="@mdo"
+        >
+          Reject
+        </button>
+
+        <div
+          className="modal fade"
+          id="rejectModal"
+          aria-labelledby="rejectModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="rejectModalLabel">
+                  Reject Event
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body">
+                <form>
+                  <div className="mb-3">
+                    <label className="col-form-label">Remarks:</label>
+                    <input
+                      className="form-control"
+                      placeholder="Optional remarks here."
+                      id="message-text"
+                      value={this.state.remarks}
+                      onChange={this.remarkChange}
+                    ></input>
+                  </div>
+                </form>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  data-bs-dismiss="modal"
+                  onClick={this.rejectEvent}
+                >
+                  Reject
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
   ReportForm = () => {
     return (
       <>
@@ -432,7 +542,7 @@ export default class EventView extends React.Component<Props, State> {
           type="button"
           className="btn btn-danger"
           data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
+          data-bs-target="#reportModal"
           data-bs-whatever="@mdo"
         >
           Report this event
@@ -440,14 +550,14 @@ export default class EventView extends React.Component<Props, State> {
 
         <div
           className="modal fade"
-          id="exampleModal"
-          aria-labelledby="exampleModalLabel"
+          id="reportModal"
+          aria-labelledby="reportModalLabel"
           aria-hidden="true"
         >
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
+                <h5 className="modal-title" id="reportModalLabel">
                   Report
                 </h5>
                 <button
@@ -466,7 +576,7 @@ export default class EventView extends React.Component<Props, State> {
                       id="message-text"
                       rows={10}
                       value={this.state.report}
-                      onChange={this.handleChange}
+                      onChange={this.reportChange}
                     ></textarea>
                   </div>
                 </form>
@@ -524,19 +634,6 @@ export default class EventView extends React.Component<Props, State> {
               <EventPreview event={this.state.event} ownerView={can_delete} />
               <div className="col-sm-12 col-lg-2">
                 {can_delete ? <this.Delete /> : null}
-                {can_decide ? (
-                  <div className="form-group">
-                    <label htmlFor="eventRemarks">Your Remarks</label>
-                    <input
-                      type="text"
-                      name="remarks"
-                      id="remarks"
-                      className="form-control"
-                      onChange={this.onInputChange}
-                    />
-                  </div>
-                ) : null}
-                <br />
                 {!can_decide ? null : this.state.isLoading ? (
                   <this.Spinner />
                 ) : (
