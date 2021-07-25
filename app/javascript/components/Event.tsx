@@ -552,7 +552,8 @@ export default class EventView extends React.Component<Props, State> {
                 <Link to={url} className="btn btn-primary">
                   View Event Signups
                 </Link>
-              ) : this.state.interest ? (
+              ) : this.props.role == "organiser" ? null : this.state
+                  .interest ? (
                 <this.WithdrawInterest />
               ) : (
                 <this.IndicateInterest />
