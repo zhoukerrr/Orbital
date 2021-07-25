@@ -1,3 +1,13 @@
+<script>
+function check() {
+  if (document.getElementById('current').value === document.getElementById('new').value) {
+    alert("New password cannot be the same as current password!");
+    return false;
+  } 
+  return true;
+}
+</script>
+
 <h2>Account</h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
@@ -14,12 +24,12 @@
 
   <div class="field form-group">
     <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password", class:"form-control" %>
+    <%= f.password_field :current_password, autocomplete: "current-password", class:"form-control", id:"current" %>
   </div>
 
   <div class="field form-group">
     <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password", class:"form-control" %>
+    <%= f.password_field :password, autocomplete: "new-password", class:"form-control", id:"new" %>
     <% if @minimum_password_length %>
       <em><%= @minimum_password_length %> characters minimum</em>
     <% end %>
@@ -31,7 +41,7 @@
 
   <br />
   
-  <div class="actions">
+  <div class="actions" onclick="return check();">
     <%= f.submit "Update", class: 'btn btn-primary' %>
   </div>
 <% end %>
