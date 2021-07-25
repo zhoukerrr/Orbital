@@ -82,7 +82,11 @@ export default class EventPreview extends React.Component<Props, State> {
   Remarks = () => (
     <>
       <h4 className="mb-2">Remarks</h4>
-      {this.props.event.remarks == null ? "NIL" : this.props.event.remarks}
+      {this.props.event.remarks == null ? (
+        "NIL"
+      ) : (
+        <div style={{ whiteSpace: "pre-line" }}>{this.props.event.remarks}</div>
+      )}
     </>
   );
 
