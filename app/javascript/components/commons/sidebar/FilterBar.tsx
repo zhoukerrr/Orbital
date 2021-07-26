@@ -7,10 +7,6 @@ type Props = {
 };
 type State = {};
 export default class FilterBar extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-  }
-
   getInputs: (values: string[], selected: string[]) => JSX.Element[] = (
     values,
     selected

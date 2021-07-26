@@ -2,10 +2,11 @@ import * as qs from "qs";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { tags } from "./types";
-import FilterBar from "./commons/FilterBar";
+import FilterBar from "./commons/sidebar/FilterBar";
 import EventCatalog from "./commons/EventCatalog";
 import SearchBar from "./commons/SearchBar";
 import SlideShow from "./commons/SlideShow";
+import Sponsors from "./commons/sidebar/Sponsors";
 
 type Props = {
   history: any;
@@ -128,12 +129,16 @@ export default class Events extends React.Component<Props> {
               tagButtonOnClickHandler={this.tagButtonOnClickHandler}
             />
           </div>
-          <div className="d-none d-md-block ms-3 mb-3 flex-grow-1">
-            <FilterBar
-              values={tags}
-              currentlySelected={this.tags}
-              onSelectHandler={this.filterBarOnClickHandler}
-            />
+          <div className="ms-3 mb-3 flex-grow-1">
+            <div className="d-none d-md-block">
+              <FilterBar
+                values={tags}
+                currentlySelected={this.tags}
+                onSelectHandler={this.filterBarOnClickHandler}
+              />
+            </div>
+            <br />
+            <Sponsors />
           </div>
         </main>
       </>
