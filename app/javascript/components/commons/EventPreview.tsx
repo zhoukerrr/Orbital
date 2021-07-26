@@ -135,7 +135,6 @@ export default class EventPreview extends React.Component<Props, State> {
           <br />
           <this.Skills />
           <br />
-          <this.Link />
         </div>
       </>
     );
