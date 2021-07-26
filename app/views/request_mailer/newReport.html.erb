@@ -9,7 +9,6 @@
     <p>Find the report at: <%= @link + "/report/" + @report.id.to_s %></p>
     <p>Submitted by: <%= @user.name %></p>
     <p>User email: <%= @user.email %></p>
-    <p>Find the Event at: <%= @link + "/event/" + @report.id.to_s %></p>
     <p>Details:</p>
       <% @report.details.split("\n").each do |paragraph| %>
         <p><%= paragraph %></p><br/>
