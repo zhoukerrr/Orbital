@@ -5,6 +5,7 @@ import { tags } from "./types";
 import FilterBar from "./commons/FilterBar";
 import EventCatalog from "./commons/EventCatalog";
 import SearchBar from "./commons/SearchBar";
+import SlideShow from "./commons/SlideShow";
 
 type Props = {
   history: any;
@@ -91,62 +92,55 @@ export default class Events extends React.Component<Props> {
   render = () => {
     return (
       <>
-        <section className="jumbotron jumbotron-fluid text-center">
-          <div className="container py-5">
-            <h1 className="display-4">List of events</h1>
-            <p className="lead text-muted">Learning web development again</p>
-          </div>
-        </section>
-        <div className="py-5">
-          <main className="container">
-            <div
-              className="navbar navbar-expand-md navbar-light"
-              style={{ marginBottom: "20px" }}
+        <SlideShow />
+        <div
+          className="navbar navbar-expand-md navbar-light bg-light border-bottom"
+          style={{ marginBottom: "20px" }}
+        >
+          <div className="container">
+            <SearchBar onButtonClickHandler={this.searchButtonOnClickHandler} />
+            <button
+              type="button"
+              className="btn btn-outline-secondary navbar-toggle d-md-none"
+              data-toggle="collapse"
+              data-target="#filterCollapse"
             >
-              <SearchBar
-                onButtonClickHandler={this.searchButtonOnClickHandler}
-              />
-              <button
-                type="button"
-                className="btn btn-outline-secondary navbar-toggle d-md-none"
-                data-toggle="collapse"
-                data-target="#filterCollapse"
-              >
-                Filters
-              </button>
-            </div>
-            <div style={{ display: "flex", flexWrap: "wrap-reverse" }}>
-              <div style={{ flexGrow: 7 }}>
-                {this.getSearchTarget()}
-                <EventCatalog
-                  queryString={this.queryString}
-                  pageButtonGroupOnClickHandler={
-                    this.pageButtonGroupOnClickHandler
-                  }
-                  tagButtonOnClickHandler={this.tagButtonOnClickHandler}
-                />
-              </div>
-              <div
-                className="sidebar-nav collapse collapse-navbar d-md-block"
-                id="filterCollapse"
-                style={{
-                  flexGrow: 1,
-                  marginLeft: "50px",
-                  marginBottom: "20px",
-                }}
-              >
-                <FilterBar
-                  values={tags}
-                  currentlySelected={this.tags}
-                  onSelectHandler={this.filterBarOnClickHandler}
-                />
-              </div>
-            </div>
-            <Link to="/" className="btn btn-link">
-              Home
-            </Link>
-          </main>
+              Filters
+            </button>
+          </div>
         </div>
+        <main className="container">
+          <div style={{ display: "flex", flexWrap: "wrap-reverse" }}>
+            <div style={{ flexGrow: 7 }}>
+              {this.getSearchTarget()}
+              <EventCatalog
+                queryString={this.queryString}
+                pageButtonGroupOnClickHandler={
+                  this.pageButtonGroupOnClickHandler
+                }
+                tagButtonOnClickHandler={this.tagButtonOnClickHandler}
+              />
+            </div>
+            <div
+              className="sidebar-nav collapse collapse-navbar d-md-block"
+              id="filterCollapse"
+              style={{
+                flexGrow: 1,
+                marginLeft: "50px",
+                marginBottom: "20px",
+              }}
+            >
+              <FilterBar
+                values={tags}
+                currentlySelected={this.tags}
+                onSelectHandler={this.filterBarOnClickHandler}
+              />
+            </div>
+          </div>
+          <Link to="/" className="btn btn-link">
+            Home
+          </Link>
+        </main>
       </>
     );
   };
