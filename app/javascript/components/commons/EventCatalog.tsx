@@ -146,32 +146,27 @@ export default class EventCatalog extends React.Component<Props, State> {
     );
 
     return (
-      <>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div
-            className="row"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "stretch",
-            }}
-          >
-            {allEvents.length > 0 ? (
-              allEvents
-            ) : !this.state.isLoading ? (
-              noEvent
-            ) : (
-              <this.Spinner />
-            )}
-          </div>
-          <br />
-          <PageGroup
-            noOfPages={this.state.noOfPages}
-            currentPage={this.state.page}
-            onClickHandler={this.props.pageButtonGroupOnClickHandler}
-          />
-        </div>
-      </>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "stretch",
+        }}
+      >
+        {allEvents.length > 0 ? (
+          allEvents
+        ) : !this.state.isLoading ? (
+          noEvent
+        ) : (
+          <this.Spinner />
+        )}
+        <br />
+        <PageGroup
+          noOfPages={this.state.noOfPages}
+          currentPage={this.state.page}
+          onClickHandler={this.props.pageButtonGroupOnClickHandler}
+        />
+      </div>
     );
   }
 }

@@ -46,7 +46,12 @@ export default class FilterBar extends React.Component<Props, State> {
 
   render() {
     return (
-      <>{this.getInputs(this.props.values, this.props.currentlySelected)}</>
+      <div className="card">
+        <div className="card-header">Filters</div>
+        <div className="card-body">
+          {this.getInputs(this.props.values, this.props.currentlySelected)}
+        </div>
+      </div>
     );
   }
 }

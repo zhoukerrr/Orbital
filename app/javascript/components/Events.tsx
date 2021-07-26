@@ -122,11 +122,10 @@ export default class Events extends React.Component<Props> {
               />
             </div>
             <div
-              className="sidebar-nav collapse collapse-navbar d-md-block"
+              className="collapse collapse-navbar d-md-block ms-md-3"
               id="filterCollapse"
               style={{
                 flexGrow: 1,
-                marginLeft: "50px",
                 marginBottom: "20px",
               }}
             >
