@@ -109,36 +109,32 @@ export default class Events extends React.Component<Props> {
             </button>
           </div>
         </div>
-        <main className="container">
-          <div style={{ display: "flex", flexWrap: "wrap-reverse" }}>
-            <div style={{ flexGrow: 7 }}>
-              {this.getSearchTarget()}
-              <EventCatalog
-                queryString={this.queryString}
-                pageButtonGroupOnClickHandler={
-                  this.pageButtonGroupOnClickHandler
-                }
-                tagButtonOnClickHandler={this.tagButtonOnClickHandler}
-              />
-            </div>
-            <div
-              className="collapse collapse-navbar d-md-block ms-md-3"
-              id="filterCollapse"
-              style={{
-                flexGrow: 1,
-                marginBottom: "20px",
-              }}
-            >
-              <FilterBar
-                values={tags}
-                currentlySelected={this.tags}
-                onSelectHandler={this.filterBarOnClickHandler}
-              />
-            </div>
+        <main
+          className="container"
+          style={{ display: "flex", flexWrap: "wrap-reverse" }}
+        >
+          <div style={{ flexGrow: 7 }}>
+            {this.getSearchTarget()}
+            <EventCatalog
+              queryString={this.queryString}
+              pageButtonGroupOnClickHandler={this.pageButtonGroupOnClickHandler}
+              tagButtonOnClickHandler={this.tagButtonOnClickHandler}
+            />
           </div>
-          <Link to="/" className="btn btn-link">
-            Home
-          </Link>
+          <div
+            className="collapse collapse-navbar d-md-block ms-md-3"
+            id="filterCollapse"
+            style={{
+              flexGrow: 1,
+              marginBottom: "20px",
+            }}
+          >
+            <FilterBar
+              values={tags}
+              currentlySelected={this.tags}
+              onSelectHandler={this.filterBarOnClickHandler}
+            />
+          </div>
         </main>
       </>
     );

@@ -21,7 +21,7 @@ type State = {
 };
 
 export default class EventCatalog extends React.Component<Props, State> {
-  private noOfEventsPerPage: number = 5;
+  private noOfEventsPerPage: number = 10;
 
   constructor(props: Props) {
     super(props);
