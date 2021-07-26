@@ -23,7 +23,18 @@
         return false;
     } 
     return true;
-}
+  }
+
+  function adminCheck() {
+    var name = document.getElementById('name').value;
+    if (name.substr(0,1) == " ") {
+        alert("Name cannot start with space!");
+        return false;
+    } else {
+      alert("Account will be created after returning to the homepage!");
+      return true;
+    }
+  }
 </script>
 
 <% if user_signed_in? %>
@@ -66,7 +77,7 @@
     <%= f.text_field :role, autocomplete: "role", class:"form-control", value: "organiser" , id:"role", readonly: true %>
   </div>
   
-  <div class="actions" onclick="return check();">
+  <div class="actions" onclick="return adminCheck();">
     <%= f.submit "Create new Account", class: 'btn btn-primary' %>
   </div>
 <% end %>
