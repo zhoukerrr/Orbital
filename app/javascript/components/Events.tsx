@@ -129,7 +129,7 @@ export default class Events extends React.Component<Props> {
               tagButtonOnClickHandler={this.tagButtonOnClickHandler}
             />
           </div>
-          <div className="ms-3 mb-3 flex-grow-1">
+          <div className="ms-md-3 mb-3 flex-grow-1">
             <div className="d-none d-md-block">
               <FilterBar
                 values={tags}
