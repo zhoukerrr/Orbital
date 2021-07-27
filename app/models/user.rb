@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   has_many :events, dependent: :destroy
   has_many :interests, dependent: :destroy
+  has_many :reports, dependent: :destroy
 
   def user_name
     name
