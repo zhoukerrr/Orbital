@@ -2,15 +2,15 @@ class Api::V1::ReportsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    #if current_user.user_role == "admin"
+    if current_user.user_role == "admin"
       report = Report.all.order(created_at: :desc)
       report = report.where(status: params[:status]) if params[:status]
       event = report.map {|n| Event.find(n.event_id).name}
       user = report.map {|n| User.find(n.user_id).name}
       render json: {report: report, event: event, user: user}
-    #else
-      #head(404)
-    #end
+    else
+      head(404)
+    end
   end
 
   def create

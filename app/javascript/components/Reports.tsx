@@ -47,8 +47,8 @@ class Reports extends React.Component<Props, State> {
   };
 
   componentDidMount = () => {
-    const url = `/api/v1/reports/index?status=` + this.state.status;
-
+    //const url = `/api/v1/reports/index?status=` + this.state.status;
+    const url = `/api/v1/reports/index`;
     fetch(url)
       .then((response) => {
         if (response.ok) {
