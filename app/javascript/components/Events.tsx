@@ -110,17 +110,7 @@ export default class Events extends React.Component<Props> {
             </button>
           </div>
         </div>
-        <main className="container d-flex flex-wrap">
-          <div
-            className="collapse collapse-navbar d-md-none mb-3 flex-grow-1"
-            id="filterCollapse"
-          >
-            <FilterBar
-              values={tags}
-              currentlySelected={this.tags}
-              onSelectHandler={this.filterBarOnClickHandler}
-            />
-          </div>
+        <main className="container d-flex flex-wrap-reverse">
           <div style={{ flexGrow: 7, marginBottom: "15px" }}>
             {this.getSearchTarget()}
             <EventCatalog
@@ -129,16 +119,15 @@ export default class Events extends React.Component<Props> {
               tagButtonOnClickHandler={this.tagButtonOnClickHandler}
             />
           </div>
-          <div className="ms-md-3 mb-3 flex-grow-1">
-            <div className="d-none d-md-block">
-              <FilterBar
-                values={tags}
-                currentlySelected={this.tags}
-                onSelectHandler={this.filterBarOnClickHandler}
-              />
-            </div>
-            <br />
-            <Sponsors />
+          <div
+            className="collapse collapse-navbar ms-md-3 mb-3 flex-grow-1 d-md-block"
+            id="filterCollapse"
+          >
+            <FilterBar
+              values={tags}
+              currentlySelected={this.tags}
+              onSelectHandler={this.filterBarOnClickHandler}
+            />
           </div>
         </main>
       </>
