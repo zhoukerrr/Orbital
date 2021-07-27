@@ -47,8 +47,8 @@ class Reports extends React.Component<Props, State> {
   };
 
   componentDidMount = () => {
-    //const url = `/api/v1/reports/index?status=` + this.state.status;
-    const url = `/api/v1/reports/index`;
+    const url = `/api/v1/reports/index?status=` + this.state.status;
+
     fetch(url)
       .then((response) => {
         if (response.ok) {
@@ -61,8 +61,8 @@ class Reports extends React.Component<Props, State> {
           reports: this.zip(result.report, result.event, result.user),
           done: true,
         });
-      })
-      .catch(() => this.props.history.push("/"));
+      });
+    //.catch(() => this.props.history.push("/"));
   };
 
   reportTypeButtonOnClickHandler = (str: string) => {
