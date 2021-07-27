@@ -61,8 +61,8 @@ class Reports extends React.Component<Props, State> {
           reports: this.zip(result.report, result.event, result.user),
           done: true,
         });
-      });
-    //.catch(() => this.props.history.push("/"));
+      })
+      .catch(() => this.props.history.push("/"));
   };
 
   reportTypeButtonOnClickHandler = (str: string) => {
