@@ -114,32 +114,34 @@ class Report extends React.Component<Props, State> {
                   </div>
                 </div>
                 <div className="col-sm-12 col-lg-2">
-                  <h4>Actions:</h4>
-                  <Link
-                    to={`/event/${this.state.report.event_id}`}
-                    className="btn custom-button"
-                  >
-                    View Event
-                  </Link>
-                  <br />
-                  <br />
-                  {this.state.report.status == "submitted" ? (
-                    <button
-                      type="button"
-                      className="btn btn-success"
-                      onClick={this.reviewReport}
+                  <div className="sticky-top">
+                    <h4>Actions:</h4>
+                    <Link
+                      to={`/event/${this.state.report.event_id}`}
+                      className="btn custom-button"
                     >
-                      Mark as reviewed
-                    </button>
-                  ) : this.state.report.status == "reviewed" ? (
-                    <button
-                      type="button"
-                      className="btn btn-danger"
-                      onClick={this.reviewReport}
-                    >
-                      Not reviewed
-                    </button>
-                  ) : null}
+                      View Event
+                    </Link>
+                    <br />
+                    <br />
+                    {this.state.report.status == "submitted" ? (
+                      <button
+                        type="button"
+                        className="btn btn-success"
+                        onClick={this.reviewReport}
+                      >
+                        Mark as reviewed
+                      </button>
+                    ) : this.state.report.status == "reviewed" ? (
+                      <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={this.reviewReport}
+                      >
+                        Not reviewed
+                      </button>
+                    ) : null}
+                  </div>
                 </div>
                 <br />
               </div>

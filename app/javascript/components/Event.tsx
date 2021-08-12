@@ -633,15 +633,20 @@ export default class EventView extends React.Component<Props, State> {
             <div className="row">
               <EventPreview event={this.state.event} ownerView={can_delete} />
               <div className="col-sm-12 col-lg-2">
-                {can_delete ? <this.Delete /> : null}
-                {!can_decide ? null : this.state.isLoading ? (
-                  <this.Spinner />
-                ) : (
-                  <this.Decision />
-                )}
-                <br />
-                <br />
-                <this.ReportForm />
+                <div className="sticky-top">
+                  <br />
+                  <br />
+                  <br />
+                  {can_delete ? <this.Delete /> : null}
+                  {!can_decide ? null : this.state.isLoading ? (
+                    <this.Spinner />
+                  ) : (
+                    <this.Decision />
+                  )}
+                  <br />
+                  <br />
+                  <this.ReportForm />
+                </div>
               </div>
               <br />
               <br />
