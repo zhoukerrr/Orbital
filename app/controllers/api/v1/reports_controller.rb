@@ -17,8 +17,8 @@ class Api::V1::ReportsController < ApplicationController
     report = Report.new(report_params)
     if report.user_id == current_user.id # will restrict to students only 
       report.save
-      event = Event.find(report.event_id)
-      event.update_attribute(:status, 'reported')
+      # event = Event.find(report.event_id)
+      # event.update_attribute(:status, 'reported')
       user = User.find(report.user_id)
       admin = User.where(role: 'admin')
       RequestMailer.newReport(report, user, admin, request.base_url).deliver
