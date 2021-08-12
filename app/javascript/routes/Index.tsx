@@ -19,7 +19,13 @@ import Report from "../components/Report";
 export default (props: any) => (
   <Router>
     <Switch>
-      <Route path="/" exact component={Home} />
+      <Route
+        path="/"
+        exact
+        render={(p: RouteComponentProps) => (
+          <Events {...p} key={Math.random()} />
+        )}
+      />
       <Route
         path="/report/:id"
         exact
