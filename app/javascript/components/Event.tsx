@@ -306,7 +306,7 @@ export default class EventView extends React.Component<Props, State> {
     <>
       <button
         type="button"
-        className="btn btn-warning"
+        className="btn btn-warning position-fixed"
         onClick={this.deleteEvent}
       >
         Delete Event
@@ -327,10 +327,10 @@ export default class EventView extends React.Component<Props, State> {
       </>
     ) : (
       <>
-        <div className="btn-group" role="group">
-          <this.ApproveForm />
-          <this.RejectForm />
-        </div>
+        <this.ApproveForm />
+        <br />
+        <br />
+        <this.RejectForm />
       </>
     );
 
@@ -344,7 +344,11 @@ export default class EventView extends React.Component<Props, State> {
 
   IndicateInterest = () => {
     return (
-      <button type="button" className="btn btn-primary" onClick={this.signUp}>
+      <button
+        type="button"
+        className="btn btn-primary position-fixed"
+        onClick={this.signUp}
+      >
         Sign up
       </button>
     );
@@ -352,8 +356,12 @@ export default class EventView extends React.Component<Props, State> {
 
   WithdrawInterest = () => {
     return (
-      <button type="button" className="btn btn-danger" onClick={this.signDown}>
-        I am no longer interested
+      <button
+        type="button"
+        className="btn btn-danger position-fixed"
+        onClick={this.signDown}
+      >
+        Withdraw
       </button>
     );
   };
@@ -398,7 +406,7 @@ export default class EventView extends React.Component<Props, State> {
       <>
         <button
           type="button"
-          className="btn btn-success"
+          className="btn btn-success position-fixed"
           data-bs-toggle="modal"
           data-bs-target="#approveModal"
           data-bs-whatever="@mdo"
@@ -469,7 +477,7 @@ export default class EventView extends React.Component<Props, State> {
       <>
         <button
           type="button"
-          className="btn btn-danger"
+          className="btn btn-danger position-fixed"
           data-bs-toggle="modal"
           data-bs-target="#rejectModal"
           data-bs-whatever="@mdo"
@@ -540,7 +548,7 @@ export default class EventView extends React.Component<Props, State> {
       <>
         <button
           type="button"
-          className="btn btn-danger"
+          className="btn btn-danger position-fixed"
           data-bs-toggle="modal"
           data-bs-target="#reportModal"
           data-bs-whatever="@mdo"
@@ -633,34 +641,32 @@ export default class EventView extends React.Component<Props, State> {
             <div className="row">
               <EventPreview event={this.state.event} ownerView={can_delete} />
               <div className="col-sm-12 col-lg-2">
-                <div className="sticky-top">
-                  <br />
-                  <br />
-                  <br />
-                  {can_delete ? <this.Delete /> : null}
-                  {!can_decide ? null : this.state.isLoading ? (
-                    <this.Spinner />
-                  ) : (
-                    <this.Decision />
-                  )}
-                  <br />
-                  <br />
-                  <this.ReportForm />
-                </div>
+                {can_delete ? (
+                  <Link to={url} className="btn btn-primary position-fixed">
+                    View Event Signups
+                  </Link>
+                ) : this.props.role == "organiser" ? null : this.state
+                    .interest ? (
+                  <this.WithdrawInterest />
+                ) : (
+                  <this.IndicateInterest />
+                )}
+                <br />
+                <br />
+                {can_delete ? <this.Delete /> : null}
+                {!can_decide ? null : this.state.isLoading ? (
+                  <this.Spinner />
+                ) : (
+                  <this.Decision />
+                )}
+                <br />
+                <br />
+                <br />
+                <this.ReportForm />
               </div>
-              <br />
-              <br />
-              {can_delete ? (
-                <Link to={url} className="btn btn-primary">
-                  View Event Signups
-                </Link>
-              ) : this.props.role == "organiser" ? null : this.state
-                  .interest ? (
-                <this.WithdrawInterest />
-              ) : (
-                <this.IndicateInterest />
-              )}
             </div>
+            <br />
+            <br />
           </div>
         </div>
       );
