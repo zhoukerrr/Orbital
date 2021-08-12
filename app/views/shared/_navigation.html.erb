@@ -25,9 +25,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><%= link_to('Public Events', '/events', class: "nav-link")%></li>
-              <li><%= link_to('My Events', '/my_events', class: "nav-link")%></li>
               <li><%= link_to('Submissions', '/all_submitted', class: "nav-link")%></li>
-              <li><%= link_to('Interested Events', '/my_interests', class: "nav-link")%></li>
               <li><%= link_to('Reports', '/reports', class: "nav-link")%></li>
             </ul>
           </li>
@@ -39,7 +37,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li class="nav-item"><%= link_to('All Events', '/events', class: "nav-link")%></li>
-              <li><%= link_to('Interested Events', '/my_interests', class: "nav-link")%></li>
+              <li><%= link_to('My Events', '/my_interests', class: "nav-link")%></li>
             </ul>
           </li>
           <%= link_to('Organisers', users_path, class: "nav-link") %>

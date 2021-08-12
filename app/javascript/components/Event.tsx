@@ -280,28 +280,26 @@ export default class EventView extends React.Component<Props, State> {
   };
 
   signDown = () => {
-    if (window.confirm("Are you sure you are no longer interested?")) {
-      const url = `/api/v1/interests/destroy/${this.state.interest_id}`;
-      const token = document
-        .querySelector('meta[name="csrf-token"]')
-        .getAttribute("content");
+    const url = `/api/v1/interests/destroy/${this.state.interest_id}`;
+    const token = document
+      .querySelector('meta[name="csrf-token"]')
+      .getAttribute("content");
 
-      fetch(url, {
-        method: "DELETE",
-        headers: {
-          "X-CSRF-Token": token,
-          "Content-Type": "application/json",
-        },
+    fetch(url, {
+      method: "DELETE",
+      headers: {
+        "X-CSRF-Token": token,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
       })
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-          throw new Error("Network response was not ok.");
-        })
-        .then(() => this.setState({ interest: false, interest_id: 0 }))
-        .catch((error) => console.log(error.message));
-    }
+      .then(() => this.setState({ interest: false, interest_id: 0 }))
+      .catch((error) => console.log(error.message));
   };
 
   Delete = () => (

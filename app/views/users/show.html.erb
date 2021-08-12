@@ -1,5 +1,7 @@
 <h1>Name: <%= @user.name %></h1>
-<h1>Role: <%= @user.role %></h1>
+<% if current_user.user_role == "admin" && current_user.id != @user.id %>
+    <h1>Role: <%= @user.role %></h1>
+<% end %>
 
 <% if current_user.id == @user.id %>
     <%= link_to 'Edit My Profile', edit_user_path(@user), class: 'btn btn-primary'%>

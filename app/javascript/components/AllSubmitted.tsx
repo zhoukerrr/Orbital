@@ -63,8 +63,7 @@ class Events extends React.Component<Props, State> {
         <>
           <section className="jumbotron jumbotron-fluid text-center">
             <div className="container py-5">
-              <h1 className="display-4">List of Submitted events</h1>
-              <p className="lead text-muted">Learning web development again</p>
+              <h1>To be Approved</h1>
             </div>
           </section>
           <div className="py-5">
